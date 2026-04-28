@@ -1,0 +1,15 @@
+/* 1. تغيير لون الشريط الرئيسي */
+#nprogress .bar {
+  background: #f28c00 !important; 
+  height: 3px !important;       
+  box-shadow: 0 0 10px #f28c00;  
+}
+
+#nprogress .peg {
+  box-shadow: 0 0 10px #f28c00, 0 0 5px #f28c00 !important;
+}
+
+#nprogress .spinner-icon {
+  border-top-color: #f28c00 !important;
+  border-left-color: #f28c00 !important;
+}

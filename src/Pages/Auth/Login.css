@@ -1,0 +1,244 @@
+.login-page-wrapper {
+  min-height: 100vh;
+  width: 100%;
+  background: url("../../assets/back.png") no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Cairo", sans-serif;
+  direction: rtl;
+  text-align: right;
+}
+
+.glass-main-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.vertical-divider {
+  position: absolute;
+  right: 50%;
+  top: 15%;
+  height: 70%;
+  width: 1px;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.title-text {
+  font-size: 2.1rem;
+  letter-spacing: 0px;
+}
+
+.paragraph-text {
+  font-size: 0.95rem;
+  max-width: 95%;
+}
+
+.custom-input {
+  background-color: #ffffff !important;
+  border: none !important;
+  border-radius: 4px !important;
+  height: 48px;
+  box-shadow: none !important;
+  text-align: right;
+  direction: ltr;
+  text-align: left;
+}
+.custom-input::placeholder {
+  text-align: left;
+  direction: ltr;
+}
+.custom-input:focus {
+  box-shadow: 0 0 0 0.2rem rgba(203, 83, 33, 0.25) !important;
+}
+
+.custom-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.custom-checkbox input {
+  margin: 0;
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+}
+
+.custom-checkbox label {
+  margin-right: 8px;
+  cursor: pointer;
+  opacity: 0.9;
+}
+
+.btn-submit-orange {
+  background-color: #c94b1a !important;
+  border: none !important;
+  height: 50px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border-radius: 6px !important;
+  transition: all 0.3s ease;
+}
+
+.btn-submit-orange:hover {
+  background-color: #a83f16 !important;
+  transform: translateY(-1px);
+}
+
+.forgot-password-link {
+  color: white;
+  text-decoration: none;
+  font-size: 0.85rem;
+  opacity: 0.8;
+  transition: 0.3s;
+}
+
+.forgot-password-link:hover {
+  color: #5cc9ff;
+  text-shadow: 0 0 10px rgba(92, 201, 255, 0.4);
+  opacity: 1;
+}
+.btn-submit-orange .spinner-border {
+  margin: 0 auto;
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-icon-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  cursor: pointer;
+  z-index: 5;
+  transition: 0.3s;
+}
+
+.password-icon-toggle:hover {
+  color: #c94b1a;
+}
+
+.error-container {
+  height: 20px;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.custom-error-msg {
+  color: #e57373;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-align: right;
+  width: 100%;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  animation: fadeInSlide 0.2s ease-out;
+}
+
+.custom-input.is-invalid {
+  border: 1.5px solid #b71c1c !important;
+}
+
+.is-invalid ~ .password-icon-toggle {
+  color: #e57373 !important;
+}
+@keyframes fadeInSlide {
+  from {
+    opacity: 0;
+    transform: translateX(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 767px) {
+  .login-page-wrapper {
+    background-attachment: scroll;
+    background-position: center;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: block;
+  }
+
+  .glass-main-card {
+    margin: 0 !important;
+    border-radius: 0 !important;
+    border: none !important;
+    width: 100% !important;
+    min-height: 100vh !important;
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .glass-main-card > .row {
+    margin: 0 !important;
+    width: 100% !important;
+    height: 100%;
+  }
+
+  .text-side {
+    text-align: center !important;
+    padding: 40px 20px 10px 20px !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    min-height: 35vh;
+  }
+
+  .title-text {
+    font-size: 1.8rem !important;
+  }
+
+  .paragraph-text {
+    font-size: 0.9rem !important;
+    max-width: 100% !important;
+    margin: 0 auto;
+  }
+
+  .form-side {
+    padding: 0px 30px 40px 30px !important;
+    justify-content: flex-start !important;
+  }
+
+  .password-icon-toggle {
+    right: 15px !important;
+    left: auto !important;
+    font-size: 1.2rem;
+  }
+
+  .custom-checkbox {
+    justify-content: center !important;
+    margin-bottom: 25px !important;
+  }
+
+  .btn-submit-orange {
+    height: 55px !important;
+  }
+
+  .vertical-divider {
+    display: none !important;
+  }
+
+  .custom-input {
+    font-size: 16px !important;
+  }
+  .glass-main-card > .row {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start !important;
+  }
+}

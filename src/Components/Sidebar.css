@@ -1,0 +1,187 @@
+/* Sidebar.css - High Performance Version */
+
+.tn-sidebar-bs {
+  width: 260px;
+  height: 100vh;
+  background-color: #1a2d48;
+  color: #8a99af;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
+  /* استخدام cubic-bezier لضمان حركة طبيعية وسلسة جداً */
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  /* السماح للزر بالظهور خارج الحدود دون قطعه */
+  overflow: visible;
+}
+
+/* حالة الطي */
+.tn-sidebar-bs.collapsed {
+  width: 85px;
+}
+
+/* زر الطي العائم */
+.tn-collapse-btn {
+  position: absolute;
+  top: 43px;
+  left: -15px;
+  width: 30px;
+  height: 30px;
+  background-color: #f28c00;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 1001;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  /* سيتم تسريع الحركة بواسطة كرت الشاشة GPU */
+  will-change: transform;
+  transition:
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 0.2s;
+}
+
+.tn-collapse-btn:hover {
+  background-color: #d47a00;
+  transform: scale(1.1);
+}
+
+/* حركة دوران السهم */
+.tn-collapse-icon {
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tn-collapse-icon.rotated {
+  transform: rotate(180deg);
+}
+
+/* قسم الشعار */
+.tn-brand-section {
+  display: flex;
+  align-items: center;
+  padding: 35px 20px;
+  gap: 12px;
+  transition: padding 0.35s ease;
+}
+
+.tn-sidebar-bs.collapsed .tn-brand-section {
+  padding: 35px 18px;
+}
+
+.tn-logo-circle {
+  width: 48px;
+  min-width: 48px;
+  height: 48px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* نصوص الشعار والقائمة - معالجة الـ Lag */
+.tn-brand-text,
+.tn-nav-text {
+  white-space: nowrap;
+  opacity: 1;
+  transform: translateX(0);
+  /* تجنب استخدام max-width هنا لأنه يسبب ثقل في الـ Rendering */
+  transition:
+    opacity 0.2s ease,
+    transform 0.3s ease;
+  pointer-events: auto;
+}
+
+.tn-sidebar-bs.collapsed .tn-brand-text,
+.tn-sidebar-bs.collapsed .tn-nav-text {
+  opacity: 0;
+  transform: translateX(15px);
+  pointer-events: none;
+}
+
+.tn-brand-name {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1;
+}
+
+.tn-brand-sub {
+  font-size: 11px;
+  color: #566a8a;
+  margin-top: 4px;
+  display: block;
+}
+
+/* القائمة */
+.tn-nav-menu {
+  padding: 10px 0;
+  flex-grow: 1;
+}
+
+.tn-nav-item {
+  color: #8a99af !important;
+  padding: 14px 24px !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  font-weight: 600;
+  font-size: 15px;
+  text-decoration: none !important;
+  gap: 20px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.tn-sidebar-bs.collapsed .tn-nav-item {
+  padding: 14px 30px !important; /* لضمان توسط الأيقونة تماماً */
+  gap: 0;
+}
+
+.tn-nav-item:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+  color: #ffffff !important;
+}
+
+/* الحالة النشطة */
+.tn-nav-item.active {
+  background: linear-gradient(
+    270deg,
+    rgba(242, 140, 0, 0.1) 0%,
+    transparent 100%
+  );
+  color: #f28c00 !important;
+}
+
+.tn-nav-item.active::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 4px;
+  background-color: #f28c00;
+}
+
+.tn-icon {
+  width: 24px;
+  min-width: 24px;
+  font-size: 1.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.tn-sidebar-footer {
+  padding: 20px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
