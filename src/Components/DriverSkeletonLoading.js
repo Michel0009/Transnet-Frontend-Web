@@ -1,5 +1,5 @@
 import React from "react";
-import "./DriverSkeletonLoading.css"; 
+import "./DriverSkeletonLoading.css";
 
 const DriverSkeleton = () => {
   return (
@@ -10,52 +10,72 @@ const DriverSkeleton = () => {
             <div className="d-flex align-items-center gap-3">
               <div
                 className="tn-skeleton-item"
-                style={{ width: "45px", height: "45px", borderRadius: "50%" }}
-              ></div>
-              <div
-                className="tn-skeleton-item"
-                style={{ width: "100px", height: "15px" }}
+                style={{ width: "120px", height: "18px", borderRadius: "4px" }}
               ></div>
             </div>
           </td>
+
           <td>
             <div
               className="tn-skeleton-item"
-              style={{ width: "80px", height: "15px" }}
+              style={{ width: "80px", height: "15px", borderRadius: "4px" }}
             ></div>
           </td>
+
           <td>
             <div
               className="tn-skeleton-item mb-2"
-              style={{ width: "120px", height: "12px" }}
+              style={{ width: "100px", height: "12px", borderRadius: "4px" }}
             ></div>
             <div
               className="tn-skeleton-item"
-              style={{ width: "90px", height: "12px" }}
+              style={{ width: "130px", height: "12px", borderRadius: "4px" }}
             ></div>
           </td>
+
           <td>
             <div
               className="tn-skeleton-item"
-              style={{ width: "40px", height: "15px" }}
+              style={{ width: "60px", height: "15px", borderRadius: "4px" }}
             ></div>
           </td>
+
+          <td>
+            <div className="d-flex align-items-center gap-2">
+              <div
+                className="tn-skeleton-item"
+                style={{ width: "15px", height: "15px", borderRadius: "2px" }}
+              ></div>
+              <div
+                className="tn-skeleton-item"
+                style={{ width: "25px", height: "15px", borderRadius: "4px" }}
+              ></div>
+            </div>
+          </td>
+
           <td>
             <div
               className="tn-skeleton-item"
-              style={{ width: "30px", height: "15px" }}
+              style={{ width: "65px", height: "24px", borderRadius: "20px" }}
             ></div>
           </td>
+
           <td>
             <div
               className="tn-skeleton-item"
-              style={{ width: "70px", height: "25px", borderRadius: "20px" }}
+              style={{ width: "85px", height: "24px", borderRadius: "20px" }}
             ></div>
           </td>
+
           <td className="text-center">
             <div
               className="tn-skeleton-item"
-              style={{ width: "5px", height: "18px", margin: "auto" }}
+              style={{
+                width: "4px",
+                height: "18px",
+                margin: "auto",
+                borderRadius: "2px",
+              }}
             ></div>
           </td>
         </tr>

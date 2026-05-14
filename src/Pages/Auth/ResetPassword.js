@@ -44,7 +44,7 @@ const ResetPassword = () => {
       const response = await api.post(endpoints.auth.resetPassword, {
         email: email,
         reset_token: resetToken,
-        password: passData.password,
+        new_password: passData.password,
       });
 
       toast.success(response.data.message);

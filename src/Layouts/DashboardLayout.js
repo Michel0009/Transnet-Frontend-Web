@@ -1,15 +1,18 @@
+import React from "react";
 import Sidebar from "../Components/Sidebar";
-import { Outlet } from "react-router-dom"; 
+import { Outlet } from "react-router-dom";
+import "./DashboardLayout.css";
 
 const DashboardLayout = () => {
   return (
-    <div style={{ display: "flex", minHeight: "100vh", direction: "rtl" }}>
+    <div className="tn-dashboard-layout" style={{ direction: "rtl" }}>
       <Sidebar />
 
-      <div style={{ flexGrow: 1, backgroundColor: "#f4f7fe" }}>
+      <div className="tn-dashboard-content">
         <Outlet />
       </div>
     </div>
   );
 };
+
 export default DashboardLayout;

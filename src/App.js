@@ -7,15 +7,16 @@ import LoadingScreen from "./Components/LoadingScreen";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import PublicRoute from "./Components/PublicRoute";
 import TopLoader from "./Components/TopLoader";
-import DashboardLayout from "./Layouts/DashboardLayout";
-import Drivers from "./Pages/Drivers/Drivers";
 
 const Login = lazy(() => import("./Pages/Auth/Login"));
 const EmailVerification = lazy(() => import("./Pages/Auth/EmailVerification"));
 const EmailSending = lazy(() => import("./Pages/Auth/EmailSending"));
 const NotFound = lazy(() => import("./Components/NotFound"));
 const ResetPassword = lazy(() => import("./Pages/Auth/ResetPassword"));
-
+const DashboardLayout = lazy(() => import("./Layouts/DashboardLayout"));
+const Drivers = lazy(() => import("./Pages/Drivers/Drivers"));
+const CreateDriver = lazy(() => import("./Pages/Drivers/CreateDriver"));
+const DriverDetails = lazy(() => import("./Pages/Drivers/DriverDetails"));  
 function App() {
   const { loading } = useAuth();
 
@@ -47,9 +48,10 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<DashboardLayout />}>
               <Route path="drivers" element={<Drivers />} />
-
               <Route index element={<Navigate to="drivers" replace />} />
             </Route>
+            <Route path="drivers/create" element={<CreateDriver />} />
+            <Route path="drivers/:id" element={<DriverDetails />} />
           </Route>
 
           <Route path="/" element={<Navigate to="/login" replace />} />

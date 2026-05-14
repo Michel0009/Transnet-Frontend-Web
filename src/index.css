@@ -1,13 +1,24 @@
 @import url("https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap");
-body {
+
+html, 
+body, 
+#root {
+  height: 100%;
+  width: 100%;
   margin: 0;
   padding: 0;
+  background-color: #f4f7fe; 
+}
+
+body {
   font-family: "Cairo", sans-serif;
   direction: rtl;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  flex-direction: column;
 }
+
 code {
-  font-family:
-    source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }

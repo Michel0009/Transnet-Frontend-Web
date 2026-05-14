@@ -56,8 +56,9 @@ const SendEmail = () => {
         } else {
           toast.error(handleAxiosError(error));
         }
+      } else {
+        toast.error(handleAxiosError(error));
       }
-      toast.error(handleAxiosError(error));
     } finally {
       setLoading(false);
     }

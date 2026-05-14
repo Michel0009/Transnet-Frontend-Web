@@ -22,15 +22,17 @@ import api from "../../Api/Api";
 import DriverSkeleton from "../../Components/DriverSkeletonLoading";
 import { toast } from "react-toastify";
 import { handleAxiosError } from "../../Utils/ErrorHandler";
+import { useNavigate } from "react-router-dom";
 
 const Drivers = () => {
+  const navigate = useNavigate()
   const [drivers, setDrivers] = useState([]);
   const [availableCount, setAvailableCount] = useState(0);
   const [pagination, setPagination] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
-  const[searchNumber,setSearchNumber]= useState("");
+  const [searchNumber, setSearchNumber] = useState("");
   const [isSearchActive, setIsSearchActive] = useState(false);
   const fetchDrivers = async (page = 1) => {
     setLoading(true);
@@ -101,7 +103,7 @@ const Drivers = () => {
       setIsSearchActive(false);
       return;
     }
-    setSearchNumber(searchTerm)
+    setSearchNumber(searchTerm);
     setLoading(true);
     try {
       const response = await api.post(endpoints.drivers.search, {
@@ -121,20 +123,35 @@ const Drivers = () => {
       setLoading(false);
     }
   };
+  const getStatusClass = (status) => {
+    switch (status) {
+      case "فعال":
+        return "account-status-active";
+      case "فعال ويجب عليه الدفع":
+        return "account-status-warning";
+      case "مجمد":
+        return "account-status-frozen";
+      case "محظور":
+        return "account-status-blocked";
+      default:
+        return "account-status-default";
+    }
+  };
   return (
     <div className="tn-main-content" dir="rtl">
       <header className="d-flex justify-content-between align-items-center mb-4">
-        <h2 className="fw-bold tn-navy">إدارة السائقين</h2>
+        <h2 className="fw-bold tn-navy fs-4 fs-md-2">إدارة السائقين</h2>
       </header>
 
       <Container fluid className="p-0">
-        <Row className="mb-5 gx-4">
+        {/* Changed Col md={3} to xs={12} sm={6} lg={3} for better stacking */}
+        <Row className="mb-4 mb-md-5 gx-3 gy-3">
           {[
             { label: "إجمالي السائقين", value: pagination?.total || 0 },
             { label: "السائقين المتاحين", value: availableCount },
           ].map((kpi, idx) => (
-            <Col key={idx} md={3}>
-              <Card className="tn-kpi-card border-0 shadow-sm p-4">
+            <Col key={idx} xs={12} sm={6} lg={3}>
+              <Card className="tn-kpi-card border-0 shadow-sm p-3 p-md-4">
                 <div className="tn-kpi-label">{kpi.label}</div>
                 <div className="d-flex justify-content-between align-items-center">
                   <h2 className="tn-kpi-value mb-0">
@@ -147,36 +164,26 @@ const Drivers = () => {
         </Row>
 
         <Card className="tn-main-card border-0 shadow-sm">
-          <div className="tn-toolbar p-4 d-flex justify-content-between align-items-center border-bottom bg-white">
-            <h4 className="fw-bold m-0 tn-navy">قائمة السائقين</h4>
-            <div className="d-flex align-items-center gap-3">
-              <InputGroup className="tn-search-wrapper w-auto">
+          {/* Updated Toolbar to stack on mobile */}
+          <div className="tn-toolbar p-3 p-md-4 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 border-bottom bg-white">
+            <h4 className="fw-bold m-0 tn-navy fs-5">قائمة السائقين</h4>
+            <div className="d-flex flex-column flex-sm-row align-items-stretch align-items-sm-center gap-3">
+              <InputGroup className="tn-search-wrapper w-100">
                 <Form.Control
                   placeholder="ابحث عن سائق..."
                   className="text-start border-0 bg-transparent"
                   style={{ direction: "rtl" }}
                   value={searchTerm}
-                  onChange={(e) => {
-                    setSearchTerm(e.target.value)
-                  }}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <div
-                  style={{
-                    width: "25px",
-                    display: "flex",
-                    justifyContent: "center",
-                  }}
-                >
+                <div className="tn-search-actions align-items-center d-flex">
                   {searchTerm && (
                     <Button
                       variant="link"
-                      className="text-muted p-0 border-0 shadow-none"
-                      style={{ marginRight: "5px", marginLeft: "5px" }}
+                      className="text-muted p-0 border-0 shadow-none mx-2"
                       onClick={() => {
                         setSearchTerm("");
-                        if (isSearchActive) {
-                          fetchDrivers(1);
-                        }
+                        if (isSearchActive) fetchDrivers(1);
                         setIsSearchActive(false);
                       }}
                     >
@@ -192,12 +199,11 @@ const Drivers = () => {
                   />
                 </InputGroup.Text>
               </InputGroup>
-              <Button className="tn-btn-orange fw-bold ms-auto">
-                إضافة سائق جديد +
+              <Button className="tn-btn-orange fw-bold whitespace-nowrap" onClick={()=>navigate("/drivers/create")}>
+                إضافة جديد +
               </Button>
             </div>
           </div>
-
           <Table responsive hover className="m-0 tn-table align-middle">
             <thead>
               <tr>
@@ -206,7 +212,8 @@ const Drivers = () => {
                 <th>بيانات التواصل</th>
                 <th>رقم المستخدم</th>
                 <th>التقييم</th>
-                <th>الحالة</th>
+                <th>حالة الاتصال</th>
+                <th>حالة الحساب</th>
                 <th className="text-center">إجراءات</th>
               </tr>
             </thead>
@@ -223,7 +230,7 @@ const Drivers = () => {
                 </tr>
               ) : (
                 drivers.map((driver, idx) => (
-                  <tr key={idx}>
+                  <tr key={idx} onClick={() => navigate(`/drivers/${driver.id}`)} className="tn-d-record-cursor-pointer">
                     <td>
                       <div className="d-flex align-items-center gap-3">
                         <div className="fw-bold tn-navy">
@@ -257,15 +264,22 @@ const Drivers = () => {
                     </td>
                     <td>
                       <span
-                        className={`tn-status-pill ${driver.availability ? "status-active" : "status-trip"}`}
+                        className={`tn-d-status-pill ${driver.availability ? "status-active" : "status-trip"}`}
                       >
-                        {driver.availability ? "نشط" : "غير نشط"}
+                        {driver.availability ? "متاح" : "غير متاح"}
+                      </span>
+                    </td>
+                    <td>
+                      <span
+                        className={`tn-d-status-pill ${getStatusClass(driver.status)}`}
+                      >
+                        {driver.status}
                       </span>
                     </td>
                     <td className="text-center text-muted">
                       <FontAwesomeIcon
                         icon={faEllipsisV}
-                        className="cursor-pointer"
+                        className="tn-d-operations-cursor-pointer"
                       />
                     </td>
                   </tr>
@@ -274,8 +288,8 @@ const Drivers = () => {
             </tbody>
           </Table>
 
-          <div className="p-4 d-flex justify-content-between align-items-center border-top bg-white">
-            <span className="text-muted small">
+          <div className="p-3 p-md-4 d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 border-top bg-white">
+            <span className="text-muted small text-center text-md-start">
               {isSearchActive ? (
                 drivers.length > 0 ? (
                   <>
@@ -295,7 +309,7 @@ const Drivers = () => {
                 "لا توجد نتائج للعرض"
               )}
             </span>
-            <div className="tn-pagination d-flex gap-2 align-items-center">
+            <div className="tn-pagination d-flex gap-2 align-items-center flex-wrap justify-content-center">
               <Button
                 className="tn-page-nav"
                 disabled={currentPage === 1 || loading || isSearchActive}

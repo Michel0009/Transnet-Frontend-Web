@@ -1,0 +1,31 @@
+.tn-dashboard-layout {
+  display: flex;
+  width: 100%;
+  /* Fix the height to the screen so the sidebar doesn't move */
+  height: 100vh; 
+  overflow: hidden; /* Prevents the whole page from scrolling */
+  align-items: stretch;
+}
+
+.tn-dashboard-content {
+  flex-grow: 1;
+  background-color: #f4f7fe;
+  min-width: 0;
+  /* Allow only the content area to scroll */
+  overflow-y: auto; 
+  height: 100%;
+}
+
+@media (max-width: 991px) {
+  .tn-dashboard-layout {
+    flex-direction: column;
+    height: auto; /* Return to normal scrolling on mobile */
+    overflow: visible;
+  }
+
+  .tn-dashboard-content {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+}

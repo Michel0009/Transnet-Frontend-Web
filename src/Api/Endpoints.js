@@ -12,5 +12,15 @@ export const endpoints = {
     get: "/getDrivers",
     details: "/driverDetails",
     search: "/searchForDriver",
+    create: "/createDriver",
+    update: "/updateDriver",
+    getGovernorates: "/governorates",
+    donwnloadDocumnet: "/downloadDocument",
   },
+  vehicleTypes: {
+    get: "/vehicleTypes",
+  },
+  coefficients: {
+      get: "/coefficients",
+  }
 };
