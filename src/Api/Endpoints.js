@@ -13,4 +13,9 @@ export const endpoints = {
     details: "/driverDetails",
     search: "/searchForDriver",
   },
+  admin: {
+    vehicleTypes: "/vehicleTypes",
+    createVehicleType: "/vehicleType/create",
+    updateVehicleType: "/vehicleType/update",
+  },
 };

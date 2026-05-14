@@ -9,6 +9,7 @@ import PublicRoute from "./Components/PublicRoute";
 import TopLoader from "./Components/TopLoader";
 import DashboardLayout from "./Layouts/DashboardLayout";
 import Drivers from "./Pages/Drivers/Drivers";
+import VehicleTypeDetails from "./Pages/Admin/VehicleTypeDetails";
 
 const Login = lazy(() => import("./Pages/Auth/Login"));
 const EmailVerification = lazy(() => import("./Pages/Auth/EmailVerification"));
@@ -47,6 +48,7 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<DashboardLayout />}>
               <Route path="drivers" element={<Drivers />} />
+               <Route path="/dashboard/vehicles" element={<VehicleTypeDetails />} />
 
               <Route index element={<Navigate to="drivers" replace />} />
             </Route>
