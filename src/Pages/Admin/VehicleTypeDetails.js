@@ -6,7 +6,7 @@ import { handleAxiosError } from "../../Utils/ErrorHandler";
 
 import LoadingScreen from "../../Components/LoadingScreen";
 import AddVehicleTypeModal from "../../Components/AddVehicleTypeModal";
-import EditVehicleTypeModal from "../../Components/AddVehicleTypeModal";
+import EditVehicleTypeModal from "../../Components/EditVehicleTypeModal";
 
 import {
   FaCogs,

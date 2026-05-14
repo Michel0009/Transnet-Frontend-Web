@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import api from "../../Api/Api";
-import { endpoints } from "../../Api/Endpoints";
+import api from "../Api/Api";
+import { endpoints } from "../Api/Endpoints";
 import { handleAxiosError } from "../Utils/ErrorHandler";
 
 import { toast } from "react-toastify";
