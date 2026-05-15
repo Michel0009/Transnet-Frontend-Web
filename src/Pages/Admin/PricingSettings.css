@@ -1,0 +1,212 @@
+.pricing-page {
+  background-color: #f1f4f9;
+  min-height: 100vh;
+  padding: 40px;
+  background-image: radial-gradient(#d1d9e6 0.5px, transparent 0.5px);
+  background-size: 30px 30px;
+}
+
+.page-header h1 {
+  font-size: 26px;
+  font-weight: bold;
+  color: var(--textPrimary);
+}
+
+.page-header p {
+  color: var(--textSecondary);
+  margin-bottom: 30px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: bold;
+  padding-right: 12px;
+  border-right: 4px solid var(--primary);
+}
+
+.custom-card {
+  background: var(--surface);
+  border-width: 1px;
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+
+  display: flex;
+  flex-direction: column;
+}
+
+.card-header-custom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.card-title {
+  font-size: 16px;
+  margin: 0;
+  color: var(--textSecondary);
+  flex-grow: 1;
+}
+
+.card-icon {
+  width: 30px;
+  height: 35px;
+  border-radius: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-icon svg {
+  font-size: 18px;
+}
+
+.value {
+  font-size: 22px;
+  font-weight: bold;
+  color: var(--textPrimary);
+  margin-bottom: 14px;
+}
+
+.btn-edit-card {
+  background-color: var(--primary);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s ease;
+
+}
+
+.btn-edit-card:hover {
+  background-color: var(--primaryDark);
+  transform: translateY(-2px);
+}
+
+.btn-add {
+  background-color: var(--secondary);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  font-size: 15px;
+  transition: 0.25s ease;
+}
+
+.btn-add:hover {
+  background-color: var(--secondaryDark);
+  transform: translateY(-2px);
+}
+
+.pricing-section .section-title {
+  border-right-color: var(--primary);
+}
+
+.pricing-section .card-icon {
+  background: var(--primaryLight);
+  color: var(--primary);
+}
+
+.fuel-section .section-title {
+  border-right-color: var(--secondary);
+}
+
+.fuel-section .card-icon {
+  background: var(--secondaryLight);
+  color: var(--secondary);
+}
+
+.insurance-section .section-title {
+  border-right-color: var(--textSecondary);
+}
+
+.insurance-section .card-icon {
+  background:var(--darkTextSecondary);
+  color: var(--textSecondary);
+}
+
+.pricing-section .custom-card {
+  border-right-width: 3px;
+  border-right-color: var(--primary);
+}
+
+.insurance-section .custom-card{
+  border-left-width: 3px;
+  border-left-color: var(--textSecondary);
+}
+
+.card-footer-custom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;   
+  padding-top: 12px;
+}
+
+.card-footer-custom .value {
+  margin-bottom: 0;  
+}
+
+.edit-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;     
+  max-width: 100%;       
+  flex-wrap: nowrap;
+}
+
+
+/* input */
+.edit-input {
+  width: 100%;           
+  height: 36px;
+  padding: 0 8px;
+  font-size: 18px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  flex-shrink: 0;         
+}
+
+.edit-field {               
+  display: flex;
+  flex-direction: column;
+}
+
+.btn-save-card {
+  height: 36px;
+  padding: 0 10px;
+  background-color: var(--secondary);
+  color: white;
+  border-radius: 6px;
+  border: none;
+  font-weight: 600;
+  flex-shrink: 0;         
+  display: flex;
+  align-items: center;
+}
+
+.btn-cancel-card {
+  height: 36px;
+  padding: 0 10px;
+  background-color: var(--primary);
+  color: white;
+  border-radius: 6px;
+  border: none;
+  font-weight: 600;
+  flex-shrink: 0;         
+  display: flex;
+  align-items: center;
+}

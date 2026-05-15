@@ -17,5 +17,9 @@ export const endpoints = {
     vehicleTypes: "/vehicleTypes",
     createVehicleType: "/vehicleType/create",
     updateVehicleType: "/vehicleType/update",
+
+    gitCoefficients: "/coefficients",
+    createCoefficient: "/coefficient/create",
+    updateCoefficient: "/coefficient/update",
   },
 };

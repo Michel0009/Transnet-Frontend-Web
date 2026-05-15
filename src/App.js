@@ -10,6 +10,7 @@ import TopLoader from "./Components/TopLoader";
 import DashboardLayout from "./Layouts/DashboardLayout";
 import Drivers from "./Pages/Drivers/Drivers";
 import VehicleTypeDetails from "./Pages/Admin/VehicleTypeDetails";
+import PricingSettings from "./Pages/Admin/PricingSettings";
 
 const Login = lazy(() => import("./Pages/Auth/Login"));
 const EmailVerification = lazy(() => import("./Pages/Auth/EmailVerification"));
@@ -49,6 +50,7 @@ function App() {
             <Route path="/dashboard" element={<DashboardLayout />}>
               <Route path="drivers" element={<Drivers />} />
                <Route path="/dashboard/vehicles" element={<VehicleTypeDetails />} />
+               <Route path="/dashboard/pricing" element={<PricingSettings />} />
 
               <Route index element={<Navigate to="drivers" replace />} />
             </Route>
