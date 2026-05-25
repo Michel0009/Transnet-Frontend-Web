@@ -37,11 +37,9 @@ const AddCoefficientModal = ({ onClose, onSuccess }) => {
     }
   };
 
-  // إرسال البيانات
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // تصفير الأخطاء القديمة
     setErrors({});
 
     try {
@@ -57,14 +55,13 @@ const AddCoefficientModal = ({ onClose, onSuccess }) => {
 
         onClose();
 
-        // تفريغ الحقول
         setFormData({
           name: "",
           value: "",
         });
       }
     } catch (error) {
-      // Validation Errors
+
       if (error.response?.status === 422) {
         toast.error(handleAxiosError(error));
 
@@ -85,11 +82,10 @@ const AddCoefficientModal = ({ onClose, onSuccess }) => {
 
   return (
     <div className="modal-overlay">
-      <div className="modal-box">
+      <div className="modal-card">
         <h3 className="modal-title">إضافة معامل جديد</h3>
 
         <form onSubmit={handleSubmit}>
-          {/* Name */}
           <div className="modal-field">
             <label>الاسم</label>
 
@@ -103,7 +99,6 @@ const AddCoefficientModal = ({ onClose, onSuccess }) => {
             {errors?.name && <p className="error-text">{errors.name}</p>}
           </div>
 
-          {/* Value */}
           <div className="modal-field">
             <label>القيمة</label>
 

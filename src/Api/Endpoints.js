@@ -21,5 +21,11 @@ export const endpoints = {
     gitCoefficients: "/coefficients",
     createCoefficient: "/coefficient/create",
     updateCoefficient: "/coefficient/update",
+
+    subAdmins: "/subAdmins",
+    createSubAdmin: "/subAdmin/create",
+    updateSubAdmin: "/subAdmin/update",
+    block: "/blockUser",
+    unBlock: (id) => `/unblockUser/${id}`,
   },
 };

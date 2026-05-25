@@ -6,6 +6,7 @@ import {
   faGasPump,
   faBolt,
   faShieldAlt,
+  faAward,
 } from "@fortawesome/free-solid-svg-icons";
 import api from "../../Api/Api";
 import { endpoints } from "../../Api/Endpoints";
@@ -13,6 +14,7 @@ import { handleAxiosError } from "../../Utils/ErrorHandler";
 import LoadingScreen from "../../Components/LoadingScreen";
 import { toast } from "react-toastify";
 import AddCoefficientModal from "../../Components/AddCoefficientModal";
+import { Container } from "react-bootstrap";
 
 const PricingSettings = () => {
   const [coefficients, setcoefficients] = useState([]);
@@ -51,11 +53,15 @@ const PricingSettings = () => {
 
   const insurance = coefficients.filter((item) => item.type === "insurance");
 
+  const reward = coefficients.filter((item) => item.type === "reward");
+
   // اختيار الأيقونة حسب النوع
   const getIcon = (type, name) => {
     if (type === "pricing") return faMoneyBillWave;
 
     if (type === "insurance") return faShieldAlt;
+
+    if (type === "reward") return faAward;
 
     if (type === "fuel_price") {
       if (name.includes("كهرباء")) return faBolt;
@@ -64,7 +70,6 @@ const PricingSettings = () => {
     }
   };
 
-  // بدء التعديل
   const handleEdit = (item) => {
     setEditId(item.id);
 
@@ -73,7 +78,6 @@ const PricingSettings = () => {
     setEditErrors({});
   };
 
-  // حفظ التعديل
   const handleSave = async (item) => {
     try {
       const response = await api.put(endpoints.admin.updateCoefficient, {
@@ -81,7 +85,6 @@ const PricingSettings = () => {
         value: editValue,
       });
 
-      // SUCCESS
       if (response.status === 200) {
         toast.success(response.data.message);
 
@@ -135,225 +138,322 @@ const PricingSettings = () => {
   };
 
   return (
-    <div className="pricing-page" dir="rtl">
-      <div className="page-header">
-        <h1>إعدادات معايير الوقود و التسعير</h1>
+    <div className="tn-main-content" dir="rtl">
+      {/* PAGE HEADER */}
+      <header className="d-flex justify-content-between align-items-center mb-4">
+        <h2 className="fw-bold tn-navy">إعدادات معايير الوقود و التسعير</h2>
+      </header>
+      <Container fluid className="p-0">
+        {/* SECTION : PRICING */}
+        <div className="section pricing-section mb-5">
+          <h2 className="section-title mb-4">التسعير</h2>
 
-        <p>إدارة وتعديل أسعار المحروقات ومدخلات النظام الأساسية للنظام</p>
-      </div>
+          <div className="row g-4">
+            {pricing.map((item) => (
+              <div key={item.id} className="col-12 col-md-6 col-lg-3">
+                <div className="card custom-card h-100 border-0">
+                  {/* CARD HEADER */}
+                  <div className="card-header-custom d-flex justify-content-between align-items-center mb-3">
+                    <h3 className="card-title mb-0">{item.name}</h3>
 
-      <div className="section pricing-section">
-        <h2 className="section-title">التسعير</h2>
-
-        {pricing.map((item) => (
-          <div key={item.id} className="col-12 col-md-6 col-lg-3">
-            <div className="card custom-card">
-              <div className="card-header-custom">
-                <h3 className="card-title">{item.name}</h3>
-
-                <div className="card-icon">
-                  <FontAwesomeIcon icon={getIcon(item.type, item.name)} />
-                </div>
-              </div>
-
-              <div className="card-footer-custom">
-                {editId === item.id ? (
-                  <div className="edit-row">
-                    <div className="edit-field">
-                      <input
-                        type="text"
-                        className={`edit-input ${
-                          editErrors?.value ? "input-error" : ""
-                        }`}
-                        value={editValue}
-                        onChange={(e) => handleEditChange(e.target.value)}
-                      />
-
-                      {editErrors?.value && (
-                        <p className="error-text">{editErrors.value}</p>
-                      )}
+                    <div className="card-icon">
+                      <FontAwesomeIcon icon={getIcon(item.type, item.name)} />
                     </div>
-
-                    <button
-                      className="btn-save-card"
-                      onClick={() => handleSave(item)}
-                    >
-                      حفظ
-                    </button>
-
-                    <button className="btn-cancel-card" onClick={handleCancel}>
-                      إلغاء
-                    </button>
                   </div>
-                ) : (
-                  <>
-                    <p className="value">
-                      {parseFloat(item.value).toLocaleString()}
-                    </p>
 
-                    <button
-                      className="btn-edit-card"
-                      onClick={() => handleEdit(item)}
-                    >
-                      تعديل
-                    </button>
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+                  {/* CARD BODY */}
+                  <div className="card-footer-custom mt-auto">
+                    {editId === item.id ? (
+                      <div className="edit-row d-flex align-items-start gap-2 flex-wrap w-100">
+                        <div className="edit-field flex-grow-1">
+                          <input
+                            type="text"
+                            className={`form-control edit-input ${
+                              editErrors?.value ? "is-invalid" : ""
+                            }`}
+                            value={editValue}
+                            onChange={(e) => handleEditChange(e.target.value)}
+                          />
 
-      {/* Section: Fuel */}
-      <div className="section fuel-section">
-        <div className="section-header">
-          <h2 className="section-title">أسعار الوقود</h2>
+                          {editErrors?.value && (
+                            <div className="invalid-feedback d-block">
+                              {editErrors.value}
+                            </div>
+                          )}
+                        </div>
 
-          <button className="btn-add" onClick={() => setShowModal(true)}>
-            إضافة جديد
-          </button>
-        </div>
+                        <button
+                          className="tn-btn-save btn-sm"
+                          onClick={() => handleSave(item)}
+                        >
+                          حفظ
+                        </button>
 
-        <div className="row">
-          {fuelPrices.map((item) => (
-            <div key={item.id} className="col-12 col-md-6 col-lg-3">
-              <div className="card custom-card">
-                <div className="card-header-custom">
-                  <h3 className="card-title">{item.name}</h3>
-
-                  <div className="card-icon">
-                    <FontAwesomeIcon icon={getIcon(item.type, item.name)} />
-                  </div>
-                </div>
-
-                <div className="card-footer-custom">
-                  {editId === item.id ? (
-                    <div className="edit-row">
-                      <div className="edit-field">
-                        <input
-                          type="text"
-                          className={`edit-input ${
-                            editErrors?.value ? "input-error" : ""
-                          }`}
-                          value={editValue}
-                          onChange={(e) => handleEditChange(e.target.value)}
-                        />
-
-                        {editErrors?.value && (
-                          <p className="error-text">{editErrors.value}</p>
-                        )}
+                        <button
+                          className="tn-btn-cancel btn-sm"
+                          onClick={handleCancel}
+                        >
+                          إلغاء
+                        </button>
                       </div>
+                    ) : (
+                      <div className="d-flex justify-content-between align-items-center w-100">
+                        <p className="value mb-0">
+                          {parseFloat(item.value).toLocaleString()}
+                        </p>
 
-                      <button
-                        className="btn-save-card"
-                        onClick={() => handleSave(item)}
-                      >
-                        حفظ
-                      </button>
-
-                      <button
-                        className="btn-cancel-card"
-                        onClick={handleCancel}
-                      >
-                        إلغاء
-                      </button>
-                    </div>
-                  ) : (
-                    <>
-                      <p className="value">
-                        {parseFloat(item.value).toLocaleString()}
-                      </p>
-
-                      <button
-                        className="btn-edit-card"
-                        onClick={() => handleEdit(item)}
-                      >
-                        تعديل
-                      </button>
-                    </>
-                  )}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Section: Insurance */}
-      <div className="section insurance-section">
-        <h2 className="section-title">التأمينات</h2>
-
-        {insurance.map((item) => (
-          <div key={item.id} className="col-12 col-md-6 col-lg-3">
-            <div className="card custom-card">
-              <div className="card-header-custom">
-                <h3 className="card-title">{item.name}</h3>
-
-                <div className="card-icon">
-                  <FontAwesomeIcon icon={getIcon(item.type, item.name)} />
-                </div>
-              </div>
-
-              <div className="card-footer-custom">
-                {editId === item.id ? (
-                  <div className="edit-row">
-                    <div className="edit-field">
-                      <input
-                        type="text"
-                        className={`edit-input ${
-                          editErrors?.value ? "input-error" : ""
-                        }`}
-                        value={editValue}
-                        onChange={(e) => handleEditChange(e.target.value)}
-                      />
-
-                      {editErrors?.value && (
-                        <p className="error-text">{editErrors.value}</p>
-                      )}
-                    </div>
-
-                    <button
-                      className="btn-save-card"
-                      onClick={() => handleSave(item)}
-                    >
-                      حفظ
-                    </button>
-
-                    <button className="btn-cancel-card" onClick={handleCancel}>
-                      إلغاء
-                    </button>
+                        <button
+                          className="tn-btn-edit btn-sm"
+                          onClick={() => handleEdit(item)}
+                        >
+                          تعديل
+                        </button>
+                      </div>
+                    )}
                   </div>
-                ) : (
-                  <>
-                    <p className="value">
-                      {parseFloat(item.value).toLocaleString()}%
-                    </p>
-
-                    <button
-                      className="btn-edit-card"
-                      onClick={() => handleEdit(item)}
-                    >
-                      تعديل
-                    </button>
-                  </>
-                )}
+                </div>
               </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {showModal && (
-        <div className="modal-backdrop-custom">
-          <div className="modal-card">
-            <AddCoefficientModal
-              onClose={() => setShowModal(false)}
-              onSuccess={fetchCoefficients}
-            />
+            ))}
           </div>
         </div>
-      )}
+
+        {/* SECTION : FUEL */}
+        <div className="section fuel-section mb-5">
+          <div className="section-header d-flex justify-content-between align-items-center mb-4">
+            <h2 className="section-title mb-0">أسعار الوقود</h2>
+
+            <button
+              className="tn-btn-orange fw-bold ms-auto"
+              onClick={() => setShowModal(true)}
+            >
+              إضافة جديد
+            </button>
+          </div>
+
+          <div className="row g-4">
+            {fuelPrices.map((item) => (
+              <div key={item.id} className="col-12 col-md-6 col-lg-3">
+                <div className="card custom-card h-100 border-0">
+                  {/* HEADER */}
+                  <div className="card-header-custom d-flex justify-content-between align-items-center mb-3">
+                    <h3 className="card-title mb-0">{item.name}</h3>
+
+                    <div className="card-icon">
+                      <FontAwesomeIcon icon={getIcon(item.type, item.name)} />
+                    </div>
+                  </div>
+
+                  <div className="card-footer-custom mt-auto">
+                    {editId === item.id ? (
+                      <div className="edit-row d-flex align-items-start gap-2 flex-wrap w-100">
+                        <div className="edit-field flex-grow-1">
+                          <input
+                            type="text"
+                            className={`form-control edit-input ${
+                              editErrors?.value ? "is-invalid" : ""
+                            }`}
+                            value={editValue}
+                            onChange={(e) => handleEditChange(e.target.value)}
+                          />
+
+                          {editErrors?.value && (
+                            <div className="invalid-feedback d-block">
+                              {editErrors.value}
+                            </div>
+                          )}
+                        </div>
+
+                        <button
+                          className="tn-btn-save btn-sm"
+                          onClick={() => handleSave(item)}
+                        >
+                          حفظ
+                        </button>
+
+                        <button
+                          className="tn-btn-cancel btn-sm"
+                          onClick={handleCancel}
+                        >
+                          إلغاء
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="d-flex justify-content-between align-items-center w-100">
+                        <p className="value mb-0">
+                          {parseFloat(item.value).toLocaleString()}
+                        </p>
+
+                        <button
+                          className="tn-btn-edit btn-sm"
+                          onClick={() => handleEdit(item)}
+                        >
+                          تعديل
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* SECTION : INSURANCE */}
+        <div className="section insurance-section">
+          <h2 className="section-title mb-4">التأمينات</h2>
+
+          <div className="row g-4">
+            {insurance.map((item) => (
+              <div key={item.id} className="col-12 col-md-6 col-lg-3">
+                <div className="card custom-card h-100 border-0">
+                  {/* HEADER */}
+                  <div className="card-header-custom d-flex justify-content-between align-items-center mb-3">
+                    <h3 className="card-title mb-0">{item.name}</h3>
+
+                    <div className="card-icon">
+                      <FontAwesomeIcon icon={getIcon(item.type, item.name)} />
+                    </div>
+                  </div>
+
+                  <div className="card-footer-custom mt-auto">
+                    {editId === item.id ? (
+                      <div className="edit-row d-flex align-items-start gap-2 flex-wrap w-100">
+                        <div className="edit-field flex-grow-1">
+                          <input
+                            type="text"
+                            className={`form-control edit-input ${
+                              editErrors?.value ? "is-invalid" : ""
+                            }`}
+                            value={editValue}
+                            onChange={(e) => handleEditChange(e.target.value)}
+                          />
+
+                          {editErrors?.value && (
+                            <div className="invalid-feedback d-block">
+                              {editErrors.value}
+                            </div>
+                          )}
+                        </div>
+
+                        <button
+                          className="tn-btn-save btn-sm"
+                          onClick={() => handleSave(item)}
+                        >
+                          حفظ
+                        </button>
+
+                        <button
+                          className="tn-btn-cancel btn-sm"
+                          onClick={handleCancel}
+                        >
+                          إلغاء
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="d-flex justify-content-between align-items-center w-100">
+                        <p className="value mb-0">
+                          {parseFloat(item.value).toLocaleString()}%
+                        </p>
+
+                        <button
+                          className="tn-btn-edit btn-sm"
+                          onClick={() => handleEdit(item)}
+                        >
+                          تعديل
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* SECTION : REWARDS */}
+        <div className="section reward-section">
+          <h2 className="section-title mb-4">المكافئات</h2>
+
+          <div className="row g-4">
+            {reward.map((item) => (
+              <div key={item.id} className="col-12 col-md-6 col-lg-3">
+                <div className="card custom-card h-100 border-0">
+                  {/* HEADER */}
+                  <div className="card-header-custom d-flex justify-content-between align-items-center mb-3">
+                    <h3 className="card-title mb-0">{item.name}</h3>
+
+                    <div className="card-icon">
+                      <FontAwesomeIcon icon={getIcon(item.type, item.name)} />
+                    </div>
+                  </div>
+
+                  {/* BODY */}
+                  <div className="card-footer-custom mt-auto">
+                    {editId === item.id ? (
+                      <div className="edit-row d-flex align-items-start gap-2 flex-wrap w-100">
+                        <div className="edit-field flex-grow-1">
+                          <input
+                            type="text"
+                            className={`form-control edit-input ${
+                              editErrors?.value ? "is-invalid" : ""
+                            }`}
+                            value={editValue}
+                            onChange={(e) => handleEditChange(e.target.value)}
+                          />
+
+                          {editErrors?.value && (
+                            <div className="invalid-feedback d-block">
+                              {editErrors.value}
+                            </div>
+                          )}
+                        </div>
+
+                        <button
+                          className="tn-btn-save btn-sm"
+                          onClick={() => handleSave(item)}
+                        >
+                          حفظ
+                        </button>
+
+                        <button
+                          className="tn-btn-edit btn-sm"
+                          onClick={handleCancel}
+                        >
+                          إلغاء
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="d-flex justify-content-between align-items-center w-100">
+                        <p className="value mb-0">
+                          {parseFloat(item.value).toLocaleString()}
+                        </p>
+
+                        <button
+                          className="tn-btn-edit btn-sm"
+                          onClick={() => handleEdit(item)}
+                        >
+                          تعديل
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {showModal && (
+          <div className="modal-backdrop-custom">
+            <div className="modal-card">
+              <AddCoefficientModal
+                onClose={() => setShowModal(false)}
+                onSuccess={fetchCoefficients}
+              />
+            </div>
+          </div>
+        )}
+      </Container>
     </div>
   );
 };

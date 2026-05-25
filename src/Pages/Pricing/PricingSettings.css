@@ -1,4 +1,4 @@
-.pricing-page {
+.tn-main-content {
   background-color: #f1f4f9;
   min-height: 100vh;
   padding: 40px;
@@ -6,64 +6,107 @@
   background-size: 30px 30px;
 }
 
-.page-header h1 {
-  font-size: 26px;
-  font-weight: bold;
-  color: var(--textPrimary);
+.tn-navy {
+  color: #1a2d48;
 }
 
 .page-header p {
   color: var(--textSecondary);
-  margin-bottom: 30px;
-}
-
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 18px;
+  font-size: 15px;
 }
 
 .section-title {
   font-size: 20px;
-  font-weight: bold;
+  font-weight: 700;
   padding-right: 12px;
   border-right: 4px solid var(--primary);
+  color: var(--textPrimary);
+}
+
+.pricing-section .section-title {
+  border-right-color: var(--primary);
+}
+
+.fuel-section .section-title {
+  border-right-color: var(--secondary);
+}
+
+.insurance-section .section-title {
+  border-right-color: var(--textSecondary);
 }
 
 .custom-card {
   background: var(--surface);
-  border-width: 1px;
   border-radius: 14px;
   padding: 18px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: 0.25s ease;
+}
 
-  display: flex;
-  flex-direction: column;
+.custom-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.pricing-section .custom-card {
+  border-right: 3px solid var(--primary);
+}
+
+.fuel-section .custom-card {
+  border-right: 3px solid var(--secondary);
+}
+
+.insurance-section .custom-card {
+  border-right: 3px solid var(--textSecondary);
 }
 
 .card-header-custom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 6px;
+  min-height: 42px;
 }
 
 .card-title {
   font-size: 16px;
-  margin: 0;
+  font-weight: 600;
   color: var(--textSecondary);
-  flex-grow: 1;
 }
 
 .card-icon {
-  width: 30px;
-  height: 35px;
-  border-radius: 40%;
+  width: 38px;
+  height: 38px;
+  border-radius: 14px;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+}
+
+.pricing-section .card-icon {
+  background-color: var(--primaryLight);
+  color: var(--primary);
+}
+
+.fuel-section .card-icon {
+  background-color: var(--secondaryLight);
+  color: var(--secondary);
+}
+
+.insurance-section .card-icon {
+  background-color: var(--darkTextSecondary);
+  color: var(--textSecondary);
+}
+
+.reward-section .section-title {
+  border-right-color: #7c3aed;
+}
+
+.reward-section .custom-card {
+  border-right: 3px solid #7c3aed;
+}
+
+.reward-section .card-icon {
+  background-color: #f3e8ff;
+  color: #7c3aed;
 }
 
 .card-icon svg {
@@ -71,142 +114,78 @@
 }
 
 .value {
-  font-size: 22px;
-  font-weight: bold;
+  font-size: 24px;
+  font-weight: 700;
   color: var(--textPrimary);
-  margin-bottom: 14px;
 }
 
-.btn-edit-card {
-  background-color: var(--primary);
-  color: white;
-  padding: 6px 12px;
-  border-radius: 8px;
-  border: none;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.25s ease;
-
-}
-
-.btn-edit-card:hover {
-  background-color: var(--primaryDark);
-  transform: translateY(-2px);
-}
-
-.btn-add {
-  background-color: var(--secondary);
-  color: white;
-  padding: 8px 16px;
-  border-radius: 8px;
-  border: none;
-  font-weight: 600;
-  font-size: 15px;
-  transition: 0.25s ease;
-}
-
-.btn-add:hover {
-  background-color: var(--secondaryDark);
-  transform: translateY(-2px);
-}
-
-.pricing-section .section-title {
-  border-right-color: var(--primary);
-}
-
-.pricing-section .card-icon {
-  background: var(--primaryLight);
-  color: var(--primary);
-}
-
-.fuel-section .section-title {
-  border-right-color: var(--secondary);
-}
-
-.fuel-section .card-icon {
-  background: var(--secondaryLight);
-  color: var(--secondary);
-}
-
-.insurance-section .section-title {
-  border-right-color: var(--textSecondary);
-}
-
-.insurance-section .card-icon {
-  background:var(--darkTextSecondary);
-  color: var(--textSecondary);
-}
-
-.pricing-section .custom-card {
-  border-right-width: 3px;
-  border-right-color: var(--primary);
-}
-
-.insurance-section .custom-card{
-  border-left-width: 3px;
-  border-left-color: var(--textSecondary);
-}
-
-.card-footer-custom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: auto;   
-  padding-top: 12px;
-}
-
-.card-footer-custom .value {
-  margin-bottom: 0;  
-}
-
-.edit-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: fit-content;     
-  max-width: 100%;       
-  flex-wrap: nowrap;
-}
-
-
-/* input */
 .edit-input {
-  width: 100%;           
-  height: 36px;
-  padding: 0 8px;
-  font-size: 18px;
-  border-radius: 6px;
-  border: 1px solid var(--border);
-  flex-shrink: 0;         
+  height: 38px;
+  font-size: 15px;
+  border-radius: 8px;
 }
 
-.edit-field {               
-  display: flex;
-  flex-direction: column;
+.tn-btn-save {
+  background: var(--secondary) !important;
+  border: none !important;
+  border-radius: 6px;
+  padding: 5px 10px;
+  color: white !important;
+  transition: all 0.3s ease;
 }
 
-.btn-save-card {
-  height: 36px;
-  padding: 0 10px;
-  background-color: var(--secondary);
-  color: white;
+.tn-btn-cancel {
+  background: var(--primary) !important;
+  border: none !important;
   border-radius: 6px;
-  border: none;
-  font-weight: 600;
-  flex-shrink: 0;         
+  padding: 5px 10px;
+  color: white !important;
+  transition: all 0.3s ease;
+}
+
+.tn-btn-edit {
+  background: var(--primary) !important;
+  border: none !important;
+  border-radius: 6px;
+  padding: 5px 10px;
+  color: white !important;
+  transition: all 0.3s ease;
+}
+
+.tn-btn-orange {
+  background: #f28c00 !important;
+  border: none !important;
+  border-radius: 10px;
+  padding: 10px 20px;
+  color: white !important;
+  transition: all 0.3s ease;
+}
+
+.tn-btn-orange:hover {
+  background: #d47a00 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(242, 140, 0, 0.3);
+}
+
+.modal-backdrop-custom {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+
   display: flex;
+  justify-content: center;
   align-items: center;
+
+  z-index: 1050;
 }
 
-.btn-cancel-card {
-  height: 36px;
-  padding: 0 10px;
-  background-color: var(--primary);
-  color: white;
-  border-radius: 6px;
-  border: none;
-  font-weight: 600;
-  flex-shrink: 0;         
-  display: flex;
-  align-items: center;
+.modal-card {
+  width: 100%;
+  max-width: 380px;
+
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
 }

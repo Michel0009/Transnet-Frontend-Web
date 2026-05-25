@@ -12,7 +12,8 @@ import {
   faCog,
   faShippingFast,
   faTags,
-  faChevronRight, // نستخدم سهم واحد وندوره بالـ CSS
+  faChevronRight,
+  faUser, // نستخدم سهم واحد وندوره بالـ CSS
 } from "@fortawesome/free-solid-svg-icons";
 import "./Sidebar.css";
 import logo from "../assets/logo2.png";
@@ -88,6 +89,11 @@ const Sidebar = () => {
         <Nav.Link as={NavLink} to="/dashboard/users" className="tn-nav-item">
           <FontAwesomeIcon icon={faUsers} className="tn-icon" />
           <span className="tn-nav-text">المستخدمين</span>
+        </Nav.Link>
+
+        <Nav.Link as={NavLink} to="/dashboard/subadmins" className="tn-nav-item">
+          <FontAwesomeIcon icon={faUser} className="tn-icon" />
+          <span className="tn-nav-text">الموظفين</span>
         </Nav.Link>
 
         <Nav.Link as={NavLink} to="/dashboard/reports" className="tn-nav-item">

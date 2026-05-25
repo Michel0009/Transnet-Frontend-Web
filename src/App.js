@@ -11,6 +11,7 @@ import DashboardLayout from "./Layouts/DashboardLayout";
 import Drivers from "./Pages/Drivers/Drivers";
 import VehicleTypeDetails from "./Pages/Vehicles/VehicleTypeDetails";
 import PricingSettings from "./Pages/Pricing/PricingSettings";
+import SubAdminsPage from "./Pages/SubAdmins/SubAdminsPage";
 
 const Login = lazy(() => import("./Pages/Auth/Login"));
 const EmailVerification = lazy(() => import("./Pages/Auth/EmailVerification"));
@@ -51,6 +52,7 @@ function App() {
               <Route path="drivers" element={<Drivers />} />
                <Route path="vehicles" element={<VehicleTypeDetails />} />
                <Route path="pricing" element={<PricingSettings />} />
+               <Route path="subadmins" element={<SubAdminsPage />} />
 
               <Route index element={<Navigate to="drivers" replace />} />
             </Route>
