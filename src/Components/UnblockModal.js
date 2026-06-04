@@ -13,6 +13,7 @@ const UnblockModal = ({ show, onHide, userId, onSuccess }) => {
     setLoading(true);
     try {
       const response = await api.get(endpoints.general.unblock(userId));
+
       if (
         response.status === 200 &&
         response.data.message === "تم فك حظر المستخدم بنجاح"

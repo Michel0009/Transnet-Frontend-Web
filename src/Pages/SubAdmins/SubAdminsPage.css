@@ -1,0 +1,171 @@
+.subadmins-page {
+  background-color: #f1f4f9;
+  min-height: 100vh;
+  padding: 40px;
+  background-image: radial-gradient(#d1d9e6 0.5px, transparent 0.5px);
+  background-size: 30px 30px;
+}
+
+.page-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #1a2d48;
+}
+
+.page-description {
+  color: #1a2d48;
+  font-size: 15px;
+  max-width: 700px;
+  line-height: 1.7;
+}
+
+.btn-add-new {
+  background-color: var(--secondary) !important;
+  border: none !important;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+
+  font-weight: 600;
+  font-size: 15px;
+
+  transition: 0.25s ease;
+}
+
+.btn-add-new:hover {
+  background-color: var(--secondaryDark) !important;
+  transform: translateY(-2px);
+}
+
+.table-card {
+  border-radius: 18px;
+  background: white;
+}
+
+.subadmins-table {
+  margin-bottom: 0;
+    overflow-x: auto;
+  overflow-y: visible;
+}
+
+.subadmins-table thead th {
+  background-color: #eff8ff;
+  color: var(--textSecondary);
+
+  font-size: 13px;
+  font-weight: 700;
+
+  padding: 20px;
+
+  border-bottom: 1px solid #eef2f7;
+  white-space: nowrap;
+}
+
+.subadmins-table tbody td {
+  padding: 20px;
+
+  vertical-align: middle;
+
+  color: var(--textPrimary);
+  font-size: 14px;
+  font-weight: 600;
+
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.subadmins-table tbody tr {
+  transition: 0.2s ease;
+}
+
+.subadmins-table tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.015);
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 6px 14px;
+
+  border-radius: 20px;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.status-pill.active {
+  background-color: #e6fcf5;
+  color: #12b886;
+}
+
+.status-pill.frozen {
+  background-color: #e7f5ff;
+  color: #1c7ed6;
+}
+
+.status-pill.blocked {
+  background-color: #fff5f5;
+  color: #fa5252;
+}
+
+.status-pill.must-pay {
+  background-color: #fff4e6;
+  color: #f08c00;
+}
+
+.action-btn {
+  width: 36px;
+  height: 36px;
+
+  border-radius: 10px !important;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #f8fafc !important;
+  border: 1px solid #e2e8f0 !important;
+
+  color: var(--textSecondary) !important;
+
+  transition: 0.2s ease;
+}
+
+.action-btn:hover {
+  background: white !important;
+  color: var(--textPrimary) !important;
+
+  transform: scale(1.05);
+}
+
+.dropdown-toggle::after {
+  display: none !important;
+}
+
+.dropdown-menu {
+  min-width: 180px;
+
+  border-radius: 14px !important;
+
+  padding: 8px 0;
+
+  border: 1px solid #eef2f7 !important;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
+}
+
+.dropdown-item {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 16px;
+  transition: 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #f8fafc;
+}
+
+.dropdown-item svg {
+  font-size: 14px;
+}

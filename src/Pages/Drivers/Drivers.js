@@ -151,7 +151,7 @@ const Drivers = () => {
     }
   };
   return (
-    <div className="tn-main-content" dir="rtl">
+    <div className="tn-d-main-content" dir="rtl">
       <header className="d-flex justify-content-between align-items-center mb-4">
         <h2 className="fw-bold tn-navy fs-4 fs-md-2">إدارة السائقين</h2>
         <Button

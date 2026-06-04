@@ -52,4 +52,19 @@ export const endpoints = {
     search: (number) => `/shipment/number/${number}`,
     details: (id) => `/shipment/id/${id}`,
   },
+  admin: {
+    vehicleTypes: "/vehicleTypes",
+    createVehicleType: "/vehicleType/create",
+    updateVehicleType: "/vehicleType/update",
+
+    gitCoefficients: "/coefficients",
+    createCoefficient: "/coefficient/create",
+    updateCoefficient: "/coefficient/update",
+
+    subAdmins: "/subAdmins",
+    createSubAdmin: "/subAdmin/create",
+    updateSubAdmin: "/subAdmin/update",
+    block: "/blockUser",
+    unBlock: (id) => `/unblockUser/${id}`,
+  },
 };

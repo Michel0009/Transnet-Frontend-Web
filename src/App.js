@@ -8,6 +8,10 @@ import ProtectedRoute from "./Components/ProtectedRoute";
 import PublicRoute from "./Components/PublicRoute";
 import TopLoader from "./Components/TopLoader";
 
+import VehicleTypeDetails from "./Pages/Vehicles/VehicleTypeDetails";
+import PricingSettings from "./Pages/Pricing/PricingSettings";
+import SubAdminsPage from "./Pages/SubAdmins/SubAdminsPage";
+
 const Login = lazy(() => import("./Pages/Auth/Login"));
 const EmailVerification = lazy(() => import("./Pages/Auth/EmailVerification"));
 const EmailSending = lazy(() => import("./Pages/Auth/EmailSending"));
@@ -59,6 +63,10 @@ function App() {
               <Route path="clients" element={<Clients />} />
               <Route path="blocked-users" element={<BlockedUsers />} />
               <Route path="shipments" element={<Shipments />} />
+              <Route path="vehicles" element={<VehicleTypeDetails />} />
+              <Route path="pricing" element={<PricingSettings />} />
+              <Route path="subadmins" element={<SubAdminsPage />} />
+
               <Route index element={<Navigate to="drivers" replace />} />
             </Route>
             <Route path="drivers/create" element={<CreateDriver />} />
