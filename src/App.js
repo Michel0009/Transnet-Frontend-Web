@@ -16,7 +16,13 @@ const ResetPassword = lazy(() => import("./Pages/Auth/ResetPassword"));
 const DashboardLayout = lazy(() => import("./Layouts/DashboardLayout"));
 const Drivers = lazy(() => import("./Pages/Drivers/Drivers"));
 const CreateDriver = lazy(() => import("./Pages/Drivers/CreateDriver"));
-const DriverDetails = lazy(() => import("./Pages/Drivers/DriverDetails"));  
+const DriverDetails = lazy(() => import("./Pages/Drivers/DriverDetails"));
+const UpdateDriver = lazy(() => import("./Pages/Drivers/UpdateDriver"));
+const Clients = lazy(() => import("./Pages/Clients/Clients"));
+const ClientDetails = lazy(() => import("./Pages/Clients/ClientDetails"));
+const BlockedUsers = lazy(() => import("./Pages/General/BlockedUsers"));
+const Shipments = lazy(() => import("./Pages/Shipments/Shipments"));
+const ShipmentDetails = lazy(() => import("./Pages/Shipments/ShipmentDetails"));
 function App() {
   const { loading } = useAuth();
 
@@ -44,17 +50,26 @@ function App() {
             <Route path="/verify-email" element={<EmailVerification />} />
             <Route path="/reset-password" element={<ResetPassword />} />
           </Route>
-
-          <Route element={<ProtectedRoute />}>
+          <Route element={<ProtectedRoute allowedRoles={["admin"]} />}></Route>
+          <Route
+            element={<ProtectedRoute allowedRoles={["admin", "employee"]} />}
+          >
             <Route path="/dashboard" element={<DashboardLayout />}>
               <Route path="drivers" element={<Drivers />} />
+              <Route path="clients" element={<Clients />} />
+              <Route path="blocked-users" element={<BlockedUsers />} />
+              <Route path="shipments" element={<Shipments />} />
               <Route index element={<Navigate to="drivers" replace />} />
             </Route>
             <Route path="drivers/create" element={<CreateDriver />} />
+            <Route path="drivers/edit/:id" element={<UpdateDriver />} />
             <Route path="drivers/:id" element={<DriverDetails />} />
+            <Route path="clients/:id" element={<ClientDetails />} />
+            <Route path="shipments/:id" element={<ShipmentDetails />} />
           </Route>
 
           <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/not-found" element={<NotFound />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>

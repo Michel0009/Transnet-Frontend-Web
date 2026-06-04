@@ -14,24 +14,23 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSearch,
-  faStar,
   faEllipsisV,
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
-import "./Drivers.css";
+import "../Drivers/Drivers.css";
 import api from "../../Api/Api";
-import DriverSkeleton from "../../Components/DriverSkeletonLoading";
+import ClientSkeletonLoading from "../../Components/ClientSkeletonLoading";
 import { toast } from "react-toastify";
 import { handleAxiosError } from "../../Utils/ErrorHandler";
-import { useNavigate } from "react-router-dom";
 import BlockModal from "../../Components/BlockModal";
 import UnblockModal from "../../Components/UnblockModal";
 import WarningModal from "../../Components/WarningModal";
 import NotificationAllModal from "../../Components/NotificationAllModal";
-const Drivers = () => {
-  const navigate = useNavigate();
-  const [drivers, setDrivers] = useState([]);
-  const [availableCount, setAvailableCount] = useState(0);
+import { useNavigate } from "react-router-dom";
+import { formatBentoDate } from "../../Utils/dateFormatter";
+
+const Clients = () => {
+  const [clients, setClients] = useState([]);
   const [pagination, setPagination] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -42,23 +41,25 @@ const Drivers = () => {
   const [showUnblockModal, setShowUnblockModal] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [showWarningModal, setShowWarningModal] = useState(false);
-  const [driverName, setDriverName] = useState("");
+  const [clientName, setClientName] = useState("");
   const [showNotificationAllModal, setShowNotificationAllModal] =
     useState(false);
-  const [totalDrivers, setTotalDrivers] = useState(0);
-  const fetchDrivers = async (page = 1) => {
+  const [totalClients, setTotalClients] = useState(0);
+  const navigate = useNavigate();
+
+  const fetchClients = async (page = 1) => {
     setLoading(true);
     try {
-      const response = await api.get(`${endpoints.drivers.get(page)}`);
-      const { available_drivers, drivers: driversObj } = response.data;
-      setDrivers(driversObj.data);
-      setAvailableCount(available_drivers);
-      setTotalDrivers(driversObj.total || 0); 
+      const response = await api.get(`${endpoints.clients.get(page)}`);
+      const { users: clientsObj } = response.data;
+
+      setClients(clientsObj.data);
+      setTotalClients(clientsObj.total || 0);
       setPagination({
-        total: driversObj.total || 0,
-        from: driversObj.from || 0,
-        to: driversObj.to || 0,
-        last_page: driversObj.last_page || 1,
+        total: clientsObj.total || 0,
+        from: clientsObj.from || 0,
+        to: clientsObj.to || 0,
+        last_page: clientsObj.last_page || 1,
       });
       setCurrentPage(page);
     } catch (error) {
@@ -69,8 +70,9 @@ const Drivers = () => {
   };
 
   useEffect(() => {
-    fetchDrivers();
+    fetchClients();
   }, []);
+
   const renderPaginationItems = () => {
     const totalPages = pagination?.last_page || 0;
     const items = [];
@@ -87,7 +89,7 @@ const Drivers = () => {
             key={i}
             disabled={loading}
             className={`tn-page-num ${currentPage === i ? "is-active" : ""}`}
-            onClick={() => fetchDrivers(i)}
+            onClick={() => fetchClients(i)}
           >
             {i}
           </Button>,
@@ -105,12 +107,14 @@ const Drivers = () => {
     }
     return items;
   };
+
   useEffect(() => {
     if (searchTerm === "" && isSearchActive) {
-      fetchDrivers(1);
+      fetchClients(1);
       setIsSearchActive(false);
     }
   }, [searchTerm, isSearchActive]);
+
   const handleSearch = async () => {
     if (!searchTerm.trim()) {
       setIsSearchActive(false);
@@ -119,16 +123,16 @@ const Drivers = () => {
     setSearchNumber(searchTerm);
     setLoading(true);
     try {
-      const response = await api.post(endpoints.drivers.search, {
-        driver_number: searchTerm,
+      const response = await api.post(endpoints.clients.search, {
+        user_number: searchTerm,
       });
-      setDrivers([response.data]);
+      setClients([response.data]);
       setPagination(null);
       setIsSearchActive(true);
     } catch (error) {
       if (error.response?.status === 404 || error.response?.status === 422) {
         setIsSearchActive(true);
-        setDrivers([]);
+        setClients([]);
       } else {
         toast.error(handleAxiosError(error));
       }
@@ -136,6 +140,7 @@ const Drivers = () => {
       setLoading(false);
     }
   };
+
   const getStatusClass = (status) => {
     switch (status) {
       case "فعال":
@@ -150,10 +155,11 @@ const Drivers = () => {
         return "account-status-default";
     }
   };
+
   return (
     <div className="tn-main-content" dir="rtl">
       <header className="d-flex justify-content-between align-items-center mb-4">
-        <h2 className="fw-bold tn-navy fs-4 fs-md-2">إدارة السائقين</h2>
+        <h2 className="fw-bold tn-navy fs-4 fs-md-2">إدارة العملاء</h2>
         <Button
           className="btn-collective-notification"
           onClick={() => setShowNotificationAllModal(true)}
@@ -163,33 +169,26 @@ const Drivers = () => {
       </header>
 
       <Container fluid className="p-0">
-        {/* Changed Col md={3} to xs={12} sm={6} lg={3} for better stacking */}
         <Row className="mb-4 mb-md-5 gx-3 gy-3">
-          {[
-            { label: "إجمالي السائقين", value: totalDrivers },
-            { label: "السائقين المتاحين", value: availableCount },
-          ].map((kpi, idx) => (
-            <Col key={idx} xs={12} sm={6} lg={3}>
-              <Card className="tn-kpi-card border-0 shadow-sm p-3 p-md-4">
-                <div className="tn-kpi-label">{kpi.label}</div>
-                <div className="d-flex justify-content-between align-items-center">
-                  <h2 className="tn-kpi-value mb-0">
-                    {loading ? "..." : kpi.value}
-                  </h2>
-                </div>
-              </Card>
-            </Col>
-          ))}
+          <Col xs={12} sm={6} lg={3}>
+            <Card className="tn-kpi-card border-0 shadow-sm p-3 p-md-4">
+              <div className="tn-kpi-label">إجمالي العملاء</div>
+              <div className="d-flex justify-content-between align-items-center">
+                <h2 className="tn-kpi-value mb-0">
+                  {loading ? "..." : totalClients}
+                </h2>
+              </div>
+            </Card>
+          </Col>
         </Row>
 
         <Card className="tn-main-card border-0 shadow-sm">
-          {/* Updated Toolbar to stack on mobile */}
           <div className="tn-toolbar p-3 p-md-4 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 border-bottom bg-white">
-            <h4 className="fw-bold m-0 tn-navy fs-5">قائمة السائقين</h4>
+            <h4 className="fw-bold m-0 tn-navy fs-5">قائمة العملاء</h4>
             <div className="d-flex flex-column flex-sm-row align-items-stretch align-items-sm-center gap-3">
               <InputGroup className="tn-search-wrapper w-100">
                 <Form.Control
-                  placeholder="ابحث عن سائق..."
+                  placeholder="ابحث عن عميل..."
                   className="text-start border-0 bg-transparent"
                   style={{ direction: "rtl" }}
                   value={searchTerm}
@@ -202,7 +201,7 @@ const Drivers = () => {
                       className="text-muted p-0 border-0 shadow-none mx-2"
                       onClick={() => {
                         setSearchTerm("");
-                        if (isSearchActive) fetchDrivers(1);
+                        if (isSearchActive) fetchClients(1);
                         setIsSearchActive(false);
                       }}
                     >
@@ -218,96 +217,78 @@ const Drivers = () => {
                   />
                 </InputGroup.Text>
               </InputGroup>
-              <Button
-                className="tn-btn-orange fw-bold whitespace-nowrap"
-                onClick={() => navigate("/drivers/create")}
-              >
-                إضافة جديد +
-              </Button>
             </div>
           </div>
           <Table responsive hover className="m-0 tn-table align-middle">
             <thead>
               <tr>
-                <th className="text-center">السائق</th>
-                <th className="text-center">نوع المركبة</th>
+                <th className="text-center">العميل</th>
                 <th className="text-center">بيانات التواصل</th>
                 <th className="text-center">رقم المستخدم</th>
-                <th className="text-center">التقييم</th>
-                <th className="text-center">حالة الاتصال</th>
+                <th className="text-center">تاريخ الانضمام</th>
                 <th className="text-center">حالة الحساب</th>
                 <th className="text-center">إجراءات</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
-                <DriverSkeleton />
-              ) : drivers.length === 0 ? (
+                <ClientSkeletonLoading rows={5} />
+              ) : clients.length === 0 ? (
                 <tr>
-                  <td colSpan="8" className="text-center py-5">
+                  <td colSpan="6" className="text-center py-5">
                     <div className="text-muted">
-                      <p className="mb-0">لا يوجد سائقين لعرضهم حالياً</p>
+                      <p className="mb-0">لا يوجد عملاء لعرضهم حالياً</p>
                     </div>
                   </td>
                 </tr>
               ) : (
-                drivers.map((driver, idx) => (
+                clients.map((client, idx) => (
                   <tr
                     key={idx}
-                    onClick={() => navigate(`/drivers/${driver.id}`)}
-                    className="tn-d-record-cursor-pointer"
+                    onClick={() => navigate(`/clients/${client.id}`)}
+                    style={{ cursor: "pointer" }}
                   >
                     <td className="text-center">
                       <div className="gap-3">
-                        <div className="fw-bold tn-navy">
-                          {driver.first_name} {driver.last_name}
+                        <div className="fw-bold tn-navy ">
+                          {client.first_name} {client.last_name}
                         </div>
                       </div>
                     </td>
-                    <td>
-                      <div className="fw-bold text-dark text-center">
-                        {driver.vehicle_type}
-                      </div>
-                    </td>
+
                     <td className="text-center">
                       <div className="text-dark small" dir="ltr">
-                        {driver.phone_number}
+                        {client.phone_number}
                       </div>
-                      <div className="tn-link small">{driver.email}</div>
+                      <div className="tn-link small">{client.email}</div>
                     </td>
+
                     <td className="text-center">
                       <div className="fw-bold text-dark">
-                        {driver.user_number}
+                        {client.user_number}
                       </div>
                     </td>
                     <td className="text-center">
-                      <div className="tn-stars d-flex align-items-center gap-1">
-                        <FontAwesomeIcon icon={faStar} />
-                        <span className="fw-bold text-dark">
-                          {driver.rating}
-                        </span>
+                      <div dir="ltr" className="text-center">
+                        {formatBentoDate(client.created_at, true)}
                       </div>
                     </td>
                     <td className="text-center">
                       <span
-                        className={`tn-d-status-pill ${driver.availability ? "status-active" : "status-trip"}`}
+                        className={`tn-d-status-pill ${getStatusClass(
+                          client.status,
+                        )}`}
                       >
-                        {driver.availability ? "متاح" : "غير متاح"}
+                        {client.status}
                       </span>
                     </td>
-                    <td className="text-center">
-                      <span
-                        className={`tn-d-status-pill ${getStatusClass(driver.status)}`}
-                      >
-                        {driver.status}
-                      </span>
-                    </td>
+
                     <td className="text-center text-muted">
                       <Dropdown onClick={(e) => e.stopPropagation()}>
                         <Dropdown.Toggle
                           variant="link"
                           className="text-muted p-0 shadow-none border-0 tn-no-caret"
-                          id={`dropdown-${driver.id}`}
+                          id={`dropdown-${client.id}`}
                         >
                           <FontAwesomeIcon
                             icon={faEllipsisV}
@@ -318,10 +299,19 @@ const Drivers = () => {
                         <Dropdown.Menu>
                           <Dropdown.Item
                             onClick={() => {
+                              setSelectedUserId(client.id);
+                            }}
+                          >
+                            عرض سجل الإنذارات
+                          </Dropdown.Item>
+                          <Dropdown.Divider />
+
+                          <Dropdown.Item
+                            onClick={() => {
                               setShowWarningModal(true);
-                              setSelectedUserId(driver.user_id);
-                              setDriverName(
-                                `${driver.first_name} ${driver.last_name}`,
+                              setSelectedUserId(client.id);
+                              setClientName(
+                                `${client.first_name} ${client.last_name}`,
                               );
                             }}
                           >
@@ -329,12 +319,11 @@ const Drivers = () => {
                           </Dropdown.Item>
                           <Dropdown.Divider />
 
-                          {/* Conditional Block/Unblock based on status */}
-                          {driver.status === "محظور" ? (
+                          {client.status === "محظور" ? (
                             <Dropdown.Item
                               onClick={() => {
                                 setShowUnblockModal(true);
-                                setSelectedUserId(driver.user_id);
+                                setSelectedUserId(client.id);
                               }}
                               className="text-success fw-bold"
                             >
@@ -344,11 +333,11 @@ const Drivers = () => {
                             <Dropdown.Item
                               onClick={() => {
                                 setShowBlockModal(true);
-                                setSelectedUserId(driver.user_id);
+                                setSelectedUserId(client.id);
                               }}
                               className="text-danger fw-bold"
                             >
-                              حظر السائق
+                              حظر العميل
                             </Dropdown.Item>
                           )}
                         </Dropdown.Menu>
@@ -363,19 +352,19 @@ const Drivers = () => {
           <div className="p-3 p-md-4 d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 border-top bg-white">
             <span className="text-muted small text-center text-md-start">
               {isSearchActive ? (
-                drivers.length > 0 ? (
+                clients.length > 0 ? (
                   <>
-                    تم العثور على السائق رقم: <strong>{searchNumber}</strong>
+                    تم العثور على العميل رقم: <strong>{searchNumber}</strong>
                   </>
                 ) : (
                   <>
                     لا توجد نتائج مطابقة للرقم: <strong>{searchNumber}</strong>
                   </>
                 )
-              ) : drivers.length > 0 ? (
+              ) : clients.length > 0 ? (
                 <>
                   عرض {pagination?.from || 0} إلى {pagination?.to || 0} من أصل{" "}
-                  {pagination?.total || 0} سائق
+                  {pagination?.total || 0} عميل
                 </>
               ) : (
                 "لا توجد نتائج للعرض"
@@ -385,7 +374,7 @@ const Drivers = () => {
               <Button
                 className="tn-page-nav"
                 disabled={currentPage === 1 || loading || isSearchActive}
-                onClick={() => fetchDrivers(currentPage - 1)}
+                onClick={() => fetchClients(currentPage - 1)}
               >
                 السابق
               </Button>
@@ -397,11 +386,12 @@ const Drivers = () => {
                   loading ||
                   isSearchActive
                 }
-                onClick={() => fetchDrivers(currentPage + 1)}
+                onClick={() => fetchClients(currentPage + 1)}
               >
                 التالي
               </Button>
             </div>
+
             <BlockModal
               show={showBlockModal}
               onHide={() => {
@@ -409,7 +399,7 @@ const Drivers = () => {
                 setSelectedUserId(null);
               }}
               userId={selectedUserId}
-              onSuccess={() => fetchDrivers(currentPage)}
+              onSuccess={() => fetchClients(currentPage)}
             />
 
             <UnblockModal
@@ -419,18 +409,20 @@ const Drivers = () => {
                 setSelectedUserId(null);
               }}
               userId={selectedUserId}
-              onSuccess={() => fetchDrivers(currentPage)}
+              onSuccess={() => fetchClients(currentPage)}
             />
+
             <WarningModal
               show={showWarningModal}
               onHide={() => {
                 setShowWarningModal(false);
                 setSelectedUserId(null);
-                setDriverName("");
+                setClientName("");
               }}
               userId={selectedUserId}
-              userName={driverName}
+              driverName={clientName}
             />
+
             <NotificationAllModal
               show={showNotificationAllModal}
               onHide={() => setShowNotificationAllModal(false)}
@@ -442,4 +434,4 @@ const Drivers = () => {
   );
 };
 
-export default Drivers;
+export default Clients;

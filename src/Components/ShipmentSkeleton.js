@@ -1,59 +1,63 @@
 import React from "react";
 import "./ShipmentSkeleton.css";
+
 const ShipmentsSkeleton = ({ rows = 10 }) => {
   return (
     <>
       {[...Array(rows)].map((_, index) => (
-        <tr key={`shipment-skeleton-${index}`}>
-          {/* رقم الشحنة */}
-          <td className="ps-4">
-            <div className="tn-skeleton tn-skeleton-text w-50"></div>
+        <tr key={`shipment-skeleton-${index}`} className="align-middle">
+          <td className="ps-4 text-center">
+            <div className="tn-skeleton tn-skeleton-text w-50 mx-auto"></div>
           </td>
-
-          {/* المحتوى */}
-          <td>
-            <div className="tn-skeleton tn-skeleton-text w-75"></div>
-          </td>
-
-          {/* الأبعاد */}
           <td className="text-center">
-            <div className="tn-skeleton tn-skeleton-text w-100"></div>
+            <div className="tn-skeleton tn-skeleton-text w-75 mx-auto"></div>
           </td>
-
-          {/* الوزن */}
-          <td>
-            <div className="tn-skeleton tn-skeleton-text w-50"></div>
+          <td dir="ltr" className="tn-dd-dimensions-cell text-center">
+            <div className="tn-dd-dimension-group justify-content-center d-flex align-items-center gap-1">
+              <div
+                className="tn-skeleton tn-skeleton-badge"
+                style={{ width: "35px", height: "18px" }}
+              ></div>
+              <span className="tn-dd-dimension-separator">×</span>
+              <div
+                className="tn-skeleton tn-skeleton-badge"
+                style={{ width: "35px", height: "18px" }}
+              ></div>
+              <span className="tn-dd-dimension-separator">×</span>
+              <div
+                className="tn-skeleton tn-skeleton-badge"
+                style={{ width: "35px", height: "18px" }}
+              ></div>
+            </div>
           </td>
-
-          {/* عمود التأمين (الكبسولة الجديدة) */}
+          <td className="text-center">
+            <div className="tn-skeleton tn-skeleton-text w-50 mx-auto"></div>
+          </td>
           <td className="text-center">
             <div
-              className="tn-skeleton tn-skeleton-pill"
+              className="tn-skeleton tn-skeleton-pill mx-auto"
               style={{ width: "70px", height: "22px" }}
             ></div>
           </td>
-
-          {/* المسار */}
-          <td>
-            <div className="d-flex align-items-center gap-2">
-              <div className="tn-skeleton tn-skeleton-badge"></div>
+          <td className="text-center">
+            <div className="d-flex align-items-center justify-content-center gap-2 small">
               <div
-                className="tn-skeleton tn-skeleton-text"
-                style={{ width: "15px" }}
+                className="tn-skeleton tn-skeleton-badge"
+                style={{ width: "50px", height: "18px" }}
               ></div>
-              <div className="tn-skeleton tn-skeleton-badge"></div>
+              <span className="text-muted">←</span>
+              <div
+                className="tn-skeleton tn-skeleton-badge"
+                style={{ width: "50px", height: "18px" }}
+              ></div>
             </div>
           </td>
-
-          {/* التكلفة */}
-          <td>
-            <div className="tn-skeleton tn-skeleton-text w-75"></div>
+          <td className="text-center">
+            <div className="tn-skeleton tn-skeleton-text w-75 mx-auto"></div>
           </td>
-
-          {/* عمود النجاح/الحالة (Success Badge Skeleton) */}
-          <td>
+          <td className="ts-col-status text-center">
             <div
-              className="tn-skeleton tn-skeleton-pill"
+              className="tn-skeleton tn-skeleton-pill mx-auto"
               style={{ width: "85px", height: "24px" }}
             ></div>
           </td>

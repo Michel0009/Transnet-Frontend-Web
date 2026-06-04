@@ -7,22 +7,28 @@ import React, {
 } from "react";
 import api, { setupInterceptors, refreshTokenApi } from "../Api/Api";
 import LoadingScreen from "../Components/LoadingScreen";
+import { endpoints } from "../Api/Endpoints";
+import { toast } from "react-toastify";
 
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [accessToken, setAccessToken] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const [role, setRole] = useState(localStorage.getItem("userRole") || null);
   const logout = async () => {
+    setLoading(true);
     try {
-      await api.get("/logout");
+      await api.get(endpoints.auth.logout);
     } catch (error) {
       console.error("Logout failed on server, clearing local state.");
     } finally {
+      toast.success("تم تسجيل الخروج بنجاح");
       localStorage.removeItem("was_logged_in");
+      localStorage.removeItem("userRole");
       setAccessToken(null);
-      window.location.href = "/login";
+      setRole(null);
+      setLoading(false);
     }
   };
 
@@ -35,7 +41,9 @@ export const AuthProvider = ({ children }) => {
           setAccessToken(token);
         } catch (error) {
           setAccessToken(null);
+          setRole(null);
           localStorage.removeItem("was_logged_in");
+          localStorage.removeItem("userRole");
         }
       }
       setLoading(false);
@@ -54,9 +62,19 @@ export const AuthProvider = ({ children }) => {
     }
     setAccessToken(token);
   };
+  const handleSetRole = (newRole) => {
+    if (newRole) {
+      localStorage.setItem("userRole", newRole);
+    } else {
+      localStorage.removeItem("userRole");
+    }
+    setRole(newRole);
+  };
   const value = {
     accessToken,
     setAccessToken: handleSetAccessToken,
+    role,
+    setRole: handleSetRole,
     loading,
     logout,
     isAuthenticated: !!accessToken,

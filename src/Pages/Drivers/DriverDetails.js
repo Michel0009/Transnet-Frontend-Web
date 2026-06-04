@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Container,
   Row,
@@ -13,6 +13,10 @@ import {
   ProgressBar,
   Tabs,
   Tab,
+  OverlayTrigger,
+  Popover,
+  Tooltip,
+  Alert,
 } from "react-bootstrap";
 import {
   FaUser,
@@ -34,6 +38,12 @@ import {
   FaDownload,
   FaUnlock,
   FaBan,
+  FaSync,
+  FaArrowRight,
+  FaExclamationTriangle,
+  FaExclamationCircle,
+  FaRegClock,
+  FaRegCheckCircle,
 } from "react-icons/fa";
 import api from "../../Api/Api";
 import "./DriverDetails.css";
@@ -43,12 +53,22 @@ import { toast } from "react-toastify";
 import { handleAxiosError } from "../../Utils/ErrorHandler";
 import BlockModal from "../../Components/BlockModal";
 import UnblockModal from "../../Components/UnblockModal";
+import ActivateModal from "../../Components/ActivateModal";
+import TaxModal from "../../Components/TaxModal";
+import WarningModal from "../../Components/WarningModal";
+import { AlertTriangle } from "lucide-react";
+import { formatBentoDate } from "../../Utils/dateFormatter";
 
 const DriverDetails = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [data, setData] = useState(null);
-  const [driverImage, setDriverImage] = useState("/default-avatar.png");
-
+  const [driverImage, setDriverImage] = useState("/default-avatar.jpg");
+  const [driverExists, setDriverExists] = useState(false);
+  const [showRenewModal, setShowRenewModal] = useState(false);
+  const [showTaxModal, setShowTaxModal] = useState(false);
+  const [warnings, setWarnings] = useState([]);
+  const [loadingWarnings, setLoadingWarnings] = useState(false);
   const [shipmentsData, setShipmentsData] = useState({
     data: [],
     current_page: 1,
@@ -58,10 +78,10 @@ const DriverDetails = () => {
 
   const [loading, setLoading] = useState(true);
   const [shipmentsLoading, setShipmentsLoading] = useState(false);
-  const [error, setError] = useState(null);
   const [isBlocked, setIsBlocked] = useState(false);
   const [showBlockModal, setShowBlockModal] = useState(false);
   const [showUnblockModal, setShowUnblockModal] = useState(false);
+  const [showWarningModal, setShowWarningModal] = useState(false);
   useEffect(() => {
     if (data?.user?.status === "محظور") {
       setIsBlocked(true);
@@ -69,53 +89,103 @@ const DriverDetails = () => {
       setIsBlocked(false);
     }
   }, [data]);
+  const isSubscriptionDisabled =
+    data?.user?.status === "محظور" || data?.user?.status === "فعال";
+  const getTooltipMessage = () => {
+    if (!user) return "جاري تحميل بيانات السائق...";
+    if (user.status === "فعال")
+      return "الحساب نشط بالفعل، لا حاجة لتجديد الاشتراك حالياً.";
+    if (user.status === "محظور")
+      return "الحساب محظور حالياً، يجب فك الحظر أولاً لتتمكن من تجديد الاشتراك.";
+    return "تجديد اشتراك السائق";
+  };
   const fetchDriverDetails = useCallback(async () => {
+    setLoading(true);
     try {
-      const response = await api.get(`/driverDetails/${id}`);
+      const response = await api.get(endpoints.drivers.details(id));
       setData(response.data);
+      setDriverExists(true);
     } catch (err) {
-      setError("فشل في جلب بيانات السائق");
+      if (
+        err.response?.status === 422 &&
+        err.response?.data?.message === "السائق المطلوب غير موجود في النظام"
+      ) {
+        navigate("/not-found", { replace: true });
+      } else {
+        toast.error(handleAxiosError(err));
+      }
+      setDriverExists(false);
     } finally {
       setLoading(false);
     }
+    // eslint-disable-next-line
   }, [id]);
 
   const fetchDriverImage = useCallback(async () => {
+    if (!driverExists) return;
     try {
-      const response = await api.get(`/driverImage/${id}`, {
+      const response = await api.get(endpoints.drivers.driverImage(id), {
         responseType: "blob",
       });
       const imageUrl = URL.createObjectURL(response.data);
       setDriverImage(imageUrl);
     } catch (err) {
-      console.error("خطأ في جلب صورة السائق", err);
+      toast.error(handleAxiosError(err));
     }
-  }, [id]);
+  }, [id, driverExists]);
 
   const fetchShipments = useCallback(
     async (page = 1) => {
+      if (!driverExists) return;
       setShipmentsLoading(true);
       try {
-        const response = await api.get(`/shipments/driver/${id}?page=${page}`);
+        const response = await api.get(
+          endpoints.drivers.driverShipments(id, page),
+        );
         setShipmentsData(response.data);
       } catch (err) {
-        console.error("خطأ في جلب الشحنات", err);
+        toast.error(handleAxiosError(err));
       } finally {
         setShipmentsLoading(false);
       }
     },
-    [id],
+    [id, driverExists],
   );
-
+  const fetchWarnings = useCallback(async () => {
+    if (!driverExists) return;
+    try {
+      setLoadingWarnings(true);
+      const response = await api.get(
+        endpoints.reports.getWarnings(data.user.id),
+      );
+      setWarnings(response.data);
+    } catch (error) {
+      toast.error(handleAxiosError(error));
+    } finally {
+      setLoadingWarnings(false);
+    }
+  }, [data, driverExists]);
   useEffect(() => {
     fetchDriverDetails();
-    fetchDriverImage();
-    fetchShipments();
-  }, [fetchDriverDetails, fetchDriverImage, fetchShipments]);
+    return () => {
+      setDriverImage((prev) => {
+        if (prev) URL.revokeObjectURL(prev);
+        return null;
+      });
+      setDriverExists(false);
+    };
+  }, [fetchDriverDetails]);
+  useEffect(() => {
+    if (driverExists) {
+      fetchDriverImage();
+      fetchShipments();
+      fetchWarnings();
+    }
+  }, [driverExists, fetchDriverImage, fetchShipments, fetchWarnings]);
   const handleDownload = async (type, fileId) => {
     try {
       const response = await api.get(
-        `${endpoints.drivers.donwnloadDocumnet}/${type}/${fileId}`,
+        endpoints.drivers.donwnloadDocumnet(type, fileId),
         {
           responseType: "blob",
         },
@@ -135,67 +205,6 @@ const DriverDetails = () => {
       toast.error(handleAxiosError(err));
     }
   };
-  const handleUnblockSubmit = async () => {
-    try {
-      setShowUnblockModal(false);
-      setLoading(true);
-      const response = await api.get(`/unblockUser/${user.id}`);
-      if (response.status === 200) {
-        toast.success("تم فك حظر السائق بنجاح");
-        await fetchDriverDetails();
-      }
-    } catch (err) {
-      if (err.response) {
-        if (
-          (err.response.status === 404 || err.response.status === 422) &&
-          err.response.data.message
-        ) {
-          toast.error(err.response.data.message);
-        } else {
-          toast.error(handleAxiosError(err));
-        }
-      } else {
-        toast.error(handleAxiosError(err));
-      }
-    }finally{
-      setLoading(false)
-    }
-  };
-  const handleBlockSubmit = async (formData) => {
-    try {
-      setShowBlockModal(false);
-      setLoading(true);
-      const response = await api.post("/blockUser", {
-        id: user.id,
-        explaination: formData.explaination,
-        days_number: formData.days_number || null,
-      });
-
-      if (
-        response.status === 200 &&
-        response.data.message === "تم حظر المستخدم بنجاح"
-      ) {
-        toast.success("تم حظر السائق بنجاح");
-        await fetchDriverDetails();
-      }
-    } catch (err) {
-      if (err.response) {
-        if (err.response.status === 422) {
-          const msg = err.response?.data?.message;
-          const deadline = err.response?.data?.deadline;
-          toast.warning(
-            `${msg} ${deadline ? `\nموعد التسليم: ${deadline}` : ""}`,
-          );
-        } else {
-          toast.error(handleAxiosError(err));
-        }
-      } else {
-        toast.error(handleAxiosError(err));
-      }
-    }finally{
-      setLoading(false)
-    }
-  };
   if (loading) {
     return (
       <div className="tn-dd-loader-wrapper d-flex align-items-center justify-content-center vh-100">
@@ -206,14 +215,6 @@ const DriverDetails = () => {
       </div>
     );
   }
-
-  if (error || !data)
-    return (
-      <Container className="py-5 text-center">
-        <h4 className="text-danger">{error || "لا توجد بيانات لهذا السائق"}</h4>
-      </Container>
-    );
-
   const {
     driver,
     user,
@@ -261,7 +262,6 @@ const DriverDetails = () => {
 
   return (
     <Container fluid className="tn-dd-main-container py-4 px-xl-5">
-      {/* Header */}
       <div className="d-flex flex-wrap justify-content-between align-items-end mb-4 tn-dd-header-flex gap-3">
         <div>
           <h2 className="fw-bold mb-2 tn-dd-page-title">
@@ -273,6 +273,45 @@ const DriverDetails = () => {
           </p>
         </div>
         <div className="d-flex gap-2">
+          <Button
+            variant="outline-secondary"
+            className="d-flex align-items-center gap-2 fw-bold rounded-pill px-4 shadow-sm"
+            onClick={() => navigate(-1)}
+          >
+            <FaArrowRight /> تراجع
+          </Button>
+          {!user || isSubscriptionDisabled ? (
+            <OverlayTrigger
+              placement="bottom"
+              overlay={
+                <Tooltip id="subscription-tooltip" className="fw-bold">
+                  {getTooltipMessage()}
+                </Tooltip>
+              }
+            >
+              <span
+                className="btn btn-warning d-flex align-items-center justify-content-center gap-2 fw-bold rounded-pill px-4 shadow-sm text-white opacity-50"
+                style={{ pointerEvents: "auto", cursor: "not-allowed" }}
+              >
+                <Button
+                  variant="warning"
+                  className="p-0 border-0 bg-transparent text-black fw-bold"
+                  disabled
+                  style={{ pointerEvents: "none" }}
+                >
+                  <FaSync /> تجديد الاشتراك
+                </Button>
+              </span>
+            </OverlayTrigger>
+          ) : (
+            <Button
+              variant="warning"
+              className="d-flex align-items-center gap-2 fw-bold rounded-pill px-4 shadow-sm text-white"
+              onClick={() => setShowRenewModal(true)}
+            >
+              <FaSync className="animate-spin-hover" /> تجديد الاشتراك
+            </Button>
+          )}
           {isBlocked ? (
             <Button
               variant="success"
@@ -290,14 +329,16 @@ const DriverDetails = () => {
               <FaBan /> حظر الحساب
             </Button>
           )}
-          <Button className="tn-dd-btn-primary rounded-pill shadow-sm">
+          <Button
+            className="tn-dd-btn-primary rounded-pill shadow-sm"
+            onClick={() => navigate(`/drivers/edit/${id}`)}
+          >
             تحديث الحالة
           </Button>
         </div>
       </div>
 
       <Row className="g-4">
-        {/* Sidebar */}
         <Col lg={4} xl={3}>
           <Card className="tn-dd-card text-center mb-4 border-0">
             <div className="tn-dd-profile-cover"></div>
@@ -331,7 +372,6 @@ const DriverDetails = () => {
                 </Badge>
               </div>
 
-              {/* Glassmorphism Badge Card */}
               <div className="tn-dd-glass-card p-3 rounded-4 mb-4 text-start">
                 <div className="d-flex justify-content-between align-items-center mb-3">
                   <span className="fw-bold text-dark d-flex align-items-center gap-2">
@@ -354,7 +394,6 @@ const DriverDetails = () => {
                 />
               </div>
 
-              {/* Contact Bento Box */}
               <div className="tn-dd-bento-item p-3 text-start mb-3">
                 <div className="d-flex align-items-center mb-3">
                   <div className="tn-dd-icon-box bg-light me-3">
@@ -382,26 +421,58 @@ const DriverDetails = () => {
                     </Badge>
                   </div>
                 )}
-                <div className="d-flex align-items-center">
-                  <div className="tn-dd-icon-box bg-light me-3">
+                <div className="d-flex align-items-center w-100">
+                  <div className="tn-dd-icon-box bg-light me-3 flex-shrink-0">
                     <FaEnvelope className="text-muted" />
                   </div>
-                  <small className="fw-bold text-break">{user.email}</small>
+                  <OverlayTrigger
+                    trigger="click"
+                    rootClose
+                    placement="top"
+                    overlay={
+                      <Popover
+                        id={`email-popover-${user.id}`}
+                        className="shadow-sm border-0"
+                      >
+                        <Popover.Body
+                          className="d-flex align-items-center p-2"
+                          style={{ direction: "ltr" }}
+                        >
+                          <span className="me-2 fw-semibold text-dark select-all">
+                            {user.email}
+                          </span>
+                        </Popover.Body>
+                      </Popover>
+                    }
+                  >
+                    <small
+                      className="fw-bold text-truncate text-muted flex-grow-1 text-start"
+                      dir="ltr"
+                      title="Click for full email"
+                      style={{ minWidth: 0, cursor: "pointer" }}
+                    >
+                      {user.email}
+                    </small>
+                  </OverlayTrigger>
                 </div>
               </div>
 
-              {/* Rating Bento Box */}
-              <div className="tn-dd-bento-item p-3 d-flex justify-content-between align-items-center">
+              <div className="tn-dd-bento-item p-3 d-flex justify-content-between align-items-center mb-3">
                 <span className="text-muted fw-bold">التقييم العام</span>
                 <span className="fs-4 fw-bold d-flex align-items-center gap-1">
                   {average_rate} <FaStar className="text-warning mb-1" />
+                </span>
+              </div>
+              <div className="tn-dd-bento-item p-3 d-flex justify-content-between align-items-center">
+                <span className="text-muted fw-bold">تاريخ الانضمام</span>
+                <span className="small fw-bold text-dark" dir="ltr">
+                  {formatBentoDate(user.created_at, true)}
                 </span>
               </div>
             </Card.Body>
           </Card>
         </Col>
 
-        {/* Main Content */}
         <Col lg={8} xl={9}>
           <Card className="tn-dd-card border-0 h-100">
             <Card.Body className="p-0 d-flex flex-column">
@@ -409,7 +480,6 @@ const DriverDetails = () => {
                 defaultActiveKey="personal"
                 className="tn-dd-custom-tabs px-4 pt-3"
               >
-                {/* 1. Personal Tab (Bento Layout) */}
                 <Tab
                   eventKey="personal"
                   title={
@@ -420,7 +490,6 @@ const DriverDetails = () => {
                   className="p-4 bg-light flex-grow-1"
                 >
                   <Row className="g-4">
-                    {/* Official Info Box */}
                     <Col xl={7}>
                       <div className="tn-dd-bento-box h-100 p-4">
                         <h6 className="fw-bold tn-dd-text-orange mb-4 d-flex align-items-center gap-2">
@@ -470,7 +539,6 @@ const DriverDetails = () => {
                       </div>
                     </Col>
 
-                    {/* Address Box */}
                     <Col xl={5}>
                       <div className="tn-dd-bento-box h-100 p-4">
                         <h6 className="fw-bold tn-dd-text-orange mb-4 d-flex align-items-center gap-2">
@@ -492,7 +560,6 @@ const DriverDetails = () => {
                       </div>
                     </Col>
 
-                    {/* Work Areas Box */}
                     <Col xs={12}>
                       <div className="tn-dd-bento-box p-4">
                         <h6 className="fw-bold tn-dd-text-orange mb-3 d-flex align-items-center gap-2">
@@ -515,7 +582,6 @@ const DriverDetails = () => {
                   </Row>
                 </Tab>
 
-                {/* 2. Vehicle Tab */}
                 <Tab
                   eventKey="vehicle"
                   title={
@@ -526,10 +592,8 @@ const DriverDetails = () => {
                   className="p-4 bg-light flex-grow-1"
                 >
                   <Row className="g-4">
-                    {/* Vehicle Details */}
                     <Col lg={7}>
                       <div className="tn-dd-bento-box h-100 p-4 position-relative overflow-hidden">
-                        {/* Decorative Background Icon */}
                         <FaCar
                           className="tn-dd-bg-icon position-absolute opacity-25"
                           style={{
@@ -633,7 +697,6 @@ const DriverDetails = () => {
                       </div>
                     </Col>
 
-                    {/* Documents List */}
                     <Col lg={5}>
                       <div className="tn-dd-bento-box h-100 p-4">
                         <h6 className="fw-bold tn-dd-text-orange mb-4 d-flex align-items-center gap-2">
@@ -657,7 +720,7 @@ const DriverDetails = () => {
                           )}
                           {files.car_files?.map((file, index) =>
                             renderFileRow(
-                              `مستند ملكية ${index + 1}`,
+                              `وثيقة ${file.type}`,
                               file.car_file,
                               `car-file-${index}`,
                               "car",
@@ -670,7 +733,6 @@ const DriverDetails = () => {
                   </Row>
                 </Tab>
 
-                {/* 3. Shipments Tab */}
                 <Tab
                   eventKey="shipments"
                   title={
@@ -695,14 +757,16 @@ const DriverDetails = () => {
                     <Table hover className="mb-0 tn-dd-table align-middle">
                       <thead className="bg-light">
                         <tr>
-                          <th className="ps-4">رقم الشحنة</th>
-                          <th>المحتوى</th>
-                          <th className="text-center">الأبعاد (ط×ع×ا)</th>
-                          <th>الوزن</th>
+                          <th className="ps-4 text-center">رقم الشحنة</th>
+                          <th className="text-center">المحتوى</th>
+                          <th className="text-center">
+                            الأبعاد (ارتفاع×عرض×طول)
+                          </th>
+                          <th className="text-center">الوزن</th>
                           <th className="text-center">التأمين</th>
-                          <th>المسار</th>
-                          <th>التكلفة</th>
-                          <th>الحالة</th>
+                          <th className="text-center">المسار</th>
+                          <th className="text-center">التكلفة</th>
+                          <th className="text-center">الحالة</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -710,18 +774,73 @@ const DriverDetails = () => {
                           <ShipmentSkeleton rows={10} />
                         ) : shipmentsData.data &&
                           shipmentsData.data.length > 0 ? (
-                          shipmentsData.data.map((ship) => (
-                            <tr key={ship.id}>
-                              <td className="ps-4 fw-bold">
+                          shipmentsData.data.map((ship,index) => (
+                            <tr
+                              key={index}
+                              onClick={() => navigate(`/shipments/${ship.id}`)}
+                              style={{ cursor: "pointer" }}
+                            >
+                              <td className="ps-4 fw-bold text-center">
                                 #{ship.shipment_number}
                               </td>
-                              <td>{ship.object}</td>
-                              <td className="text-muted small" dir="ltr">
-                                <div className="d-flex justify-content-center align-items-center w-100 h-100 text-nowrap">
-                                  {ship.length} × {ship.width} × {ship.height}
-                                </div>{" "}
+                              <td className="text-center">{ship.object}</td>
+                              <td
+                                dir="ltr"
+                                className="tn-dd-dimensions-cell text-center"
+                              >
+                                <div className="tn-dd-dimension-group justify-content-end">
+                                  <div
+                                    className="tn-dd-dimension-badge"
+                                    title="الارتفاع"
+                                  >
+                                    <span className="tn-dd-dimension-prefix">
+                                      ا
+                                    </span>
+                                    <span className="tn-dd-dimension-value">
+                                      {ship.height}
+                                    </span>
+                                  </div>
+
+                                  <span className="tn-dd-dimension-separator">
+                                    ×
+                                  </span>
+
+                                  <div
+                                    className="tn-dd-dimension-badge"
+                                    title="العرض"
+                                  >
+                                    <span className="tn-dd-dimension-prefix">
+                                      ع
+                                    </span>
+                                    <span className="tn-dd-dimension-value">
+                                      {ship.width}
+                                    </span>
+                                  </div>
+
+                                  <span className="tn-dd-dimension-separator">
+                                    ×
+                                  </span>
+
+                                  <div
+                                    className="tn-dd-dimension-badge"
+                                    title="الطول"
+                                  >
+                                    <span className="tn-dd-dimension-prefix">
+                                      ط
+                                    </span>
+                                    <span className="tn-dd-dimension-value">
+                                      {ship.length}
+                                    </span>
+                                  </div>
+
+                                  <span className="ms-1 text-muted fw-medium">
+                                    cm
+                                  </span>
+                                </div>
                               </td>
-                              <td>{ship.weight} كغ</td>
+                              <td className="text-center text-nowrap">
+                                {ship.weight} كغ
+                              </td>
                               <td className="text-center">
                                 {ship.insurance ? (
                                   <span className="tn-insurance-badge insured">
@@ -735,7 +854,7 @@ const DriverDetails = () => {
                                   </span>
                                 )}
                               </td>
-                              <td>
+                              <td className="text-center">
                                 <div className="d-flex align-items-center gap-2 small">
                                   <Badge
                                     bg="light"
@@ -754,10 +873,10 @@ const DriverDetails = () => {
                                   </Badge>
                                 </div>
                               </td>
-                              <td className="fw-bold tn-dd-text-orange">
+                              <td className="fw-bold tn-dd-text-orange text-center">
                                 {ship.price.toLocaleString()} ل.س
                               </td>
-                              <td className="ts-col-status">
+                              <td className="ts-col-status text-center">
                                 {(() => {
                                   const statusMap = {
                                     مستلمة: "ts-status--delivered",
@@ -796,7 +915,6 @@ const DriverDetails = () => {
                     </Table>
                   </div>
 
-                  {/* Pagination */}
                   {shipmentsData.last_page > 1 && (
                     <div className="d-flex justify-content-center p-4 border-top bg-white">
                       <Pagination className="tn-dd-pagination mb-0">
@@ -862,38 +980,70 @@ const DriverDetails = () => {
                   className="tn-admin-stats-container p-4"
                 >
                   <Row className="g-4">
-                    {/* Financial Overviews: Total & Unpaid */}
                     <Col lg={12}>
                       <div className="tn-admin-card tn-admin-summary-row p-4">
-                        <Row className="align-items-center">
+                        <Row className="align-items-stretch gap-y-3">
                           <Col md={3} className="border-end-admin">
                             <label className="tn-admin-label">
-                              إجمالي سعر الشحنات
+                              إجمالي سعر كافة الشحنات (المدفوعة وغير المدفوعة)
                             </label>
-                            <h2 className="tn-admin-value">
+                            <h2 className="tn-admin-value text-dark">
                               {Number(
                                 statistics?.total_price,
                               ).toLocaleString() || 0}{" "}
                               <small>ل.س</small>
                             </h2>
                             <div className="tn-admin-count">
-                              {statistics?.total || 0} شحنة إجمالية
+                              {statistics?.total || 0} شحنة إجمالية بالنظام
                             </div>
                           </Col>
-                          <Col md={3} className="ps-md-4">
+
+                          <Col md={3} className="border-end-admin ps-md-4">
                             <label className="tn-admin-label">
-                              المبلغ المستحق للدفع
+                              إجمالي سعر الشحنات الغير مدفوعة
                             </label>
-                            <h2 className="tn-admin-value text-slate">
-                              {statistics?.amount_to_pay?.toLocaleString() || 0}{" "}
+                            <h2 className="tn-admin-value text-dark">
+                              {Number(
+                                statistics?.unpaid_amount,
+                              ).toLocaleString() || 0}{" "}
                               <small>ل.س</small>
                             </h2>
+                            <div className="tn-admin-count">
+                              {statistics?.unpaid_count || 0} شحنة إجمالية غير
+                              مدفوعة
+                            </div>
+                          </Col>
+
+                          <Col md={3} className="border-end-admin ps-md-4">
+                            <label className="tn-admin-label">
+                              المبلغ المستحق للدفع بدون حساب الضرائب والمكافآت
+                            </label>
+                            <h2 className="tn-admin-value text-dark">
+                              {Number(
+                                statistics?.amount_to_pay,
+                              ).toLocaleString() || 0}{" "}
+                              <small>ل.س</small>
+                            </h2>
+                          </Col>
+
+                          <Col md={3} className="ps-md-4">
+                            <label className="tn-admin-label text-primary fw-bold">
+                              الصافي النهائي للمبلغ المستحق للدفع
+                            </label>
+                            <h2 className="tn-admin-value text-primary">
+                              {Number(
+                                statistics?.total_amount_to_pay,
+                              ).toLocaleString() || 0}{" "}
+                              <small>ل.س</small>
+                            </h2>
+                            <div className="tn-admin-count text-muted">
+                              شامل الخصومات والإضافات المستحقة
+                            </div>
                           </Col>
                         </Row>
                       </div>
                     </Col>
 
-                    {/* Bonuses Section */}
                     <Col md={6}>
                       <div className="tn-admin-card p-4 h-100">
                         <div className="d-flex justify-content-between mb-3">
@@ -943,7 +1093,6 @@ const DriverDetails = () => {
                       </div>
                     </Col>
 
-                    {/* Taxes Section */}
                     <Col md={6}>
                       <div className="tn-admin-card p-4 h-100">
                         <div className="d-flex justify-content-between mb-3">
@@ -982,18 +1131,121 @@ const DriverDetails = () => {
                             </div>
                           ))}
                         </div>
+                        <div
+                          className="mt-4 pt-3 border-top"
+                          style={{ borderColor: "#e2e8f0" }}
+                        >
+                          <button
+                            type="button"
+                            className="btn btn-outline-danger w-100 py-2.5 d-flex align-items-center justify-content-center gap-2 fw-bold rounded-3 transition-all"
+                            style={{
+                              letterSpacing: "0.3px",
+                              borderWidth: "1.5px",
+                              fontSize: "0.9rem",
+                            }}
+                            onClick={() => setShowTaxModal(true)}
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              strokeWidth="2.5"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M12 4.5v15m7.5-7.5h-15"
+                              />
+                            </svg>
+                            فرض ضريبة / غرامة جديدة
+                          </button>
+                        </div>
+                      </div>
+                    </Col>
+                  </Row>
+                </Tab>
+                <Tab
+                  eventKey="warnings"
+                  title={
+                    <span className="fw-bold d-flex align-items-center">
+                      <FaExclamationTriangle className="me-2" />
+                      الإنذارات
+                    </span>
+                  }
+                >
+                  <Row className="g-4 tn-admin-row mt-2">
+                    <Col md={12}>
+                      <div className="tn-admin-box p-4 h-100 shadow-sm rounded-4 bg-white">
+                        {/* الترويسة */}
+                        <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4 pb-3 border-bottom">
+                          <h5 className="tn-admin-title text-danger mb-0 d-flex align-items-center gap-2">
+                            <FaExclamationCircle />
+                            سجل الإنذارات والمخالفات
+                          </h5>
 
-                        <BlockModal
-                          show={showBlockModal}
-                          onHide={() => setShowBlockModal(false)}
-                          onSubmit={handleBlockSubmit}
-                        />
+                          <div className="d-flex align-items-center gap-3 flex-wrap">
+                            <span className="badge bg-danger-subtle text-danger rounded-pill px-3 py-2 border border-danger-subtle">
+                              إجمالي الإنذارات: {warnings.length}
+                            </span>
 
-                        <UnblockModal
-                          show={showUnblockModal}
-                          onHide={() => setShowUnblockModal(false)}
-                          onConfirm={handleUnblockSubmit}
-                        />
+                            <Button
+                              variant="danger"
+                              className="d-flex align-items-center gap-2 fw-bold rounded-pill px-4 shadow-sm"
+                              onClick={() => setShowWarningModal(true)}
+                            >
+                              <AlertTriangle />
+                              إرسال إنذار جديد
+                            </Button>
+                          </div>
+                        </div>
+
+                        {loadingWarnings ? (
+                          <div className="text-center p-5 text-muted">
+                            <div
+                              className="spinner-border text-danger mb-2"
+                              role="status"
+                            ></div>
+                            <p>جاري تحميل الإنذارات...</p>
+                          </div>
+                        ) : warnings.length > 0 ? (
+                          <div className="warnings-list">
+                            {warnings.map((warning, index) => (
+                              <Alert
+                                key={index}
+                                variant="light"
+                                className="d-flex flex-column flex-lg-row justify-content-lg-between align-items-start gap-2 gap-lg-3 mb-3 rounded-3 border-0 border-start border-danger border-4 shadow-sm"
+                              >
+                                <p className="mb-0 text-dark lh-lg flex-grow-1">
+                                  {warning.warning_text}
+                                </p>
+
+                                <small className="text-muted d-flex align-items-center flex-shrink-0 mt-1 align-self-end align-self-lg-start ">
+                                  <FaRegClock className="me-1" />
+                                  {new Date(
+                                    warning.created_at,
+                                  ).toLocaleDateString("ar-EG", {
+                                    year: "numeric",
+                                    month: "numeric",
+                                    day: "numeric",
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                  })}
+                                </small>
+                              </Alert>
+                            ))}
+                          </div>
+                        ) : (
+                          <div className="text-center text-muted p-5 bg-light rounded-4 border-dashed">
+                            <FaRegCheckCircle className="fs-1 text-success mb-3" />
+                            <h6 className="fw-bold">سجل نظيف!</h6>
+                            <p className="mb-0">
+                              لا يوجد أي إنذارات مسجلة على هذا السائق حتى الآن.
+                            </p>
+                          </div>
+                        )}
                       </div>
                     </Col>
                   </Row>
@@ -1003,6 +1255,42 @@ const DriverDetails = () => {
           </Card>
         </Col>
       </Row>
+      <BlockModal
+        show={showBlockModal}
+        onHide={() => {
+          setShowBlockModal(false);
+        }}
+        userId={user.id}
+        onSuccess={fetchDriverDetails}
+      />
+
+      <UnblockModal
+        show={showUnblockModal}
+        onHide={() => {
+          setShowUnblockModal(false);
+        }}
+        userId={user.id}
+        onSuccess={fetchDriverDetails}
+      />
+      <ActivateModal
+        show={showRenewModal}
+        onHide={() => setShowRenewModal(false)}
+        userId={user.id}
+        onSuccess={fetchDriverDetails}
+      />
+      <TaxModal
+        show={showTaxModal}
+        handleClose={() => setShowTaxModal(false)}
+        driverId={driver.id}
+        onTaxImposed={fetchDriverDetails}
+      />
+      <WarningModal
+        show={showWarningModal}
+        onHide={() => setShowWarningModal(false)}
+        userId={user.id}
+        userName={`${driver.first_name} ${driver.last_name}`}
+        onSuccess={fetchWarnings}
+      />
     </Container>
   );
 };

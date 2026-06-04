@@ -1,5 +1,3 @@
-/* CreateDriverWizard.css */
-
 :root {
   --primary-teal: #26b3c4;
   --accent-orange: #f28c00;
@@ -7,8 +5,11 @@
   --dark-text: #2d3748;
   --light-text: #718096;
   --glass-bg: rgba(255, 255, 255, 0.9);
+  --tn-orange: #ff6b00;
 }
-
+.tn-dd-text-orange {
+  color: var(--tn-orange) !important;
+}
 .wizard-main-container {
   background: linear-gradient(135deg, #f8fafc 0%, #edf2f7 100%);
   min-height: 100vh;
@@ -114,14 +115,14 @@
 }
 
 /* --- Form Controls --- */
-.form-label {
+.df-form-label {
   font-weight: 700;
   color: var(--dark-text);
   font-size: 0.85rem;
   margin-bottom: 8px;
 }
 
-.form-control, .form-select {
+.df-form-control, .df-form-select {
   border: 2px solid #f1f5f9;
   padding: 12px 15px;
   border-radius: 12px;
@@ -129,7 +130,7 @@
   transition: all 0.25s;
 }
 
-.form-control:focus {
+.df-form-control:focus {
   border-color: var(--primary-teal);
   box-shadow: 0 0 0 4px rgba(38, 179, 196, 0.1);
 }
@@ -222,7 +223,6 @@
   background-color: #f0fff4;
 }
 
-/* Ensure the select inside Step 4 doesn't break the layout */
 [dir="rtl"] .doc-card-container select {
   padding-left: 2rem;
   padding-right: 0.75rem;
@@ -231,7 +231,10 @@
   direction: rtl;
   text-align: right;
 }
-
+.alert-edit-mode{
+  direction: rtl;
+  text-align: right !important;
+}
 .year_of_manufacture_input[type="number"] {
   direction: rtl;
   text-align: right;

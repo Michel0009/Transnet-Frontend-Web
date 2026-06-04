@@ -1,9 +1,10 @@
 import React from "react";
 import DriverForm from "../../Components/DriverForm";
-const CreateDriver = () => {
+
+const UpdateDriver = () => {
   return (
       <DriverForm />
   );
 };
 
-export default CreateDriver;
+export default UpdateDriver;
