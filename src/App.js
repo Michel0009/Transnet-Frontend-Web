@@ -11,13 +11,14 @@ import DashboardLayout from "./Layouts/DashboardLayout";
 import Drivers from "./Pages/Drivers/Drivers";
 import VehicleTypeDetails from "./Pages/Vehicles/VehicleTypeDetails";
 import PricingSettings from "./Pages/Pricing/PricingSettings";
-import SubAdminsPage from "./Pages/SubAdmins/SubAdminsPage";
+import ContractTerms from "./Pages/Contracts/ContractTerms";
 
 const Login = lazy(() => import("./Pages/Auth/Login"));
 const EmailVerification = lazy(() => import("./Pages/Auth/EmailVerification"));
 const EmailSending = lazy(() => import("./Pages/Auth/EmailSending"));
 const NotFound = lazy(() => import("./Components/NotFound"));
 const ResetPassword = lazy(() => import("./Pages/Auth/ResetPassword"));
+const SubAdminsPage = lazy(() => import("./Pages/SubAdmins/SubAdminsPage"));
 
 function App() {
   const { loading } = useAuth();
@@ -53,6 +54,7 @@ function App() {
                <Route path="vehicles" element={<VehicleTypeDetails />} />
                <Route path="pricing" element={<PricingSettings />} />
                <Route path="subadmins" element={<SubAdminsPage />} />
+               <Route path="contracts" element={<ContractTerms/>} />
 
               <Route index element={<Navigate to="drivers" replace />} />
             </Route>

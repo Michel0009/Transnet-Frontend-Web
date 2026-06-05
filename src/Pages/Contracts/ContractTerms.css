@@ -1,0 +1,135 @@
+.contract-page {
+  padding: 20px 24px;
+
+  min-height: 100vh;
+
+  background: #f4f7fb;
+}
+
+/* HEADER */
+
+.contract-header {
+  margin-bottom: 20px;
+}
+
+.contract-title {
+  font-size: 22px;
+
+  font-weight: 800;
+
+  color: #0f172a;
+}
+
+.contract-subtitle {
+  font-size: 13px;
+
+  color: #64748b;
+}
+
+/* ADD BUTTON */
+
+.contract-add-btn {
+  border: none !important;
+
+  background: #ff8a00 !important;
+
+  border-radius: 12px !important;
+
+  padding: 9px 16px !important;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+.contract-add-btn:hover {
+  background: #f57c00 !important;
+}
+
+/* MAIN WRAPPER */
+
+.contract-wrapper {
+  border-radius: 20px !important;
+
+  background: #eef2ff !important;
+}
+
+/* TERM ITEM */
+
+.contract-item {
+  border-radius: 16px !important;
+
+  background: #ffffff;
+
+  transition: 0.2s ease;
+}
+
+.contract-item:hover {
+  transform: translateY(-1px);
+}
+
+/* NUMBER */
+
+.contract-number {
+  width: 48px;
+  height: 48px;
+
+  min-width: 48px;
+
+  border-radius: 14px;
+
+  background: #eef2ff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 18px;
+  font-weight: 800;
+
+  color: #2563eb;
+}
+
+/* TEXT */
+
+.contract-text {
+  font-size: 14px;
+
+  font-weight: 700;
+
+  color: #1e293b;
+
+  line-height: 1.9;
+
+  overflow-wrap: break-word;
+}
+
+/* DELETE */
+
+.contract-delete-btn {
+  width: 34px;
+  height: 34px;
+
+  min-width: 34px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background: transparent;
+
+  color: #94a3b8;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: 0.2s ease;
+}
+
+.contract-delete-btn:hover {
+  background: #fef2f2;
+
+  color: #dc2626;
+}

@@ -96,6 +96,12 @@ const Sidebar = () => {
           <span className="tn-nav-text">الموظفين</span>
         </Nav.Link>
 
+        
+        <Nav.Link as={NavLink} to="/dashboard/contracts" className="tn-nav-item">
+          <FontAwesomeIcon icon={faUser} className="tn-icon" />
+          <span className="tn-nav-text">العقود</span>
+        </Nav.Link>
+
         <Nav.Link as={NavLink} to="/dashboard/reports" className="tn-nav-item">
           <FontAwesomeIcon icon={faFileInvoice} className="tn-icon" />
           <span className="tn-nav-text">التقارير</span>
