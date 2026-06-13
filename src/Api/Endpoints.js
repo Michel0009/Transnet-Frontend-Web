@@ -9,23 +9,62 @@ export const endpoints = {
     resetPassword: "/reSetPassword",
   },
   drivers: {
-    get: "/getDrivers",
-    details: "/driverDetails",
+    get: (page = 1) => `/getDrivers?page=${page}`,
+    details: (id) => `/driverDetails/${id}`,
     search: "/searchForDriver",
+    create: "/createDriver",
+    update: (id) => `/editDriver/${id}`,
+    getGovernorates: "/governorates",
+    donwnloadDocumnet: (type, id) => `/downloadDocument/${type}/${id}`,
+    driverImage: (id) => `/driverImage/${id}`,
+    driverShipments: (id, page) => `/shipments/driver/${id}?page=${page}`,
+    activate: (id) => `/activateUser/${id}`,
+    tax: "/tax/driver",
+    blocked: (page = 1) => `/blockedDrivers?page=${page}`,
   },
-  admin: {
-    vehicleTypes: "/vehicleTypes",
-    createVehicleType: "/vehicleType/create",
-    updateVehicleType: "/vehicleType/update",
-
-    gitCoefficients: "/coefficients",
-    createCoefficient: "/coefficient/create",
-    updateCoefficient: "/coefficient/update",
-
-    subAdmins: "/subAdmins",
-    createSubAdmin: "/subAdmin/create",
-    updateSubAdmin: "/subAdmin/update",
+  vehicleTypes: {
+    get: "/vehicleTypes",
+    create: "/vehicleType/create",
+    update: "/vehicleType/update",
+  },
+  coefficients: {
+    get: "/coefficients",
+    create: "/coefficient/create",
+    update: "/coefficient/update",
+  },
+  general: {
     block: "/blockUser",
-    unBlock: (id) => `/unblockUser/${id}`,
+    unblock: (id) => `/unblockUser/${id}`,
+  },
+  reports: {
+    sendWarning: "/sendWarning",
+    sendNotificationAll: "/sendNotificationForAll",
+    getWarnings: (id) => `/warnings/user/${id}`,
+  },
+  clients: {
+    get: (page = 1) => `/users?page=${page}`,
+    search: "/searchForUser",
+    details: (id) => `/userDetails/${id}`,
+    blocked: (page = 1) => `/blockedUsers?page=${page}`,
+  },
+  employees: {
+    blocked: (page = 1) => `/blockedSubAdmins?page=${page}`,
+    get: "/subAdmins",
+    create: "/subAdmin/create",
+    update: "/subAdmin/update",
+  },
+  shipments: {
+    get: (page = 1) => `/shipments?page=${page}`,
+    insured: (page = 1) => `/shipments/insured?page=${page}`,
+    search: (number) => `/shipment/number/${number}`,
+    details: (id) => `/shipment/id/${id}`,
+  },
+    terms: {
+    get: "/contractTerms",
+    create: "/contractTerm/create",
+    delete:(id) => `/contractTerm/${id}`
+  },
+  contracts: {
+    create: "/createDriverContract",
   },
 };

@@ -7,11 +7,7 @@ import LoadingScreen from "./Components/LoadingScreen";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import PublicRoute from "./Components/PublicRoute";
 import TopLoader from "./Components/TopLoader";
-import DashboardLayout from "./Layouts/DashboardLayout";
-import Drivers from "./Pages/Drivers/Drivers";
-import VehicleTypeDetails from "./Pages/Vehicles/VehicleTypeDetails";
-import PricingSettings from "./Pages/Pricing/PricingSettings";
-import ContractTerms from "./Pages/Contracts/ContractTerms";
+
 
 const Login = lazy(() => import("./Pages/Auth/Login"));
 const EmailVerification = lazy(() => import("./Pages/Auth/EmailVerification"));
@@ -19,6 +15,19 @@ const EmailSending = lazy(() => import("./Pages/Auth/EmailSending"));
 const NotFound = lazy(() => import("./Components/NotFound"));
 const ResetPassword = lazy(() => import("./Pages/Auth/ResetPassword"));
 const SubAdminsPage = lazy(() => import("./Pages/SubAdmins/SubAdminsPage"));
+const VehicleTypeDetails = lazy(() => import("./Pages/Vehicles/VehicleTypeDetails"));
+const PricingSettings = lazy(() => import ("./Pages/Pricing/PricingSettings"));
+const ContractTerms = lazy(() => import ("./Pages/Contracts/ContractTerms"));
+const DashboardLayout = lazy(() => import("./Layouts/DashboardLayout"));
+const Drivers = lazy(() => import("./Pages/Drivers/Drivers"));
+const CreateDriver = lazy(() => import("./Pages/Drivers/CreateDriver"));
+const DriverDetails = lazy(() => import("./Pages/Drivers/DriverDetails"));
+const UpdateDriver = lazy(() => import("./Pages/Drivers/UpdateDriver"));
+const Clients = lazy(() => import("./Pages/Clients/Clients"));
+const ClientDetails = lazy(() => import("./Pages/Clients/ClientDetails"));
+const BlockedUsers = lazy(() => import("./Pages/General/BlockedUsers"));
+const Shipments = lazy(() => import("./Pages/Shipments/Shipments"));
+const ShipmentDetails = lazy(() => import("./Pages/Shipments/ShipmentDetails"));
 
 function App() {
   const { loading } = useAuth();
@@ -47,20 +56,32 @@ function App() {
             <Route path="/verify-email" element={<EmailVerification />} />
             <Route path="/reset-password" element={<ResetPassword />} />
           </Route>
-
-          <Route element={<ProtectedRoute />}>
+          <Route element={<ProtectedRoute allowedRoles={["admin"]} />}></Route>
+          <Route
+            element={<ProtectedRoute allowedRoles={["admin", "employee"]} />}
+          >
             <Route path="/dashboard" element={<DashboardLayout />}>
               <Route path="drivers" element={<Drivers />} />
-               <Route path="vehicles" element={<VehicleTypeDetails />} />
-               <Route path="pricing" element={<PricingSettings />} />
-               <Route path="subadmins" element={<SubAdminsPage />} />
-               <Route path="contracts" element={<ContractTerms/>} />
+              <Route path="clients" element={<Clients />} />
+              <Route path="blocked-users" element={<BlockedUsers />} />
+              <Route path="shipments" element={<Shipments />} />
+              <Route path="vehicles" element={<VehicleTypeDetails />} />
+              <Route path="pricing" element={<PricingSettings />} />
+              <Route path="subadmins" element={<SubAdminsPage />} />
+              <Route path="contracts" element={<ContractTerms/>} />
+
 
               <Route index element={<Navigate to="drivers" replace />} />
             </Route>
+            <Route path="drivers/create" element={<CreateDriver />} />
+            <Route path="drivers/edit/:id" element={<UpdateDriver />} />
+            <Route path="drivers/:id" element={<DriverDetails />} />
+            <Route path="clients/:id" element={<ClientDetails />} />
+            <Route path="shipments/:id" element={<ShipmentDetails />} />
           </Route>
 
           <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/not-found" element={<NotFound />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>

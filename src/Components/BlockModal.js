@@ -31,7 +31,7 @@ const BlockModal = ({ show, onHide, userId, onSuccess }) => {
 
     setLoading(true);
     try {
-      const response = await api.post(endpoints.admin.block, {
+      const response = await api.post(endpoints.general.block, {
         id: userId,
         explaination: form.explaination,
         days_number: form.days_number || null,

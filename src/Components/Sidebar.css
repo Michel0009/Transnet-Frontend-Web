@@ -1,28 +1,24 @@
-/* Sidebar.css - High Performance Version */
-
 .tn-sidebar-bs {
   width: 260px;
-  height: 100vh;
+  min-height: 100vh !important;
+  height: 100% !important;
   background-color: #1a2d48;
   color: #8a99af;
   display: flex;
   flex-direction: column;
-  position: sticky;
+  position: relative;
   top: 0;
   z-index: 1000;
   border-left: 1px solid rgba(255, 255, 255, 0.05);
-  /* استخدام cubic-bezier لضمان حركة طبيعية وسلسة جداً */
+  flex-shrink: 0;
   transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  /* السماح للزر بالظهور خارج الحدود دون قطعه */
   overflow: visible;
 }
 
-/* حالة الطي */
 .tn-sidebar-bs.collapsed {
   width: 85px;
 }
 
-/* زر الطي العائم */
 .tn-collapse-btn {
   position: absolute;
   top: 43px;
@@ -39,7 +35,6 @@
   cursor: pointer;
   z-index: 1001;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  /* سيتم تسريع الحركة بواسطة كرت الشاشة GPU */
   will-change: transform;
   transition:
     transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
@@ -51,7 +46,6 @@
   transform: scale(1.1);
 }
 
-/* حركة دوران السهم */
 .tn-collapse-icon {
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -60,7 +54,6 @@
   transform: rotate(180deg);
 }
 
-/* قسم الشعار */
 .tn-brand-section {
   display: flex;
   align-items: center;
@@ -85,13 +78,11 @@
   flex-shrink: 0;
 }
 
-/* نصوص الشعار والقائمة - معالجة الـ Lag */
 .tn-brand-text,
 .tn-nav-text {
   white-space: nowrap;
   opacity: 1;
   transform: translateX(0);
-  /* تجنب استخدام max-width هنا لأنه يسبب ثقل في الـ Rendering */
   transition:
     opacity 0.2s ease,
     transform 0.3s ease;
@@ -120,10 +111,13 @@
   display: block;
 }
 
-/* القائمة */
 .tn-nav-menu {
   padding: 10px 0;
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
 }
 
 .tn-nav-item {
@@ -139,10 +133,12 @@
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .tn-sidebar-bs.collapsed .tn-nav-item {
-  padding: 14px 30px !important; /* لضمان توسط الأيقونة تماماً */
+  padding: 14px 30px !important;
   gap: 0;
 }
 
@@ -151,7 +147,6 @@
   color: #ffffff !important;
 }
 
-/* الحالة النشطة */
 .tn-nav-item.active {
   background: linear-gradient(
     270deg,
@@ -184,4 +179,107 @@
 .tn-sidebar-footer {
   padding: 20px 0;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.tn-mobile-navbar {
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #1a2d48;
+  position: sticky;
+  top: 0;
+  z-index: 1050;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.tn-mobile-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tn-mobile-brand-name {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.tn-mobile-burger {
+  background: transparent;
+  border: none;
+  color: #f28c00;
+  font-size: 1.5rem;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.2s;
+}
+
+.tn-mobile-burger:active {
+  transform: scale(0.9);
+}
+
+@media (max-width: 991px) {
+  .tn-mobile-navbar {
+    display: flex;
+    width: 100%;
+    height: 70px !important;
+    background-color: #1a2d48;
+    position: sticky;
+    top: 0;
+    z-index: 2000;
+    padding: 0 20px;
+  }
+
+  .tn-sidebar-bs {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100% !important;
+    background-color: #1a2d48;
+    z-index: 1950;
+    min-height: auto !important;
+    height: auto !important;
+    overflow: hidden !important;
+    visibility: hidden;
+    opacity: 0;
+    transition:
+      max-height 0.4s ease,
+      opacity 0.3s ease,
+      visibility 0.4s;
+
+    border: none;
+    display: flex;
+    flex-direction: column;
+
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  .tn-sidebar-bs.mobile-dropdown-open {
+    max-height: 600px !important;
+    opacity: 1;
+    visibility: visible;
+    padding-bottom: 20px;
+  }
+
+  .tn-nav-menu {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    flex-grow: 0;
+  }
+
+  .tn-nav-item {
+    width: 100% !important;
+    padding: 15px 25px !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+  }
+  .tn-collapse-btn,
+  .tn-brand-section {
+    display: none !important;
+  }
 }

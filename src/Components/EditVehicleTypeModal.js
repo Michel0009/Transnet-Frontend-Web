@@ -60,10 +60,7 @@ export default function EditVehicleTypeModal({
     const updatedFields = {};
 
     Object.keys(formData).forEach((key) => {
-      if (
-        String(formData[key]) !==
-        String(originalData[key])
-      ) {
+      if (String(formData[key]) !== String(originalData[key])) {
         updatedFields[key] = formData[key];
       }
     });
@@ -80,14 +77,12 @@ export default function EditVehicleTypeModal({
 
     try {
       const response = await api.put(
-        `${endpoints.admin.updateVehicleType}/${vehicle.id}`,
-        updatedFields
+        `${endpoints.vehicleTypes.update}/${vehicle.id}`,
+        updatedFields,
       );
 
       if (response.status === 200) {
-        toast.success(
-          "تم تحديث بيانات المركبة بنجاح"
-        );
+        toast.success("تم تحديث بيانات المركبة بنجاح");
 
         setSelectedVehicle((prev) => ({
           ...prev,
@@ -101,74 +96,34 @@ export default function EditVehicleTypeModal({
     } catch (error) {
       // Validation Errors من Laravel
       if (error.response?.status === 422) {
-        toast.error(handleAxiosError(error));
-
-        const backendErrors =
-          error.response.data.errors;
+        const backendErrors = error.response.data.errors;
 
         setErrors({
-          type:
-            backendErrors?.type?.join("، "),
+          type: backendErrors?.type?.join("، "),
 
-          description:
-            backendErrors?.description?.join(
-              "، "
-            ),
+          description: backendErrors?.description?.join("، "),
 
-          vehicle_coefficient:
-            backendErrors?.vehicle_coefficient?.join(
-              "، "
-            ),
+          vehicle_coefficient: backendErrors?.vehicle_coefficient?.join("، "),
 
-          avg_fuel_consumption:
-            backendErrors?.avg_fuel_consumption?.join(
-              "، "
-            ),
+          avg_fuel_consumption: backendErrors?.avg_fuel_consumption?.join("، "),
 
-          base_fare:
-            backendErrors?.base_fare?.join(
-              "، "
-            ),
+          base_fare: backendErrors?.base_fare?.join("، "),
 
-          min_weight:
-            backendErrors?.min_weight?.join(
-              "، "
-            ),
+          min_weight: backendErrors?.min_weight?.join("، "),
 
-          max_weight:
-            backendErrors?.max_weight?.join(
-              "، "
-            ),
+          max_weight: backendErrors?.max_weight?.join("، "),
 
-          min_length:
-            backendErrors?.min_length?.join(
-              "، "
-            ),
+          min_length: backendErrors?.min_length?.join("، "),
 
-          max_length:
-            backendErrors?.max_length?.join(
-              "، "
-            ),
+          max_length: backendErrors?.max_length?.join("، "),
 
-          min_width:
-            backendErrors?.min_width?.join(
-              "، "
-            ),
+          min_width: backendErrors?.min_width?.join("، "),
 
-          max_width:
-            backendErrors?.max_width?.join(
-              "، "
-            ),
+          max_width: backendErrors?.max_width?.join("، "),
 
-          min_height:
-            backendErrors?.min_height?.join(
-              "، "
-            ),
+          min_height: backendErrors?.min_height?.join("، "),
 
-          max_height:
-            backendErrors?.max_height?.join(
-              "، "
-            ),
+          max_height: backendErrors?.max_height?.join("، "),
         });
 
         return;
@@ -183,80 +138,46 @@ export default function EditVehicleTypeModal({
       <div className="modal-container" dir="rtl">
         <div className="modal-scroll">
           <h3 className="modal-title">
-            <FontAwesomeIcon
-              icon={faWrench}
-              className="modal-tn-icon"
-            />
+            <FontAwesomeIcon icon={faWrench} className="modal-tn-icon" />
             تعديل بيانات مركبة
           </h3>
 
-          <form
-            onSubmit={handleSubmit}
-            className="modal-form"
-          >
+          <form onSubmit={handleSubmit} className="modal-form">
             <div className="form-grid">
               <div className="form-group full">
                 <label>نوع المركبة</label>
 
                 <input
                   type="text"
-                  className={
-                    errors.type
-                      ? "input-error"
-                      : ""
-                  }
+                  className={errors.type ? "input-error" : ""}
                   value={formData.type || ""}
                   onChange={(e) =>
-                    handleChange(
-                      "type",
-                      stripHtml(e.target.value)
-                    )
+                    handleChange("type", stripHtml(e.target.value))
                   }
                 />
 
-                {errors.type && (
-                  <p className="error-text">
-                    {errors.type}
-                  </p>
-                )}
+                {errors.type && <p className="error-text">{errors.type}</p>}
               </div>
 
               <div className="form-group full">
                 <label>الوصف</label>
 
                 <textarea
-                  className={
-                    errors.description
-                      ? "input-error"
-                      : ""
-                  }
-                  value={
-                    formData.description || ""
-                  }
+                  className={errors.description ? "input-error" : ""}
+                  value={formData.description || ""}
                   onChange={(e) =>
-                    handleChange(
-                      "description",
-                      stripHtml(e.target.value)
-                    )
+                    handleChange("description", stripHtml(e.target.value))
                   }
                 />
 
                 {errors.description && (
-                  <p className="error-text">
-                    {errors.description}
-                  </p>
+                  <p className="error-text">{errors.description}</p>
                 )}
               </div>
 
               {[
-                [
-                  "vehicle_coefficient",
-                  "معامل المركبة",
-                ],
-                [
-                  "avg_fuel_consumption",
-                  "متوسط استهلاك الوقود",
-                ],
+                ["vehicle_coefficient", "معامل المركبة"],
+                ["avg_fuel_consumption", "متوسط استهلاك الوقود"],
                 ["base_fare", "الأجرة الأساسية"],
                 ["min_weight", "الوزن الأدنى"],
                 ["max_weight", "الوزن الأقصى"],
@@ -267,56 +188,31 @@ export default function EditVehicleTypeModal({
                 ["min_height", "الارتفاع الأدنى"],
                 ["max_height", "الارتفاع الأقصى"],
               ].map(([field, label], index) => (
-                <div
-                  className="form-group"
-                  key={index}
-                >
+                <div className="form-group" key={index}>
                   <label>{label}</label>
 
                   <input
                     type="number"
                     step="0.01"
-                    className={
-                      errors[field]
-                        ? "input-error"
-                        : ""
-                    }
-                    value={
-                      formData[field] || ""
-                    }
-                    onChange={(e) =>
-                      handleChange(
-                        field,
-                        e.target.value
-                      )
-                    }
-                    onWheel={(e) =>
-                      e.target.blur()
-                    }
+                    className={errors[field] ? "input-error" : ""}
+                    value={formData[field] || ""}
+                    onChange={(e) => handleChange(field, e.target.value)}
+                    onWheel={(e) => e.target.blur()}
                   />
 
                   {errors[field] && (
-                    <p className="error-text">
-                      {errors[field]}
-                    </p>
+                    <p className="error-text">{errors[field]}</p>
                   )}
                 </div>
               ))}
             </div>
 
             <div className="modal-actions">
-              <button
-                type="submit"
-                className="btn-save"
-              >
+              <button type="submit" className="btn-save">
                 حفظ
               </button>
 
-              <button
-                type="button"
-                className="btn-cancel"
-                onClick={onClose}
-              >
+              <button type="button" className="btn-cancel" onClick={onClose}>
                 إلغاء
               </button>
             </div>

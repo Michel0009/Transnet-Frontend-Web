@@ -1,0 +1,29 @@
+.tn-dashboard-layout {
+  display: flex;
+  width: 100%;
+  height: 100vh; 
+  overflow: hidden; 
+  align-items: stretch;
+}
+
+.tn-dashboard-content {
+  flex-grow: 1;
+  background-color: #f4f7fe;
+  min-width: 0;
+  overflow-y: auto; 
+  height: 100%;
+}
+
+@media (max-width: 991px) {
+  .tn-dashboard-layout {
+    flex-direction: column;
+    height: auto;
+    overflow: visible;
+  }
+
+  .tn-dashboard-content {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+}

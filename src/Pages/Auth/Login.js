@@ -9,7 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { handleAxiosError } from "../../Utils/ErrorHandler";
 const Login = () => {
-  const { setAccessToken } = useAuth();
+  const { setAccessToken, setRole } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -64,8 +64,10 @@ const Login = () => {
         }
       } else {
         toast.success("تم تسجيل الدخول بنجاح");
-
+        const userRole = response.data.role;
         setAccessToken(response.data.token);
+        setRole(userRole);
+
         navigate("/dashboard/drivers", { replace: true });
       }
     } catch (err) {

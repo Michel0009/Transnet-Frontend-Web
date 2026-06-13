@@ -23,7 +23,6 @@ function onRefreshed(token) {
 }
 
 export const refreshTokenApi = async () => {
-
   if (isRefreshing) {
     return new Promise((resolve) => {
       subscribeTokenRefresh((token) => resolve(token));
@@ -53,9 +52,11 @@ export const refreshTokenApi = async () => {
   }
 };
 
-
 export const setupInterceptors = (accessToken, setAccessToken, logout) => {
   const requestInterceptor = api.interceptors.request.use((config) => {
+    if (config._retry) {
+      return config;
+    }
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
@@ -68,7 +69,14 @@ export const setupInterceptors = (accessToken, setAccessToken, logout) => {
       const originalRequest = error.config;
       const status = error.response?.status;
       const message = error.response?.data?.message;
-
+      if (
+        status === 401 &&
+        (message === "البريد الإلكتروني غير صحيح، يرجى المحاولة مرة أخرى" ||
+          message ===
+            "الرجاء تغيير كلمة المرور لكي تكون مختلفة عن كلمة المرور القديمة")
+      ) {
+        return Promise.reject(error);
+      }
       if (status === 403 && (message === "frozen" || message === "banned")) {
         logout();
         return Promise.reject(error);

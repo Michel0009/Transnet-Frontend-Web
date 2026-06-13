@@ -1,0 +1,129 @@
+.tn-b-page {
+  background-color: #f4f7f9;
+  min-height: 100vh;
+}
+.tn-b-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(30, 41, 59, 0.04);
+}
+.tn-b-text-navy {
+  color: #1a2d48 !important;
+}
+.tn-b-text-slate {
+  color: #64748b !important;
+}
+.tn-b-bg-brand {
+  background-color: #ff6b00 !important;
+  color: #ffffff !important;
+}
+
+.tn-b-tabs .nav-link {
+  color: #64748b;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 0.6rem 1.5rem;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+.tn-b-tabs .nav-link:hover {
+  background-color: #f4f7f9;
+  color: #1e293b;
+}
+.tn-b-tabs .nav-link.active {
+  background-color: #1a2d48;
+  color: #ffffff;
+  box-shadow: 0 4px 6px -1px rgba(26, 45, 72, 0.2);
+}
+
+.tn-b-table {
+  margin-bottom: 0;
+}
+.tn-b-table th {
+  background-color: #f4f7f9;
+  color: #1e293b;
+  font-weight: 700;
+  border-bottom: 2px solid #e2e8f0;
+  border-top: none;
+  padding: 1.2rem 1rem;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+.tn-b-table td {
+  color: #64748b;
+  vertical-align: middle;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 1rem;
+  font-size: 0.95rem;
+}
+.tn-b-table tr:hover td {
+  background-color: #f4f7f9;
+}
+
+.tn-b-badge-perm {
+  background-color: #e2e8f0!important;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+  font-weight: 600;
+  padding: 0.4rem 0.8rem;
+}
+.tn-b-badge-temp {
+  background-color: #e0f2fe!important;
+  color: #0284c7;
+  border: 1px solid #bae6fd;
+  font-weight: 600;
+  font-size: small;
+  padding: 0.4rem 0.8rem;
+  font-family: sans-serif;
+}
+
+.tn-b-explain-text {
+  max-width: 180px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  cursor: help;
+}
+.tn-b-btn-unblock {
+  color: #10b981; 
+  background: transparent;
+  border: 1px solid #10b981;
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+  transition: all 0.2s ease-in-out;
+}
+
+.tn-b-btn-unblock:hover {
+  background-color: #10b981;
+  color: #ffffff;
+  border-color: #10b981;
+}
+
+/* Pagination Styling */
+.tn-b-pagination .page-link {
+  color: #64748b; /* Slate text */
+  border-color: #e2e8f0;
+  margin: 0 2px;
+  border-radius: 6px;
+}
+
+.tn-b-pagination .page-link:hover {
+  background-color: #f1f5f9;
+  color: #1e293b;
+}
+
+.tn-b-pagination .page-item.active .page-link {
+  background-color: #1e293b !important; 
+  border-color: #1e293b !important;
+  color: #ffffff !important;
+}
+
+.tn-b-pagination .page-item.disabled .page-link {
+  color: #cbd5e1;
+  background-color: #f8fafc;
+  border-color: #e2e8f0;
+}
+

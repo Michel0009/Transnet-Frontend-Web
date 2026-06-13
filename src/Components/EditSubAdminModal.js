@@ -88,7 +88,7 @@ const EditAdminModal = ({
     try {
 
       const response = await api.put(
-        `${endpoints.admin.updateSubAdmin}/${adminData.id}`,
+        `${endpoints.employees.update}/${adminData.id}`,
         updatedFields
       );
 

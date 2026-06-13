@@ -1,61 +1,76 @@
 import React from "react";
-import "./DriverSkeletonLoading.css"; 
+import "./DriverSkeletonLoading.css";
 
 const DriverSkeleton = () => {
   return (
     <>
       {[1, 2, 3, 4, 5].map((i) => (
-        <tr key={i}>
+        <tr key={i} className="align-middle">
+      
           <td>
-            <div className="d-flex align-items-center gap-3">
+            <div className="d-flex justify-content-center align-items-center gap-3">
               <div
                 className="tn-skeleton-item"
-                style={{ width: "45px", height: "45px", borderRadius: "50%" }}
-              ></div>
-              <div
-                className="tn-skeleton-item"
-                style={{ width: "100px", height: "15px" }}
+                style={{ width: "120px", height: "18px", borderRadius: "4px" }}
               ></div>
             </div>
           </td>
           <td>
             <div
-              className="tn-skeleton-item"
-              style={{ width: "80px", height: "15px" }}
+              className="tn-skeleton-item mx-auto"
+              style={{ width: "80px", height: "15px", borderRadius: "4px" }}
+            ></div>
+          </td>
+          <td>
+            <div className="d-flex flex-column align-items-center justify-content-center">
+              <div
+                className="tn-skeleton-item mb-2"
+                style={{ width: "100px", height: "12px", borderRadius: "4px" }}
+              ></div>
+              <div
+                className="tn-skeleton-item"
+                style={{ width: "130px", height: "12px", borderRadius: "4px" }}
+              ></div>
+            </div>
+          </td>
+          <td>
+            <div
+              className="tn-skeleton-item mx-auto"
+              style={{ width: "60px", height: "15px", borderRadius: "4px" }}
+            ></div>
+          </td>
+          <td>
+            <div className="d-flex justify-content-center align-items-center gap-2">
+              <div
+                className="tn-skeleton-item"
+                style={{ width: "15px", height: "15px", borderRadius: "2px" }}
+              ></div>
+              <div
+                className="tn-skeleton-item"
+                style={{ width: "25px", height: "15px", borderRadius: "4px" }}
+              ></div>
+            </div>
+          </td>
+          <td>
+            <div
+              className="tn-skeleton-item mx-auto"
+              style={{ width: "65px", height: "24px", borderRadius: "20px" }}
             ></div>
           </td>
           <td>
             <div
-              className="tn-skeleton-item mb-2"
-              style={{ width: "120px", height: "12px" }}
-            ></div>
-            <div
-              className="tn-skeleton-item"
-              style={{ width: "90px", height: "12px" }}
+              className="tn-skeleton-item mx-auto"
+              style={{ width: "85px", height: "24px", borderRadius: "20px" }}
             ></div>
           </td>
           <td>
             <div
-              className="tn-skeleton-item"
-              style={{ width: "40px", height: "15px" }}
-            ></div>
-          </td>
-          <td>
-            <div
-              className="tn-skeleton-item"
-              style={{ width: "30px", height: "15px" }}
-            ></div>
-          </td>
-          <td>
-            <div
-              className="tn-skeleton-item"
-              style={{ width: "70px", height: "25px", borderRadius: "20px" }}
-            ></div>
-          </td>
-          <td className="text-center">
-            <div
-              className="tn-skeleton-item"
-              style={{ width: "5px", height: "18px", margin: "auto" }}
+              className="tn-skeleton-item mx-auto"
+              style={{
+                width: "4px",
+                height: "18px",
+                borderRadius: "2px",
+              }}
             ></div>
           </td>
         </tr>

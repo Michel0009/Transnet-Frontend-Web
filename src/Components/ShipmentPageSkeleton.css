@@ -1,0 +1,61 @@
+
+.tn-s-sk-padding {
+  padding: 1rem 0.8rem !important;
+  vertical-align: middle;
+}
+
+.tn-s-shimmer {
+  background: linear-gradient(
+    90deg,
+    #e2e8f0 25%,
+    #f1f5f9 50%,
+    #e2e8f0 75%
+  );
+  background-size: 200% 100%;
+  animation: tn-s-shimmer-loop 1.5s infinite linear;
+}
+
+@keyframes tn-s-shimmer-loop {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.tn-s-sk-line {
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.tn-s-sk-square {
+  display: inline-block;
+}
+
+.tn-s-sk-box {
+  width: 36px;
+  height: 1.35rem;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.tn-s-sk-pill {
+  height: 1.6rem;
+  border-radius: 30px;
+  display: inline-block;
+}
+
+.tn-s-sk-sep {
+  color: var(--text-muted);
+  opacity: 0.25;
+  font-size: 0.72rem;
+  font-weight: bold;
+}
+
+.tn-s-sk-unit {
+  color: #94a3b8;
+  font-size: 0.7rem;
+  font-weight: 500;
+  opacity: 0.6;
+}

@@ -44,8 +44,9 @@
 
 .subadmins-table {
   margin-bottom: 0;
-    overflow-x: auto;
-  overflow-y: visible;
+  width: 100%;
+  min-width: 620px;
+  table-layout: fixed;
 }
 
 .subadmins-table thead th {
@@ -99,19 +100,9 @@
   color: #12b886;
 }
 
-.status-pill.frozen {
-  background-color: #e7f5ff;
-  color: #1c7ed6;
-}
-
 .status-pill.blocked {
   background-color: #fff5f5;
   color: #fa5252;
-}
-
-.status-pill.must-pay {
-  background-color: #fff4e6;
-  color: #f08c00;
 }
 
 .action-btn {

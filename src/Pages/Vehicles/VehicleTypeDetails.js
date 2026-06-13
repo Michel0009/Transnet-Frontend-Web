@@ -3,8 +3,7 @@ import api from "../../Api/Api";
 import { endpoints } from "../../Api/Endpoints";
 import { toast } from "react-toastify";
 import { handleAxiosError } from "../../Utils/ErrorHandler";
-
-import LoadingScreen from "../../Components/LoadingScreen";
+import { Spinner } from "react-bootstrap";
 import AddVehicleTypeModal from "../../Components/AddVehicleTypeModal";
 import EditVehicleTypeModal from "../../Components/EditVehicleTypeModal";
 
@@ -34,7 +33,7 @@ export default function VehicleTypeDetails() {
     setLoading(true);
 
     try {
-      const response = await api.get(endpoints.admin.vehicleTypes);
+      const response = await api.get(endpoints.vehicleTypes.get);
 
       setVehicles(response.data);
     } catch (error) {
@@ -48,9 +47,16 @@ export default function VehicleTypeDetails() {
     fetchVehicles();
   }, []);
 
-  if (loading) {
-    return <LoadingScreen />;
-  }
+  if (loading) return (
+      <div className="d-flex flex-column justify-content-center align-items-center vh-100">
+        <Spinner animation="grow" className="tn-dd-text-orange" />
+
+        <span className="mt-3 text-muted fw-semibold">
+          جاري تحميل البيانات...
+        </span>
+      </div>
+    );
+
 
   return (
     <div className="vehicle-page" dir="rtl">
@@ -251,7 +257,7 @@ export default function VehicleTypeDetails() {
           className="btn-add"
           onClick={() => setShowAddForm(true)}
         >
-          + إضافة مركبة
+          إضافة مركبة +
         </button>
       </div>
 
