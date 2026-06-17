@@ -67,4 +67,10 @@ export const endpoints = {
   contracts: {
     create: "/createDriverContract",
   },
+  statistics:{
+    getStatistics: "/statistics",
+    getGeneralStatistics: "/generalStatistics",
+    exportStatisticsPDF: "/exportStatisticsPdf",
+
+  }
 };

@@ -28,6 +28,7 @@ const ClientDetails = lazy(() => import("./Pages/Clients/ClientDetails"));
 const BlockedUsers = lazy(() => import("./Pages/General/BlockedUsers"));
 const Shipments = lazy(() => import("./Pages/Shipments/Shipments"));
 const ShipmentDetails = lazy(() => import("./Pages/Shipments/ShipmentDetails"));
+const StatisticsPage = lazy(() => import("./Pages/Statistics/StatisticsPage"));
 
 function App() {
   const { loading } = useAuth();
@@ -69,6 +70,7 @@ function App() {
               <Route path="pricing" element={<PricingSettings />} />
               <Route path="subadmins" element={<SubAdminsPage />} />
               <Route path="contracts" element={<ContractTerms/>} />
+              <Route path="statistics" element={<StatisticsPage/>} />
 
 
               <Route index element={<Navigate to="drivers" replace />} />

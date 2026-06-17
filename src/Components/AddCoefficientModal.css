@@ -61,7 +61,7 @@
 }
 
 .btn-cancel {
-  background: var(--primary);
+  background: #0D7FF2;
   color: white;
   padding: 8px 16px;
   border-radius: 6px;
@@ -69,7 +69,7 @@
 }
 
 .btn-add {
-  background: var(--secondary);
+  background: #F28B0D;
   color: white;
   padding: 8px 16px;
   border-radius: 6px;

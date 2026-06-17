@@ -1,0 +1,437 @@
+/* استخدام المتغيرات المركزية المتوافقة مع لوحة TransNet الإدارية */
+:root {
+  --primary-orange: #ff6b00;
+  --dark-orange: #e65c00;
+  --bg-light: #f4f7f9;
+  --white: #ffffff;
+  --text-dark: #1e293b;
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+}
+
+.tn-s-admin-page-container {
+  padding: 2.5rem 1rem; 
+  min-height: 100vh;
+  background-color: var(--bg-light);
+  font-family: "Tajawal", "Cairo", system-ui, sans-serif;
+  color: var(--text-dark);
+}
+
+.tn-s-page-icon-wrapper {
+  background-color: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(30, 41, 59, 0.05);
+}
+
+.tn-s-page-icon {
+  color: var(--primary-orange);
+  font-size: 1.6rem;
+}
+
+.tn-s-admin-page-title {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 0.25rem;
+  letter-spacing: -0.5px;
+}
+
+.tn-s-admin-page-subtitle {
+  font-size: 0.925rem;
+  color: var(--text-muted);
+  margin-bottom: 0;
+}
+
+/* زر تصدير الـ PDF المتناسق مع لوحة البحث والتصميم المشرق */
+.tn-s-export-pdf-btn {
+  background: linear-gradient(135deg, #ff9233 0%, #f08c00 100%) !important;
+  border: none !important;
+  border-radius: 12px !important;
+  padding: 0.7rem 1.8rem !important;
+  font-weight: 700 !important;
+  font-size: 0.95rem !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff !important;
+  box-shadow: 0 6px 16px rgba(240, 140, 0, 0.25);
+  transition: transform 0.15s ease, opacity 0.15s ease !important;
+}
+
+.tn-s-export-pdf-btn:hover {
+  transform: scale(1.02);
+  opacity: 0.95;
+}
+
+.tn-s-export-pdf-btn:active {
+  transform: scale(0.98);
+}
+
+/* أسلوب تصميم حقل اختيار الفلترة الزمني */
+.tn-s-filter-select-wrapper {
+  max-width: 180px;
+  width: 100%;
+}
+
+.tn-s-filter-select {
+  border: 1px solid var(--border-color) !important;
+  background-color: var(--white) !important;
+  color: var(--text-dark) !important;
+  border-radius: 12px !important;
+  padding: 0.65rem 2.5rem 0.65rem 1rem !important; /* لضمان أبعاد متناسقة للـ RTL */
+  font-size: 0.9rem !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03) !important;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  cursor: pointer;
+}
+
+.tn-s-filter-select:focus {
+  border-color: var(--primary-orange) !important;
+  box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.15) !important;
+}
+
+/* تنسيق شريط اختيار الفلترة السريعة */
+.tn-s-filter-select-wrapper {
+  max-width: 160px;
+  width: 100%;
+}
+
+.tn-s-filter-select {
+  border: 1px solid var(--border-color) !important;
+  background-color: var(--white) !important;
+  color: var(--text-dark) !important;
+  border-radius: 12px !important;
+  padding: 0.6rem 2.2rem 0.6rem 1rem !important; /* ليتوافق مع الـ RTL والـ Arrow */
+  font-size: 0.88rem !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02) !important;
+  transition: all 0.25s ease !important;
+  cursor: pointer;
+}
+
+.tn-s-filter-select:focus {
+  border-color: var(--primary-orange) !important;
+  box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.12) !important;
+}
+
+/* كبسولة اختيار مدى التواريخ المخصصة */
+.tn-s-date-range-picker {
+  display: flex;
+  align-items: center;
+  background-color: var(--white);
+  border: 1px solid var(--border-color);
+  padding: 4px 12px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+  gap: 12px;
+  Padding-left: 6px !important;
+}
+
+.tn-s-date-input-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tn-s-date-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.tn-s-date-control {
+  border: none !important;
+  background: transparent !important;
+  color: var(--text-dark) !important;
+  font-size: 0.85rem !important;
+  font-weight: 700 !important;
+  padding: 0.35rem 0.2rem !important;
+  box-shadow: none !important;
+  cursor: pointer;
+  outline: none;
+}
+
+/* الفاصل الخطي بين تاريخ من وإلى */
+.tn-s-date-separator {
+  width: 1px;
+  height: 18px;
+  background-color: var(--border-color);
+  margin: 0 4px;
+}
+
+/* 2. ستايل زر التطبيق المدمج المطابق لزر تصدير PDF */
+.tn-s-apply-filter-btn {
+    background-color: #0D7FF2 !important;
+    border: none !important;
+    color: #ffffff !important;
+    font-family: "Tajawal", "Cairo", system-ui, sans-serif;
+    
+    /* مطابقة خصائص الخط مع زر تصدير PDF */
+    font-weight: 700 !important;
+    font-size: 0.95rem !important; 
+    
+    /* أبعاد متناسبة ومريحة للضغط داخل الكبسولة */
+    padding: 0.5rem 1.4rem !important;
+    border-radius: 10px !important; /* زوايا منحنية ناعمة قريبة من زر الـ PDF وحجم الكبسولة */
+    
+    transition: all 0.2s ease-in-out !important;
+    cursor: pointer;
+}
+
+/* 3. تأثير التمرير (Hover) المناسب للدرجة الجديدة */
+.tn-s-apply-filter-btn:hover {
+    background-color: #0066cc !important; /* درجة أزرق أعمق وأكثر حيوية عند التمرير */
+    transform: scale(1.02); /* حركة تفاعلية ناعمة مثل زر الـ PDF */
+}
+
+/* 4. عند الضغط الفعلي على الزر (Active) */
+.tn-s-apply-filter-btn:active {
+    transform: scale(0.98);
+}
+
+/* 5. عند تعطيل الزر أثناء تحميل البيانات */
+.tn-s-apply-filter-btn:disabled {
+    background-color: #94a3b8 !important;
+    transform: none !important;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* توافق الشاشات الصغيرة لتوزيع الأدوات بشكل عمودي أنيق */
+@media (max-width: 768px) {
+  .tn-s-filter-select-wrapper {
+    max-width: 100%;
+  }
+  .tn-s-date-range-picker {
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+    padding: 10px;
+  }
+  .tn-s-date-separator {
+    display: none;
+  }
+  .tn-s-date-input-group {
+    justify-content: space-between;
+  }
+}
+
+/* إجبار حقل التاريخ على عرض صيغة: الشهر ثم اليوم ثم السنة داخلياً */
+.tn-s-date-control.tn-s-mm-dd-yyyy {
+  border: none !important;
+  background: transparent !important;
+  color: var(--text-dark) !important;
+  font-size: 0.85rem !important;
+  font-weight: 700 !important;
+  padding: 0.35rem 0.2rem !important;
+  box-shadow: none !important;
+  cursor: pointer;
+  outline: none;
+  text-align: right;
+}
+
+/* ضبط اتجاه العناصر الداخلية للـ Input لتبقى ثابتة (شهر/يوم/سنة) */
+.tn-s-date-control.tn-s-mm-dd-yyyy::-webkit-datetime-edit-fields-wrapper {
+  direction: ltr; 
+}
+
+.tn-s-filter-select-wrapper {
+  max-width: 150px;
+  width: 100%;
+}
+
+/* كروت الـ KPI الذكية */
+.tn-s-kpi-card {
+  background-color: var(--white);
+  border-radius: 18px !important;
+  box-shadow: 0 8px 24px rgba(30, 41, 59, 0.03) !important;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  border: 1px solid rgba(226, 232, 240, 0.5) !important;
+}
+
+.tn-s-kpi-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(30, 41, 59, 0.06) !important;
+}
+
+.tn-s-kpi-title {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.tn-s-kpi-value {
+  color: var(--text-dark);
+  font-weight: 800;
+  font-size: 1.85rem;
+  letter-spacing: -1px;
+}
+
+.tn-s-kpi-icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+/* التدرجات اللونية المتناسقة لخلفيات الأيقونات */
+.tn-s-orange-gradient-bg {
+  background: linear-gradient(135deg, rgba(255,107,0,0.1) 0%, rgba(230,92,0,0.15) 100%);
+  color: var(--primary-orange);
+}
+
+.tn-s-green-gradient-bg {
+  background: linear-gradient(135deg, rgba(12, 166, 120, 0.1) 0%, rgba(9, 132, 96, 0.15) 100%);
+  color: #0ca678;
+}
+
+.tn-s-blue-gradient-bg {
+  background: linear-gradient(135deg, rgba(28, 126, 214, 0.1) 0%, rgba(26, 106, 179, 0.15) 100%);
+  color: #1c7ed6;
+}
+
+.tn-s-slate-gradient-bg {
+  background: linear-gradient(135deg, rgba(100, 116, 139, 0.1) 0%, rgba(71, 85, 105, 0.15) 100%);
+  color: var(--text-muted);
+}
+
+.tn-s-currency-label {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* لوحات الرسوم البيانية الدائرية والأعمدة */
+.tn-s-admin-card {
+  background: var(--white);
+  border-radius: 20px !important;
+  box-shadow: 0 12px 36px rgba(30, 41, 59, 0.03) !important;
+  border: 1px solid rgba(226, 232, 240, 0.7) !important;
+  overflow: hidden;
+}
+
+.tn-s-chart-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.tn-s-chart-wrapper-pie {
+  position: relative;
+  height: 240px;
+  width: 100%;
+}
+
+.tn-s-chart-wrapper-bar {
+  position: relative;
+  height: 310px;
+  width: 100%;
+}
+
+/* تفاصيل أعداد المستخدمين الحقيقية لبطاقة الـ Pie Chart */
+.tn-s-real-counts-container {
+  border-color: var(--border-color) !important;
+}
+
+.tn-s-count-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.tn-s-count-val {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+/* حالة الانتظار (Placeholder) الحركية للأرباح */
+.tn-s-placeholder-icon-box {
+  color: var(--primary-orange);
+  font-size: 2.8rem;
+  opacity: 0.6;
+}
+
+.tn-s-clock-pulse {
+  animation: tn-s-pulse 2s infinite ease-in-out;
+}
+
+@keyframes tn-s-pulse {
+  0% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.1); opacity: 0.9; }
+  100% { transform: scale(1); opacity: 0.6; }
+}
+
+/* نمط الشحن الدوار المركزي */
+.tn-s-loading-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+}
+
+.tn-s-admin-spinner {
+  color: var(--primary-orange);
+  width: 3rem;
+  height: 3rem;
+}
+
+.tn-s-filter-select[multiple] {
+    overflow-y: auto;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    font-family: "Tajawal", sans-serif;
+    font-size: 13px;
+    background-image: none; /* إزالة سهم المنسدلة التقليدي لأنه اختيار متعدد */
+}
+
+.tn-s-filter-select[multiple] option {
+    padding: 6px 10px;
+    border-radius: 4px;
+    margin-bottom: 2px;
+}
+
+.tn-s-filter-select[multiple] option:checked {
+    background-color: #ff8c00 !important; /* مطابقة اللون البرتقالي للهوية الخاصة بك */
+    color: white;
+}
+
+/* 1. الحالة الافتراضية للزر (إلغاء الخلفية الرمادية تماماً) */
+.dropdown .btn-outline-secondary,
+#governoratesDropdown {
+    color: #475569 !important;
+    background-color: #ffffff !important;
+    border-color: #cbd5e1 !important;
+    font-weight: 600;
+}
+
+/* 2. عند تمرير الفأرة (Hover) فوق الزر */
+.dropdown .btn-outline-secondary:hover,
+#governoratesDropdown:hover {
+    color: #ffffff !important;
+    background-color: #ff8c00 !important; /* لون كحلي داكن متناسق مع السايد بار */
+    border-color: #ff8c00 !important;
+}
+
+/* 3. عند الضغط على الزر وظهور القائمة المنسدلة (Active / Focus) */
+.dropdown .btn-outline-secondary:focus,
+.dropdown .btn-outline-secondary:active,
+.show > .btn-outline-secondary.dropdown-toggle,
+#governoratesDropdown:focus,
+.show > #governoratesDropdown {
+    color: #ffffff !important;
+    background-color: #ff8c00 !important; /* درجة أغمق بقليل عند فتح القائمة ليعطي إحساس بالعمق */
+    border-color: #ff8c00 !important;
+    box-shadow: 0 6px 16px rgba(240, 140, 0, 0.25) !important; /* هالة مضيئة ناعمة */
+}
