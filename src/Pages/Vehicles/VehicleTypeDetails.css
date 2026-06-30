@@ -146,3 +146,7 @@
   background-color: #0B6ACC;
   transform: translateY(-2px);
 }
+
+.tn-load-orange {
+  color: #f28c00  !important;
+}

@@ -70,10 +70,43 @@ const Statistics = () => {
       if (selectedGovernorates.length > 0) {
         payload.governorate_ids = selectedGovernorates;
       }
+      setGeneralStats({
+        shipments_count_today: 187,
+        this_month_earnings: 8750000,
+        clients_count: 342,
+        drivers_count: 96,
 
+        user_statistics: {
+          clients_count: 342,
+          clients_percentage: 63,
+
+          drivers_count: 96,
+          drivers_percentage: 18,
+
+          frozen_drivers_count: 34,
+          frozen_drivers_percentage: 6,
+
+          blocked_clients_count: 41,
+          blocked_clients_percentage: 8,
+
+          blocked_drivers_count: 28,
+          blocked_drivers_percentage: 5,
+        },
+      });
+
+      setShipmentStats([
+        { name: "دمشق", shipments_count: 210 },
+        { name: "ريف دمشق", shipments_count: 185 },
+        { name: "حلب", shipments_count: 170 },
+        { name: "حمص", shipments_count: 95 },
+        { name: "حماة", shipments_count: 80 },
+        { name: "اللاذقية", shipments_count: 75 },
+        { name: "طرطوس", shipments_count: 52 },
+        { name: "درعا", shipments_count: 45 },
+      ]);
       const [generalRes, shipmentRes] = await Promise.all([
-        api.get(endpoints.statistics.getGeneralStatistics),
-        api.post(endpoints.statistics.getStatistics, payload),
+      api.get(endpoints.statistics.getGeneralStatistics),
+      api.post(endpoints.statistics.getStatistics, payload),
       ]);
 
       setGeneralStats(generalRes.data);
@@ -126,7 +159,8 @@ const Statistics = () => {
       document.body.removeChild(link);
 
       toast.success("تم تصدير تقرير الإحصائيات بنجاح.");
-    } catch (error) {if (error?.response?.status === 422) {
+    } catch (error) {
+      if (error?.response?.status === 422) {
         const validationErrors = error.response.data?.errors;
         if (validationErrors?.filter_date)
           toast.error(validationErrors.filter_date[0]);
@@ -135,25 +169,23 @@ const Statistics = () => {
         if (validationErrors?.end_date)
           toast.error(validationErrors.end_date[0]);
       } else {
-        toast.error(
-          handleAxiosError(error),
-        );
+        toast.error(handleAxiosError(error));
       }
     } finally {
       setExporting(false);
     }
   };
 
-  if (loading) {
-    return (
-      <div className="tn-s-loading-center">
-        <Spinner animation="border" className="tn-s-admin-spinner" />
-        <h5 className="mt-3 fw-bold text-muted">
-          جاري تحليل وهيكلة الإحصائيات...
-        </h5>
-      </div>
-    );
-  }
+if (loading) {
+  return (
+    <div className="d-flex flex-column justify-content-center align-items-center vh-100">
+      <Spinner animation="grow" className="tn-load-orange" /> 
+      <span className="mt-3 text-muted fw-semibold">
+        جاري تحميل الإحصائيات...
+      </span>
+    </div>
+  );
+}
 
   // إعداد بيانات ومخطط Pie Chart لـ حالة المستخدمين
   const userStats = generalStats?.user_statistics || {};
@@ -175,11 +207,11 @@ const Statistics = () => {
           userStats.blocked_drivers_percentage || 0,
         ],
         backgroundColor: [
-          "#0ca678",
-          "#1c7ed6",
-          "#f08c00",
+          "#0D7FF2", 
+          "#F28B0D", 
+          "#ffb04d", 
           "#64748b",
-          "#e03131",
+          "#475569", 
         ],
         borderWidth: 2,
         borderColor: "#ffffff",
@@ -217,7 +249,7 @@ const Statistics = () => {
         label: "عدد الشحنات",
         data: shipmentStats.map((item) => item.shipments_count),
         backgroundColor: "#ff8c00",
-        borderRadius: 8,
+        borderRadius: 0,
       },
     ],
   };
@@ -413,43 +445,48 @@ const Statistics = () => {
       <Row className="g-4 mb-5">
         {/* كارد حالة المستخدمين */}
         <Col xs={12} lg={6}>
-          <Card className="tn-s-admin-card border-0 p-4">
-            <h5 className="tn-s-chart-title mb-4">حالة المستخدمين</h5>
-            <div className="tn-s-chart-wrapper-pie">
-              <Pie data={pieChartData} options={pieChartOptions} />
-            </div>
-            <div className="tn-s-real-counts-container mt-4 pt-3 border-top">
-              <Row className="g-2 text-center">
-                <Col xs={4}>
-                  <div className="tn-s-count-label">العملاء</div>
-                  <div className="tn-s-count-val text-success">
-                    {userStats.clients_count || 0}
-                  </div>
-                </Col>
-                <Col xs={4}>
-                  <div className="tn-s-count-label">السائقون</div>
-                  <div className="tn-s-count-val text-primary">
-                    {userStats.drivers_count || 0}
-                  </div>
-                </Col>
-                <Col xs={4}>
-                  <div className="tn-s-count-label">المجمدون</div>
-                  <div className="tn-s-count-val text-warning">
-                    {userStats.frozen_drivers_count || 0}
-                  </div>
-                </Col>
-                <Col xs={6} className="mt-2">
-                  <div className="tn-s-count-label">عملاء محظورون</div>
-                  <div className="tn-s-count-val text-muted">
-                    {userStats.blocked_clients_count || 0}
-                  </div>
-                </Col>
-                <Col xs={6} className="mt-2">
-                  <div className="tn-s-count-label">سائقون محظورون</div>
-                  <div className="tn-s-count-val text-danger">
-                    {userStats.blocked_drivers_count || 0}
-                  </div>
-                </Col>
+  <Card className="tn-s-admin-card border-0 p-4">
+    <h5 className="tn-s-chart-title mb-4">حالة المستخدمين</h5>
+    <div className="tn-s-chart-wrapper-pie">
+      <Pie data={pieChartData} options={pieChartOptions} />
+    </div>
+    <div className="tn-s-real-counts-container mt-4 pt-3 border-top">
+      <Row className="g-2 text-center">
+        <Col xs={4}>
+          <div className="tn-s-count-label">العملاء</div>
+          {/* تم تعديل الكلاس ليصبح مخصصاً للعملاء */}
+          <div className="tn-s-count-val tn-s-color-clients">
+            {userStats.clients_count || 0}
+          </div>
+        </Col>
+        <Col xs={4}>
+          <div className="tn-s-count-label">السائقون</div>
+          {/* تم تعديل الكلاس ليصبح مخصصاً للسائقين */}
+          <div className="tn-s-count-val tn-s-color-drivers">
+            {userStats.drivers_count || 0}
+          </div>
+        </Col>
+        <Col xs={4}>
+          <div className="tn-s-count-label">السائقون المجمدون</div>
+          {/* تم تعديل الكلاس ليصبح مخصصاً للمجمدين */}
+          <div className="tn-s-count-val tn-s-color-frozen">
+            {userStats.frozen_drivers_count || 0}
+          </div>
+        </Col>
+        <Col xs={6} className="mt-2">
+          <div className="tn-s-count-label">عملاء محظورون</div>
+          {/* تم تعديل الكلاس ليصبح مخصصاً للعملاء المحظورين */}
+          <div className="tn-s-count-val tn-s-color-blocked-clients">
+            {userStats.blocked_clients_count || 0}
+          </div>
+        </Col>
+        <Col xs={6} className="mt-2">
+          <div className="tn-s-count-label">سائقون محظورون</div>
+          {/* تم تعديل الكلاس ليصبح مخصصاً للسائقين المحظورين */}
+          <div className="tn-s-count-val tn-s-color-blocked-drivers">
+            {userStats.blocked_drivers_count || 0}
+          </div>
+        </Col>
               </Row>
             </div>
           </Card>

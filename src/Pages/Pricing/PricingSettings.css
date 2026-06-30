@@ -154,6 +154,10 @@
   box-shadow: 0 4px 12px rgba(242, 140, 0, 0.3);
 }
 
+.tn-load-orange {
+  color: #f28c00  !important;
+}
+
 .modal-backdrop-custom {
   position: fixed;
   inset: 0;

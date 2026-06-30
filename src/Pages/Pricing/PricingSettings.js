@@ -46,10 +46,10 @@ const PricingSettings = () => {
   if (loading)
     return (
       <div className="d-flex flex-column justify-content-center align-items-center vh-100">
-        <Spinner animation="grow" className="tn-dd-text-orange" />
+        <Spinner animation="grow" className="tn-load-orange" />
 
         <span className="mt-3 text-muted fw-semibold">
-          جاري تحميل البيانات...
+          جاري تحميل التسعيرات...
         </span>
       </div>
     );

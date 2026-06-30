@@ -343,6 +343,26 @@
   border-color: var(--border-color) !important;
 }
 
+.tn-s-color-clients {
+    color: #0D7FF2 !important; /* اللون الأزرق الأساسي للعملاء */
+}
+
+.tn-s-color-drivers {
+    color: #F28B0D !important; /* اللون البرتقالي الأساسي للسائقين */
+}
+
+.tn-s-color-frozen {
+    color: #ffb04d !important; /* درجة البرتقالي الفاتحة الهادئة للمجمدين */
+}
+
+.tn-s-color-blocked-clients {
+    color: #64748b !important; /* الرمادي المعتدل للعملاء المحظورين */
+}
+
+.tn-s-color-blocked-drivers {
+    color: #475569 !important; /* الرمادي الداكن للسائقين المحظورين */
+}
+
 .tn-s-count-label {
   font-size: 0.75rem;
   font-weight: 600;
@@ -379,12 +399,6 @@
   align-items: center;
   justify-content: center;
   min-height: 70vh;
-}
-
-.tn-s-admin-spinner {
-  color: var(--primary-orange);
-  width: 3rem;
-  height: 3rem;
 }
 
 .tn-s-filter-select[multiple] {
@@ -434,4 +448,8 @@
     background-color: #ff8c00 !important; /* درجة أغمق بقليل عند فتح القائمة ليعطي إحساس بالعمق */
     border-color: #ff8c00 !important;
     box-shadow: 0 6px 16px rgba(240, 140, 0, 0.25) !important; /* هالة مضيئة ناعمة */
+}
+
+.tn-load-orange {
+    color: #F28B0D !important;
 }
