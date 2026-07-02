@@ -11,6 +11,7 @@ import TopLoader from "./Components/TopLoader";
 import VehicleTypeDetails from "./Pages/Vehicles/VehicleTypeDetails";
 import PricingSettings from "./Pages/Pricing/PricingSettings";
 import SubAdminsPage from "./Pages/SubAdmins/SubAdminsPage";
+import TrackingMap from "./Pages/Tracking/TrackingMap";
 
 const Login = lazy(() => import("./Pages/Auth/Login"));
 const EmailVerification = lazy(() => import("./Pages/Auth/EmailVerification"));
@@ -27,9 +28,9 @@ const ClientDetails = lazy(() => import("./Pages/Clients/ClientDetails"));
 const BlockedUsers = lazy(() => import("./Pages/General/BlockedUsers"));
 const Shipments = lazy(() => import("./Pages/Shipments/Shipments"));
 const ShipmentDetails = lazy(() => import("./Pages/Shipments/ShipmentDetails"));
+
 function App() {
   const { loading } = useAuth();
-
   if (loading) return <LoadingScreen />;
 
   return (
@@ -66,7 +67,11 @@ function App() {
               <Route path="vehicles" element={<VehicleTypeDetails />} />
               <Route path="pricing" element={<PricingSettings />} />
               <Route path="subadmins" element={<SubAdminsPage />} />
-
+              <Route path="tracking" element={<TrackingMap />} />
+              <Route
+                path="tracking/:shipmentNumber"
+                element={<TrackingMap />}
+              />
               <Route index element={<Navigate to="drivers" replace />} />
             </Route>
             <Route path="drivers/create" element={<CreateDriver />} />

@@ -393,7 +393,9 @@ const ShipmentDetails = () => {
 
                 <Button
                   className="tn-gt-trigger-map-action variant-action-neon-luxury border-0 w-100"
-                  onClick={() => navigate(`/shipments/${id}/map`)}
+                  onClick={() =>
+                    navigate(`/dashboard/tracking/${shipment.shipment_number}`)
+                  }
                 >
                   <Map size={16} />
                   <span>ولوج فوري للنظام الخرائطي المباشر والتتبع الحي</span>

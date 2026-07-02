@@ -134,6 +134,7 @@ const Sidebar = () => {
             <FontAwesomeIcon icon={faBan} className="tn-icon" />
             <span className="tn-nav-text">المحظورين</span>
           </Nav.Link>
+
           <Nav.Link
             as={NavLink}
             to="/dashboard/vehicles"
@@ -142,24 +143,26 @@ const Sidebar = () => {
             <FontAwesomeIcon icon={faShippingFast} className="tn-icon" />
             <span className="tn-nav-text">المركبات</span>
           </Nav.Link>
-
-          <Nav.Link
-            as={NavLink}
-            to="/dashboard/pricing"
-            className="tn-nav-item"
-          >
-            <FontAwesomeIcon icon={faTags} className="tn-icon" />
-            <span className="tn-nav-text">التسعيرات</span>
-          </Nav.Link>
-          <Nav.Link
-            as={NavLink}
-            to="/dashboard/subadmins"
-            className="tn-nav-item"
-          >
-            <FontAwesomeIcon icon={faUser} className="tn-icon" />
-            <span className="tn-nav-text">الموظفين</span>
-          </Nav.Link>
-
+          {role === "admin" && (
+            <>
+              <Nav.Link
+                as={NavLink}
+                to="/dashboard/pricing"
+                className="tn-nav-item"
+              >
+                <FontAwesomeIcon icon={faTags} className="tn-icon" />
+                <span className="tn-nav-text">التسعيرات</span>
+              </Nav.Link>
+              <Nav.Link
+                as={NavLink}
+                to="/dashboard/subadmins"
+                className="tn-nav-item"
+              >
+                <FontAwesomeIcon icon={faUser} className="tn-icon" />
+                <span className="tn-nav-text">الموظفين</span>
+              </Nav.Link>
+            </>
+          )}
           <Nav.Link
             as={NavLink}
             to="/dashboard/reports"

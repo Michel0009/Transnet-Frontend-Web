@@ -21,6 +21,7 @@ export const endpoints = {
     activate: (id) => `/activateUser/${id}`,
     tax: "/tax/driver",
     blocked: (page = 1) => `/blockedDrivers?page=${page}`,
+    getLocation: "/drivers/locations",
   },
   vehicleTypes: {
     get: "/vehicleTypes",

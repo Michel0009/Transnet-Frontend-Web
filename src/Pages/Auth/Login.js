@@ -55,6 +55,7 @@ const Login = () => {
           toast.warning(
             "يجب عليك تأكيد بريدك الإلكتروني أولاً. تم إرسال رمز التحقق لبريدك.",
           );
+          setRole("employee");
           navigate("/verify-email", {
             state: { email: email, purpose: "login_verify" },
             replace: true,
