@@ -8,7 +8,6 @@ import { handleAxiosError } from "../../Utils/ErrorHandler";
 import "./TrackingMap.css";
 import { toast } from "react-toastify";
 
-// ─── الألوان ──────────────────────────────────────────────────────────────────
 const COLORS = {
   primary: "#ff6b00",
   primaryDark: "#e65c00",
@@ -20,7 +19,6 @@ const COLORS = {
   highlight: "#2563eb",
 };
 
-// ─── تهيئة الخريطة ────────────────────────────────────────────────────────────
 function useMapInit(mapRef, containerRef) {
   const [ready, setReady] = useState(false);
   useEffect(() => {
@@ -37,8 +35,6 @@ function useMapInit(mapRef, containerRef) {
     mapRef.current = map;
     setReady(true);
 
-    // Keep Leaflet's tile grid in sync with the actual container size —
-    // fixes blank tiles after DevTools open/close or any layout resize.
     const resizeObserver = new ResizeObserver(() => {
       map.invalidateSize();
     });
@@ -52,7 +48,6 @@ function useMapInit(mapRef, containerRef) {
   return ready;
 }
 
-// ─── أيقونة شاحنة ─────────────────────────────────────────────────────────────
 function makeTruckIcon(color = COLORS.primary) {
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 44 44">
     <circle cx="22" cy="22" r="20" fill="${color}" stroke="#fff" stroke-width="2.5"/>
@@ -67,7 +62,6 @@ function makeTruckIcon(color = COLORS.primary) {
   });
 }
 
-// ─── أيقونة نقطة البداية / النهاية ──────────────────────────────────────────
 function makeEndpointIcon(type) {
   const isStart = type === "start";
   const color = isStart ? "#22c55e" : COLORS.primaryDark;
@@ -86,8 +80,6 @@ function makeEndpointIcon(type) {
   });
 }
 
-// ─── بطاقة السائق فوق العلامة ──────────────────────────────────────────────────
-// تُبنى من الحمولة (payload) الخاصة بالحدث/الـ API، باستثناء id و lat و lng
 function buildDriverCardHTML(d) {
   const updated = d.updated_at
     ? new Date(d.updated_at).toLocaleString("en-US")
@@ -110,11 +102,12 @@ function buildDriverCardHTML(d) {
   `;
 }
 
-// ─── شارة الحالة ──────────────────────────────────────────────────────────────
 function StatusBadge({ status }) {
   const map = {
+    جارية: { bg: "#dbeafe", color: "#2563eb" },
     "قيد التوصيل": { bg: "#fef3c7", color: "#d97706" },
     مستلمة: { bg: "#dcfce7", color: "#16a34a" },
+    "غير مستلمة": { bg: "#fee2e2", color: "#dc2626" },
     محظور: { bg: "#fee2e2", color: "#dc2626" },
     متاح: { bg: "#dcfce7", color: "#16a34a" },
     "غير متاح": { bg: "#f3f4f6", color: "#6b7280" },
@@ -137,7 +130,6 @@ function StatusBadge({ status }) {
   );
 }
 
-// ─── لوحة الشحنة ──────────────────────────────────────────────────────────────
 function ShipmentPanel({ data, onClose }) {
   if (!data) return null;
   const { shipment, driver, client, live_tracking } = data;
@@ -256,7 +248,6 @@ function ShipmentPanel({ data, onClose }) {
   );
 }
 
-// ─── لوحة السائق ──────────────────────────────────────────────────────────────
 function DriverPanel({ data, onClose }) {
   if (!data) return null;
   return (
@@ -309,7 +300,6 @@ function DriverPanel({ data, onClose }) {
   );
 }
 
-// ─── المكوّن الرئيسي ───────────────────────────────────────────────────────────
 export default function TrackingMap() {
   const { shipmentNumber } = useParams();
   const navigate = useNavigate();
@@ -329,11 +319,8 @@ export default function TrackingMap() {
   const [driverQuery, setDriverQuery] = useState("");
   const [shipmentLoading, setShipmentLoading] = useState(false);
   const [driverLoading, setDriverLoading] = useState(false);
-  const [shipmentError, setShipmentError] = useState("");
-  const [driverError, setDriverError] = useState("");
   const [liveCount, setLiveCount] = useState(0);
 
-  // ── جلب مواقع السائقين ────────────────────────────────────────────────────
   const fetchDriverLocations = useCallback(async () => {
     console.log("fetchDriverLocations fired at", new Date().toISOString());
     try {
@@ -353,7 +340,6 @@ export default function TrackingMap() {
     fetchDriverLocations();
   }, [fetchDriverLocations]);
 
-  // ── بحث تلقائي عند الوصول عبر رابط يحتوي رقم شحنة ──────────────────────────
   useEffect(() => {
     if (!mapReady || !shipmentNumber) return;
     if (shipmentPanel?.shipment?.shipment_number === shipmentNumber) return;
@@ -362,7 +348,6 @@ export default function TrackingMap() {
     // eslint-disable-next-line
   }, [mapReady, shipmentNumber]);
 
-  // ── رسم الأيقونات على الخريطة ─────────────────────────────────────────────
   useEffect(() => {
     if (!mapReady || !mapRef.current) return;
     const map = mapRef.current;
@@ -388,7 +373,6 @@ export default function TrackingMap() {
     setLiveCount(drivers.filter((d) => d.lat && d.lng).length);
   }, [mapReady, drivers, highlightedDriverId]);
 
-  // ── Laravel Echo — التتبع الفوري ──────────────────────────────────────────
   useEffect(() => {
     if (typeof window === "undefined" || !window.Echo) return;
     const channel = window.Echo.private("admin-tracking");
@@ -401,46 +385,60 @@ export default function TrackingMap() {
         phone_number: e.phone_number,
         updated_at: e.updated_at,
       };
-      setDrivers((prev) =>
-        prev.map((d) =>
-          d.driver_id === e.driver_id ? { ...d, lat, lng, ...cardInfo } : d,
-        ),
-      );
+
+      setDrivers((prev) => {
+        const exists = prev.some((d) => d.driver_id === e.driver_id);
+        if (exists) {
+          return prev.map((d) =>
+            d.driver_id === e.driver_id ? { ...d, lat, lng, ...cardInfo } : d,
+          );
+        }
+        return [...prev, { driver_id: e.driver_id, lat, lng, ...cardInfo }];
+      });
+
       if (markersRef.current[e.driver_id]) {
         const marker = markersRef.current[e.driver_id];
         marker.setLatLng([lat, lng]);
         marker.setPopupContent(buildDriverCardHTML(cardInfo));
+      } else if (
+        mapRef.current &&
+        Number.isFinite(lat) &&
+        Number.isFinite(lng)
+      ) {
+        const marker = L.marker([lat, lng], { icon: makeTruckIcon() })
+          .addTo(mapRef.current)
+          .bindPopup(buildDriverCardHTML(cardInfo), {
+            closeButton: false,
+            autoClose: false,
+            closeOnClick: false,
+            offset: [0, -4],
+          });
+        markersRef.current[e.driver_id] = marker;
       }
     });
     return () => channel.stopListening(".location.updated");
   }, []);
 
-  // ── البحث عن شحنة ─────────────────────────────────────────────────────────
   const searchShipment = async (overrideQuery) => {
-    const raw = typeof overrideQuery === "string" ? overrideQuery : shipmentQuery;
+    const raw =
+      typeof overrideQuery === "string" ? overrideQuery : shipmentQuery;
     const query = raw.trim();
     if (!query) return;
     setShipmentLoading(true);
-    setShipmentError("");
     setShipmentPanel(null);
     setDriverPanel(null);
     setHighlightedDriverId(null);
     clearRoute();
     try {
       const data = await api.get(`${endpoints.shipments.search(query)}`);
-      if (data.data.message) {
-        setShipmentError(data.data.message);
-      } else {
-        setShipmentPanel(data.data);
-        drawRoute(data.data);
-        // Keep the URL in sync with whatever shipment is currently shown
-        if (query !== shipmentNumber) {
-          navigate(`/dashboard/tracking/${query}`, { replace: true });
-        }
+      setShipmentPanel(data.data);
+      drawRoute(data.data);
+      if (query !== shipmentNumber) {
+        navigate(`/dashboard/tracking/${query}`, { replace: true });
       }
     } catch (error) {
-      if (error?.response?.status === 404) {
-          toast.error(error.response.data.message || "الشحنة غير موجودة");
+      if (error?.response?.data?.message === "هذه الشحنة غير موجودة") {
+        toast.error(error.response.data.message);
       } else {
         toast.error(handleAxiosError(error));
       }
@@ -486,11 +484,9 @@ export default function TrackingMap() {
     routeMarkersRef.current = [];
   };
 
-  // ── البحث عن سائق ─────────────────────────────────────────────────────────
   const searchDriver = async () => {
     if (!driverQuery.trim()) return;
     setDriverLoading(true);
-    setDriverError("");
     setDriverPanel(null);
     setShipmentPanel(null);
     setHighlightedDriverId(null);
@@ -499,30 +495,28 @@ export default function TrackingMap() {
       const data = await api.post(endpoints.drivers.search, {
         driver_number: driverQuery.trim(),
       });
-      if (data.data.message) {
-        setDriverError(data.data.message);
-      } else {
-        setDriverPanel(data.data);
-        setHighlightedDriverId(data.data.id);
-        const found = drivers.find((d) => d.driver_id === data.data.id);
-        if (found?.lat && found?.lng && mapRef.current) {
-          mapRef.current.setView([found.lat, found.lng], 15, { animate: true });
-          markersRef.current[data.data.id]?.openPopup();
-        }
+
+      setDriverPanel(data.data);
+      setHighlightedDriverId(data.data.id);
+      const found = drivers.find((d) => d.driver_id === data.data.id);
+      if (found?.lat && found?.lng && mapRef.current) {
+        mapRef.current.setView([found.lat, found.lng], 15, { animate: true });
+        markersRef.current[data.data.id]?.openPopup();
       }
     } catch (error) {
-      toast.error(handleAxiosError(error));
+      if (error?.response?.data?.message === "لا يوجد سائق بهذا الرقم") {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error(handleAxiosError(error));
+      }
     } finally {
       setDriverLoading(false);
     }
   };
 
-  // ─────────────────────────────────────────────────────────────────────────────
   return (
     <div className="tracking-root">
-      {/* ── شريط الأدوات ── */}
       <div className="toolbar">
-        {/* بحث الشحنة */}
         <div className="search-wrap">
           <div className="search-group">
             <button
@@ -541,14 +535,10 @@ export default function TrackingMap() {
             />
             <span className="search-icon">📦</span>
           </div>
-          {shipmentError && (
-            <span className="search-error">⚠ {shipmentError}</span>
-          )}
         </div>
 
         <div className="divider-v" />
 
-        {/* بحث السائق */}
         <div className="search-wrap">
           <div className="search-group">
             <button
@@ -567,17 +557,14 @@ export default function TrackingMap() {
             />
             <span className="search-icon">🧑‍✈️</span>
           </div>
-          {driverError && <span className="search-error">⚠ {driverError}</span>}
         </div>
 
-        {/* عداد حي */}
         <div className="live-stat">
           <div className="live-dot" />
           {liveCount} سائق على الخريطة
         </div>
       </div>
 
-      {/* ── الخريطة ── */}
       <div className="map-area">
         <div id="map-container" ref={containerRef} />
 
