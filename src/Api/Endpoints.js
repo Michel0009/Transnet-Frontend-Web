@@ -62,6 +62,7 @@ export const endpoints = {
     terms: {
     get: "/contractTerms",
     create: "/contractTerm/create",
+    update: (id) => `/contractTermOrder/${id}`,
     delete:(id) => `/contractTerm/${id}`
   },
   contracts: {

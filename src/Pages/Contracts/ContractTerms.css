@@ -55,8 +55,6 @@
   background: #eef2ff !important;
 }
 
-/* TERM ITEM */
-
 .contract-item {
   border-radius: 16px !important;
 
@@ -68,8 +66,6 @@
 .contract-item:hover {
   transform: translateY(-1px);
 }
-
-/* NUMBER */
 
 .contract-number {
   width: 48px;
@@ -91,8 +87,6 @@
   color: #2563eb;
 }
 
-/* TEXT */
-
 .contract-text {
   font-size: 14px;
 
@@ -104,8 +98,6 @@
 
   overflow-wrap: break-word;
 }
-
-/* DELETE */
 
 .contract-delete-btn {
   width: 34px;
@@ -132,4 +124,60 @@
   background: #fef2f2;
 
   color: #dc2626;
+}
+
+.contract-edit-btn {
+  width: 34px;
+  height: 34px;
+
+  min-width: 34px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: transparent;
+
+  color: #2563eb; 
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: 0.2s ease;
+}
+
+.contract-edit-btn:hover {
+  background: #eff6ff;
+  color: #1e40af; 
+}
+
+.contract-order-input {
+  width: 48px;
+  height: 48px;
+
+  min-width: 48px;
+
+  border-radius: 14px;
+  border: 2px solid #2563eb;
+
+  background: #ffffff;
+
+  font-size: 18px;
+  font-weight: 800;
+  color: #2563eb;
+
+  text-align: center;
+
+  outline: none;
+
+  transition: 0.2s ease;
+}
+
+.contract-order-input:focus {
+  border-color: #1e40af;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+.tn-load-orange {
+  color: #f28c00  !important;
 }
