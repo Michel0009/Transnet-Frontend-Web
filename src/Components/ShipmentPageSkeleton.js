@@ -10,13 +10,13 @@ const ShipmentPageSkeleton = () => {
         <tr key={rowIndex} className="align-middle">
           <td className="tn-s-sk-padding">
             <div
-              className="tn-s-sk-line tn-s-shimmer mx-auto"
+              className="tn-s-sk-line tn-s-shimmer mx-auto d-flex justify-content-center align-items-center"
               style={{ width: "65px", height: "14px" }}
             />
           </td>
           <td className="tn-s-sk-padding">
             <div
-              className="tn-s-sk-line tn-s-shimmer mx-auto"
+              className="tn-s-sk-line tn-s-shimmer mx-auto d-flex justify-content-center align-items-center"
               style={{ width: "100px", height: "14px" }}
             />
           </td>
@@ -63,13 +63,7 @@ const ShipmentPageSkeleton = () => {
           </td>
           <td className="tn-s-sk-padding">
             <div
-              className="tn-s-sk-pill tn-s-shimmer mx-auto"
-              style={{ width: "80px", borderRadius: "8px" }}
-            />
-          </td>
-          <td className="tn-s-sk-padding">
-            <div
-              className="tn-s-sk-pill tn-s-shimmer mx-auto"
+              className="tn-s-sk-pill tn-s-shimmer mx-auto d-flex justify-content-center align-items-center gap-1"
               style={{ width: "95px" }}
             />
           </td>

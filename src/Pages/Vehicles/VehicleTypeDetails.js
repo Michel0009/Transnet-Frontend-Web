@@ -3,8 +3,7 @@ import api from "../../Api/Api";
 import { endpoints } from "../../Api/Endpoints";
 import { toast } from "react-toastify";
 import { handleAxiosError } from "../../Utils/ErrorHandler";
-
-import LoadingScreen from "../../Components/LoadingScreen";
+import { Spinner } from "react-bootstrap";
 import AddVehicleTypeModal from "../../Components/AddVehicleTypeModal";
 import EditVehicleTypeModal from "../../Components/EditVehicleTypeModal";
 
@@ -34,7 +33,7 @@ export default function VehicleTypeDetails() {
     setLoading(true);
 
     try {
-      const response = await api.get(endpoints.admin.vehicleTypes);
+      const response = await api.get(endpoints.vehicleTypes.get);
 
       setVehicles(response.data);
     } catch (error) {
@@ -48,9 +47,16 @@ export default function VehicleTypeDetails() {
     fetchVehicles();
   }, []);
 
-  if (loading) {
-    return <LoadingScreen />;
-  }
+  if (loading)
+    return (
+      <div className="d-flex flex-column justify-content-center align-items-center vh-100">
+        <Spinner animation="grow" className="tn-load-orange" />
+
+        <span className="mt-3 text-muted fw-semibold">
+          جاري تحميل المركبات...
+        </span>
+      </div>
+    );
 
   return (
     <div className="vehicle-page" dir="rtl">
@@ -59,13 +65,9 @@ export default function VehicleTypeDetails() {
           <>
             <div className="d-flex justify-content-between align-items-center mb-3">
               <div>
-                <h3 className="vehicle-title">
-                  {selectedVehicle.type}
-                </h3>
+                <h3 className="vehicle-title">{selectedVehicle.type}</h3>
 
-                <p className="vehicle-desc">
-                  {selectedVehicle.description}
-                </p>
+                <p className="vehicle-desc">{selectedVehicle.description}</p>
               </div>
 
               <button
@@ -79,18 +81,14 @@ export default function VehicleTypeDetails() {
               </button>
             </div>
 
-            <h5 className="section-title">
-              تفاصيل المركبة
-            </h5>
+            <h5 className="section-title">تفاصيل المركبة</h5>
 
             <div className="row mt-3">
               <div className="col-12 col-md-6 col-lg-4 mb-3">
                 <div className="detail-box">
                   <FaCogs className="detail-icon" />
 
-                  <span className="detail-label">
-                    معامل المركبة
-                  </span>
+                  <span className="detail-label">معامل المركبة</span>
 
                   <span className="detail-value">
                     {selectedVehicle.vehicle_coefficient}
@@ -102,9 +100,7 @@ export default function VehicleTypeDetails() {
                 <div className="detail-box">
                   <FaGasPump className="detail-icon" />
 
-                  <span className="detail-label">
-                    متوسط استهلاك الوقود
-                  </span>
+                  <span className="detail-label">متوسط استهلاك الوقود</span>
 
                   <span className="detail-value">
                     {selectedVehicle.avg_fuel_consumption}
@@ -116,9 +112,7 @@ export default function VehicleTypeDetails() {
                 <div className="detail-box">
                   <FaMoneyBill className="detail-icon" />
 
-                  <span className="detail-label">
-                    الأجرة الأساسية
-                  </span>
+                  <span className="detail-label">الأجرة الأساسية</span>
 
                   <span className="detail-value">
                     {selectedVehicle.base_fare}
@@ -130,9 +124,7 @@ export default function VehicleTypeDetails() {
                 <div className="detail-box">
                   <FaWeightHanging className="detail-icon" />
 
-                  <span className="detail-label">
-                    الوزن الأدنى
-                  </span>
+                  <span className="detail-label">الوزن الأدنى</span>
 
                   <span className="detail-value">
                     {selectedVehicle.min_weight}
@@ -144,9 +136,7 @@ export default function VehicleTypeDetails() {
                 <div className="detail-box">
                   <FaWeightHanging className="detail-icon" />
 
-                  <span className="detail-label">
-                    الوزن الأقصى
-                  </span>
+                  <span className="detail-label">الوزن الأقصى</span>
 
                   <span className="detail-value">
                     {selectedVehicle.max_weight}
@@ -158,9 +148,7 @@ export default function VehicleTypeDetails() {
                 <div className="detail-box">
                   <FaRulerVertical className="detail-icon" />
 
-                  <span className="detail-label">
-                    الطول الأدنى
-                  </span>
+                  <span className="detail-label">الطول الأدنى</span>
 
                   <span className="detail-value">
                     {selectedVehicle.min_length}
@@ -172,9 +160,7 @@ export default function VehicleTypeDetails() {
                 <div className="detail-box">
                   <FaRulerVertical className="detail-icon" />
 
-                  <span className="detail-label">
-                    الطول الأقصى
-                  </span>
+                  <span className="detail-label">الطول الأقصى</span>
 
                   <span className="detail-value">
                     {selectedVehicle.max_length}
@@ -186,9 +172,7 @@ export default function VehicleTypeDetails() {
                 <div className="detail-box">
                   <FaRulerHorizontal className="detail-icon" />
 
-                  <span className="detail-label">
-                    العرض الأدنى
-                  </span>
+                  <span className="detail-label">العرض الأدنى</span>
 
                   <span className="detail-value">
                     {selectedVehicle.min_width}
@@ -200,9 +184,7 @@ export default function VehicleTypeDetails() {
                 <div className="detail-box">
                   <FaRulerHorizontal className="detail-icon" />
 
-                  <span className="detail-label">
-                    العرض الأقصى
-                  </span>
+                  <span className="detail-label">العرض الأقصى</span>
 
                   <span className="detail-value">
                     {selectedVehicle.max_width}
@@ -214,9 +196,7 @@ export default function VehicleTypeDetails() {
                 <div className="detail-box">
                   <FaRulerCombined className="detail-icon" />
 
-                  <span className="detail-label">
-                    الارتفاع الأدنى
-                  </span>
+                  <span className="detail-label">الارتفاع الأدنى</span>
 
                   <span className="detail-value">
                     {selectedVehicle.min_height}
@@ -228,9 +208,7 @@ export default function VehicleTypeDetails() {
                 <div className="detail-box">
                   <FaRulerCombined className="detail-icon" />
 
-                  <span className="detail-label">
-                    الارتفاع الأقصى
-                  </span>
+                  <span className="detail-label">الارتفاع الأقصى</span>
 
                   <span className="detail-value">
                     {selectedVehicle.max_height}
@@ -240,18 +218,13 @@ export default function VehicleTypeDetails() {
             </div>
           </>
         ) : (
-          <p className="text-muted">
-            اختر مركبة من الجدول لعرض تفاصيلها هنا
-          </p>
+          <p className="text-muted">اختر مركبة من الجدول لعرض تفاصيلها هنا</p>
         )}
       </div>
 
       <div className="d-flex justify-content-end mb-3">
-        <button
-          className="btn-add"
-          onClick={() => setShowAddForm(true)}
-        >
-          + إضافة مركبة
+        <button className="btn-add" onClick={() => setShowAddForm(true)}>
+          إضافة مركبة +
         </button>
       </div>
 
@@ -276,9 +249,7 @@ export default function VehicleTypeDetails() {
       )}
 
       <div className="vehicle-table">
-        <h4 className="page-title">
-          قائمة المركبات
-        </h4>
+        <h4 className="page-title">قائمة المركبات</h4>
 
         <table className="table table-hover">
           <thead>

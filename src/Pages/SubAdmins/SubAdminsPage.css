@@ -20,7 +20,7 @@
 }
 
 .btn-add-new {
-  background-color: var(--secondary) !important;
+  background-color: #F28B0D !important;
   border: none !important;
   color: white;
   padding: 10px 20px;
@@ -33,7 +33,7 @@
 }
 
 .btn-add-new:hover {
-  background-color: var(--secondaryDark) !important;
+  background-color: #C46F0A !important;
   transform: translateY(-2px);
 }
 
@@ -44,13 +44,14 @@
 
 .subadmins-table {
   margin-bottom: 0;
-    overflow-x: auto;
-  overflow-y: visible;
+  width: 100%;
+  min-width: 620px;
+  table-layout: fixed;
 }
 
 .subadmins-table thead th {
   background-color: #eff8ff;
-  color: var(--textSecondary);
+  color: #6B7280;
 
   font-size: 13px;
   font-weight: 700;
@@ -66,7 +67,7 @@
 
   vertical-align: middle;
 
-  color: var(--textPrimary);
+  color: #1A1A1A;
   font-size: 14px;
   font-weight: 600;
 
@@ -99,19 +100,9 @@
   color: #12b886;
 }
 
-.status-pill.frozen {
-  background-color: #e7f5ff;
-  color: #1c7ed6;
-}
-
 .status-pill.blocked {
   background-color: #fff5f5;
   color: #fa5252;
-}
-
-.status-pill.must-pay {
-  background-color: #fff4e6;
-  color: #f08c00;
 }
 
 .action-btn {
@@ -127,14 +118,14 @@
   background: #f8fafc !important;
   border: 1px solid #e2e8f0 !important;
 
-  color: var(--textSecondary) !important;
+  color: #6B7280 !important;
 
   transition: 0.2s ease;
 }
 
 .action-btn:hover {
   background: white !important;
-  color: var(--textPrimary) !important;
+  color: #1A1A1A !important;
 
   transform: scale(1.05);
 }

@@ -9,10 +9,7 @@ import "./AddVehicleTypeForm.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTruckFront } from "@fortawesome/free-solid-svg-icons";
 
-export default function AddVehicleTypeModal({
-  onClose,
-  onSuccess,
-}) {
+export default function AddVehicleTypeModal({ onClose, onSuccess }) {
   const [formData, setFormData] = useState({
     type: "",
     description: "",
@@ -52,120 +49,85 @@ export default function AddVehicleTypeModal({
     }
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  setErrors({});
+    setErrors({});
 
-  try {
-    const response = await api.post(
-      endpoints.admin.createVehicleType,
-      formData
-    );
+    try {
+      const response = await api.post(endpoints.vehicleTypes.create, formData);
 
-    if (response.status === 200) {
-      toast.success(response.data.message);
+      if (response.status === 200) {
+        toast.success(response.data.message);
 
-      onSuccess();
+        onSuccess();
 
-      onClose();
-    }
-  } catch (error) {
-    if (error.response?.status === 422) {
+        onClose();
+      }
+    } catch (error) {
+      // Validation Errors من Laravel
+      if (error.response?.status === 422) {
+        toast.error(error.response.data.message);
+
+        const backendErrors = error.response.data.errors;
+
+        setErrors({
+          type: backendErrors?.type?.join("، "),
+          description: backendErrors?.description?.join("، "),
+
+          vehicle_coefficient: backendErrors?.vehicle_coefficient?.join("، "),
+
+          avg_fuel_consumption: backendErrors?.avg_fuel_consumption?.join("، "),
+
+          base_fare: backendErrors?.base_fare?.join("، "),
+
+          min_weight: backendErrors?.min_weight?.join("، "),
+
+          max_weight: backendErrors?.max_weight?.join("، "),
+
+          min_length: backendErrors?.min_length?.join("، "),
+
+          max_length: backendErrors?.max_length?.join("، "),
+
+          min_width: backendErrors?.min_width?.join("، "),
+
+          max_width: backendErrors?.max_width?.join("، "),
+
+          min_height: backendErrors?.min_height?.join("، "),
+
+          max_height: backendErrors?.max_height?.join("، "),
+        });
+
+        return;
+      }
+
       toast.error(handleAxiosError(error));
-
-      const backendErrors = error.response.data.errors;
-
-      setErrors({
-        type: backendErrors?.type?.join("، "),
-
-        description:
-          backendErrors?.description?.join("، "),
-
-        vehicle_coefficient:
-          backendErrors?.vehicle_coefficient?.join(
-            "، "
-          ),
-
-        avg_fuel_consumption:
-          backendErrors?.avg_fuel_consumption?.join(
-            "، "
-          ),
-
-        base_fare:
-          backendErrors?.base_fare?.join("، "),
-
-        min_weight:
-          backendErrors?.min_weight?.join("، "),
-
-        max_weight:
-          backendErrors?.max_weight?.join("، "),
-
-        min_length:
-          backendErrors?.min_length?.join("، "),
-
-        max_length:
-          backendErrors?.max_length?.join("، "),
-
-        min_width:
-          backendErrors?.min_width?.join("، "),
-
-        max_width:
-          backendErrors?.max_width?.join("، "),
-
-        min_height:
-          backendErrors?.min_height?.join("، "),
-
-        max_height:
-          backendErrors?.max_height?.join("، "),
-      });
-
-      return;
     }
-
-    toast.error(handleAxiosError(error));
-  }
-};
+  };
   return (
     <div className="modal-overlay">
       <div className="modal-container" dir="rtl">
         <div className="modal-scroll">
           <h3 className="modal-title">
-            <FontAwesomeIcon
-              icon={faTruckFront}
-              className="modal-tn-icon"
-            />
-
+            <FontAwesomeIcon icon={faTruckFront} className="modal-tn-icon" />
             إضافة مركبة جديدة
           </h3>
 
-          <form
-            onSubmit={handleSubmit}
-            className="modal-form"
-          >
+          <form onSubmit={handleSubmit} className="modal-form">
             <div className="form-grid">
               <div className="form-group full">
                 <label>نوع المركبة</label>
 
                 <input
                   type="text"
-                  className={
-                    errors.type ? "input-error" : ""
-                  }
+                  className={errors.type ? "input-error" : ""}
                   value={formData.type}
                   onChange={(e) =>
-                    handleChange(
-                      "type",
-                      stripHtml(e.target.value)
-                    )
+                    handleChange("type", stripHtml(e.target.value))
                   }
                 />
 
-                {errors.type && (
-                  <p className="error-text">
-                    {errors.type}
-                  </p>
-                )}
+                {errors.type && <p className="error-text">{errors.type}</p>}
               </div>
 
               <div className="form-group full">
@@ -173,36 +135,21 @@ const handleSubmit = async (e) => {
 
                 <input
                   type="text"
-                  className={
-                    errors.description
-                      ? "input-error"
-                      : ""
-                  }
+                  className={errors.description ? "input-error" : ""}
                   value={formData.description}
                   onChange={(e) =>
-                    handleChange(
-                      "description",
-                      stripHtml(e.target.value)
-                    )
+                    handleChange("description", stripHtml(e.target.value))
                   }
                 />
 
                 {errors.description && (
-                  <p className="error-text">
-                    {errors.description}
-                  </p>
+                  <p className="error-text">{errors.description}</p>
                 )}
               </div>
 
               {[
-                [
-                  "vehicle_coefficient",
-                  "معامل المركبة",
-                ],
-                [
-                  "avg_fuel_consumption",
-                  "متوسط استهلاك الوقود",
-                ],
+                ["vehicle_coefficient", "معامل المركبة"],
+                ["avg_fuel_consumption", "متوسط استهلاك الوقود"],
                 ["base_fare", "الأجرة الأساسية"],
                 ["min_weight", "الوزن الأدنى"],
                 ["max_weight", "الوزن الأقصى"],
@@ -213,51 +160,30 @@ const handleSubmit = async (e) => {
                 ["min_height", "الارتفاع الأدنى"],
                 ["max_height", "الارتفاع الأقصى"],
               ].map(([field, label], index) => (
-                <div
-                  className="form-group"
-                  key={index}
-                >
+                <div className="form-group" key={index}>
                   <label>{label}</label>
 
                   <input
                     type="number"
                     step="0.01"
-                    className={
-                      errors[field]
-                        ? "input-error"
-                        : ""
-                    }
+                    className={errors[field] ? "input-error" : ""}
                     value={formData[field]}
-                    onChange={(e) =>
-                      handleChange(
-                        field,
-                        e.target.value
-                      )
-                    }
+                    onChange={(e) => handleChange(field, e.target.value)}
                   />
 
                   {errors[field] && (
-                    <p className="error-text">
-                      {errors[field]}
-                    </p>
+                    <p className="error-text">{errors[field]}</p>
                   )}
                 </div>
               ))}
             </div>
 
             <div className="modal-actions">
-              <button
-                type="submit"
-                className="btn-save"
-              >
+              <button type="submit" className="btn-save">
                 حفظ
               </button>
 
-              <button
-                type="button"
-                className="btn-cancel"
-                onClick={onClose}
-              >
+              <button type="button" className="btn-cancel" onClick={onClose}>
                 إلغاء
               </button>
             </div>

@@ -44,7 +44,7 @@ const AddCoefficientModal = ({ onClose, onSuccess }) => {
 
     try {
       const response = await api.post(
-        endpoints.admin.createCoefficient,
+        endpoints.coefficients.create,
         formData,
       );
 
@@ -63,7 +63,6 @@ const AddCoefficientModal = ({ onClose, onSuccess }) => {
     } catch (error) {
 
       if (error.response?.status === 422) {
-        toast.error(handleAxiosError(error));
 
         const backendErrors = error.response.data.errors;
 

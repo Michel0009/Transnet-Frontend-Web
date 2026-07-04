@@ -12,7 +12,7 @@ import EditSubAdminModal from "../../Components/EditSubAdminModal";
 
 import AddUserModal from "../../Components/AddUserModal";
 import SubAdminsSkeleton from "../../Components/SubAdminsSkeletonLoading";
-import { FaEdit, FaSnowflake, FaBan, FaUnlock } from "react-icons/fa";
+import { FaEdit, FaBan, FaUnlock } from "react-icons/fa";
 import BlockModal from "../../Components/BlockModal";
 import UnblockModal from "../../Components/UnblockModal";
 
@@ -30,7 +30,7 @@ const SubAdminsPage = () => {
     setLoading(true);
 
     try {
-      const response = await api.get(endpoints.admin.subAdmins);
+      const response = await api.get(endpoints.employees.get);
 
       console.log("SubAdmins Response:", response.data);
 
@@ -48,7 +48,6 @@ const SubAdminsPage = () => {
     fetchSubAdmins();
   }, []);
 
-
   return (
     <div className="subadmins-page" dir="rtl">
       <div className="row align-items-center mb-4 flex-wrap g-3">
@@ -63,20 +62,21 @@ const SubAdminsPage = () => {
 
         <div className="col-auto">
           <button className="btn-add-new" onClick={() => setShowModal(true)}>
-            إضافة مسؤول جديد
+            إضافة مسؤول جديد +
           </button>
         </div>
       </div>
 
       <div className="card border-0 shadow-sm table-card">
-        <table className="table table-hover align-middle text-end mb-0 subadmins-table">
+        <div className="table-responsive">
+        <table className="table table-hover align-middle mb-0 subadmins-table">
           <thead>
             <tr>
-              <th>رقم المستخدم</th>
-              <th>الاسم الأول</th>
-              <th>الاسم الأخير</th>
-              <th>رقم الهاتف</th>
-              <th>الحالة</th>
+              <th className="text-center">رقم المستخدم</th>
+              <th className="text-center">الاسم الأول</th>
+              <th className="text-center">الاسم الأخير</th>
+              <th className="text-center">رقم الهاتف</th>
+              <th className="text-center">الحالة</th>
               <th className="text-center">الإجراءات</th>
             </tr>
           </thead>
@@ -95,26 +95,22 @@ const SubAdminsPage = () => {
             ) : (
               subAdmins.map((admin) => (
                 <tr key={admin.id}>
-                  <td className="fw-semibold text-dark">{admin.user_number}</td>
+                  <td className="text-center">
+                    <div className="fw-semibold text-dark">
+                      {admin.user_number}
+                    </div>
+                  </td>
+                  <td className="text-center">{admin.first_name}</td>
+                  <td className="text-center">{admin.last_name}</td>
 
-                  <td>{admin.first_name}</td>
-
-                  <td>{admin.last_name}</td>
-
-                  <td>
+                  <td className="text-center">
                     <span className="text-muted">{admin.phone_number}</span>
                   </td>
 
-                  <td>
+                  <td className="text-center">
                     <span
                       className={`status-pill ${
-                        admin.status === "محظور"
-                          ? "blocked"
-                          : admin.status === "مجمد"
-                            ? "frozen"
-                            : admin.status === "فعال و يجب عليه الدفع"
-                              ? "must-pay"
-                              : "active"
+                        admin.status === "محظور" ? "blocked" : "active"
                       }`}
                     >
                       {admin.status}
@@ -142,13 +138,6 @@ const SubAdminsPage = () => {
                           >
                             <FaEdit className="ms-2 text-primary" />
                             تعديل
-                          </button>
-                        </li>
-
-                        <li>
-                          <button className="dropdown-item d-flex align-items-center gap-2">
-                            <FaSnowflake className="ms-2 text-info" />
-                            تجميد
                           </button>
                         </li>
 
@@ -185,6 +174,7 @@ const SubAdminsPage = () => {
             )}
           </tbody>
         </table>
+        </div>
       </div>
       <AddUserModal
         show={showModal}

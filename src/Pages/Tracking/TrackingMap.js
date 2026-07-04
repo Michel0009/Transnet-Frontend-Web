@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import api from "../../Api/Api";
@@ -198,12 +198,6 @@ function ShipmentPanel({ data, onClose }) {
           <span className="info-value">{shipment.height}</span>
         </div>
         <div className="info-item">
-          <span className="info-label">التأمين</span>
-          <span className="info-value">
-            {shipment.insurance ? "✓ مؤمّن" : "✗ غير مؤمّن"}
-          </span>
-        </div>
-        <div className="info-item">
           <span className="info-label">الدفع</span>
           <span className="info-value">
             {shipment.paid ? "✓ مدفوع" : "✗ غير مدفوع"}
@@ -302,7 +296,6 @@ function DriverPanel({ data, onClose }) {
 
 export default function TrackingMap() {
   const { shipmentNumber } = useParams();
-  const navigate = useNavigate();
   const containerRef = useRef(null);
   const mapRef = useRef(null);
   const markersRef = useRef({});
@@ -434,7 +427,7 @@ export default function TrackingMap() {
       setShipmentPanel(data.data);
       drawRoute(data.data);
       if (query !== shipmentNumber) {
-        navigate(`/dashboard/tracking/${query}`, { replace: true });
+        window.history.replaceState(null, "", `/dashboard/tracking/${query}`);
       }
     } catch (error) {
       if (error?.response?.data?.message === "هذه الشحنة غير موجودة") {

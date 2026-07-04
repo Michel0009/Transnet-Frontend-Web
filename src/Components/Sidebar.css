@@ -57,21 +57,22 @@
 .tn-brand-section {
   display: flex;
   align-items: center;
-  padding: 35px 20px;
+  padding: 22px 20px;
   gap: 12px;
+  flex-shrink: 0;
   transition: padding 0.35s ease;
 }
 
 .tn-sidebar-bs.collapsed .tn-brand-section {
-  padding: 35px 18px;
+  padding: 22px 18px;
 }
 
 .tn-logo-circle {
-  width: 48px;
-  min-width: 48px;
-  height: 48px;
+  width: 40px;
+  min-width: 40px;
+  height: 40px;
   background-color: #ffffff;
-  border-radius: 12px;
+  border-radius: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -112,24 +113,26 @@
 }
 
 .tn-nav-menu {
-  padding: 10px 0;
-  flex-grow: 1;
+  padding: 0 0;
   display: flex;
   flex-direction: column;
   width: 100%;
   margin: 0;
+  flex: 1 1 auto;
+  min-height: 0;
+  justify-content: flex-start;
 }
 
 .tn-nav-item {
   color: #8a99af !important;
-  padding: 14px 24px !important;
+  padding: 13px 24px !important;
   display: flex !important;
   flex-direction: row !important;
   align-items: center;
   font-weight: 600;
   font-size: 15px;
   text-decoration: none !important;
-  gap: 20px;
+  gap: 18px;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
@@ -138,7 +141,7 @@
 }
 
 .tn-sidebar-bs.collapsed .tn-nav-item {
-  padding: 14px 30px !important;
+  padding: 13px 30px !important;
   gap: 0;
 }
 
@@ -167,9 +170,9 @@
 }
 
 .tn-icon {
-  width: 24px;
-  min-width: 24px;
-  font-size: 1.2rem;
+  width: 22px;
+  min-width: 22px;
+  font-size: 1.15rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -177,11 +180,12 @@
 }
 
 .tn-sidebar-footer {
-  padding: 20px 0;
+  padding: 0 0;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   display: flex;
   flex-direction: column;
   width: 100%;
+  flex-shrink: 0;
 }
 .tn-mobile-navbar {
   display: none;
@@ -220,7 +224,6 @@
 .tn-mobile-burger:active {
   transform: scale(0.9);
 }
-
 @media (max-width: 991px) {
   .tn-mobile-navbar {
     display: flex;
@@ -258,7 +261,7 @@
   }
 
   .tn-sidebar-bs.mobile-dropdown-open {
-    max-height: 600px !important;
+    max-height: 650px !important;
     opacity: 1;
     visibility: visible;
     padding-bottom: 20px;

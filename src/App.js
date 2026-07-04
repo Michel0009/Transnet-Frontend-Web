@@ -8,16 +8,17 @@ import ProtectedRoute from "./Components/ProtectedRoute";
 import PublicRoute from "./Components/PublicRoute";
 import TopLoader from "./Components/TopLoader";
 
-import VehicleTypeDetails from "./Pages/Vehicles/VehicleTypeDetails";
-import PricingSettings from "./Pages/Pricing/PricingSettings";
-import SubAdminsPage from "./Pages/SubAdmins/SubAdminsPage";
-import TrackingMap from "./Pages/Tracking/TrackingMap";
-
 const Login = lazy(() => import("./Pages/Auth/Login"));
 const EmailVerification = lazy(() => import("./Pages/Auth/EmailVerification"));
 const EmailSending = lazy(() => import("./Pages/Auth/EmailSending"));
 const NotFound = lazy(() => import("./Components/NotFound"));
 const ResetPassword = lazy(() => import("./Pages/Auth/ResetPassword"));
+const SubAdminsPage = lazy(() => import("./Pages/SubAdmins/SubAdminsPage"));
+const VehicleTypeDetails = lazy(
+  () => import("./Pages/Vehicles/VehicleTypeDetails"),
+);
+const PricingSettings = lazy(() => import("./Pages/Pricing/PricingSettings"));
+const ContractTerms = lazy(() => import("./Pages/Contracts/ContractTerms"));
 const DashboardLayout = lazy(() => import("./Layouts/DashboardLayout"));
 const Drivers = lazy(() => import("./Pages/Drivers/Drivers"));
 const CreateDriver = lazy(() => import("./Pages/Drivers/CreateDriver"));
@@ -28,6 +29,8 @@ const ClientDetails = lazy(() => import("./Pages/Clients/ClientDetails"));
 const BlockedUsers = lazy(() => import("./Pages/General/BlockedUsers"));
 const Shipments = lazy(() => import("./Pages/Shipments/Shipments"));
 const ShipmentDetails = lazy(() => import("./Pages/Shipments/ShipmentDetails"));
+const TrackingMap = lazy(() => import("./Pages/Tracking/TrackingMap"));
+const StatisticsPage = lazy(() => import("./Pages/Statistics/StatisticsPage"));
 
 function App() {
   const { loading } = useAuth();
@@ -72,6 +75,8 @@ function App() {
                 path="tracking/:shipmentNumber"
                 element={<TrackingMap />}
               />
+              <Route path="contracts" element={<ContractTerms />} />
+              <Route path="statistics" element={<StatisticsPage />} />
               <Route index element={<Navigate to="drivers" replace />} />
             </Route>
             <Route path="drivers/create" element={<CreateDriver />} />

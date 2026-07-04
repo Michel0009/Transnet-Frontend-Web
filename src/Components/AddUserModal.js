@@ -64,7 +64,7 @@ const AddAdminModal = ({ show, onHide, onSuccess }) => {
     setLoading(true);
 
     try {
-      const response = await api.post(endpoints.admin.createSubAdmin, {
+      const response = await api.post(endpoints.employees.create, {
         first_name: form.first_name,
         last_name: form.last_name,
         email: form.email,

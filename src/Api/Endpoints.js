@@ -25,9 +25,13 @@ export const endpoints = {
   },
   vehicleTypes: {
     get: "/vehicleTypes",
+    create: "/vehicleType/create",
+    update: "/vehicleType/update",
   },
   coefficients: {
     get: "/coefficients",
+    create: "/coefficient/create",
+    update: "/coefficient/update",
   },
   general: {
     block: "/blockUser",
@@ -46,6 +50,9 @@ export const endpoints = {
   },
   employees: {
     blocked: (page = 1) => `/blockedSubAdmins?page=${page}`,
+    get: "/subAdmins",
+    create: "/subAdmin/create",
+    update: "/subAdmin/update",
   },
   shipments: {
     get: (page = 1) => `/shipments?page=${page}`,
@@ -53,19 +60,19 @@ export const endpoints = {
     search: (number) => `/shipment/number/${number}`,
     details: (id) => `/shipment/id/${id}`,
   },
-  admin: {
-    vehicleTypes: "/vehicleTypes",
-    createVehicleType: "/vehicleType/create",
-    updateVehicleType: "/vehicleType/update",
-
-    gitCoefficients: "/coefficients",
-    createCoefficient: "/coefficient/create",
-    updateCoefficient: "/coefficient/update",
-
-    subAdmins: "/subAdmins",
-    createSubAdmin: "/subAdmin/create",
-    updateSubAdmin: "/subAdmin/update",
-    block: "/blockUser",
-    unBlock: (id) => `/unblockUser/${id}`,
+    terms: {
+    get: "/contractTerms",
+    create: "/contractTerm/create",
+    update: (id) => `/contractTermOrder/${id}`,
+    delete:(id) => `/contractTerm/${id}`
   },
+  contracts: {
+    create: "/createDriverContract",
+  },
+  statistics:{
+    getStatistics: "/statistics",
+    getGeneralStatistics: "/generalStatistics",
+    exportStatisticsPDF: "/exportStatisticsPdf",
+
+  }
 };

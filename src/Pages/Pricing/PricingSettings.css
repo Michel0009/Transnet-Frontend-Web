@@ -11,7 +11,7 @@
 }
 
 .page-header p {
-  color: var(--textSecondary);
+  color: #6B7280;
   font-size: 15px;
 }
 
@@ -19,24 +19,24 @@
   font-size: 20px;
   font-weight: 700;
   padding-right: 12px;
-  border-right: 4px solid var(--primary);
-  color: var(--textPrimary);
+  border-right: 4px solid #0D7FF2;
+  color: #1A1A1A;
 }
 
 .pricing-section .section-title {
-  border-right-color: var(--primary);
+  border-right-color: #0D7FF2;
 }
 
 .fuel-section .section-title {
-  border-right-color: var(--secondary);
+  border-right-color: #F28B0D;
 }
 
-.insurance-section .section-title {
-  border-right-color: var(--textSecondary);
+.reward-section .section-title {
+  border-right-color: #7c3aed;
 }
 
 .custom-card {
-  background: var(--surface);
+  background: #F5F8FA;
   border-radius: 14px;
   padding: 18px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -49,15 +49,15 @@
 }
 
 .pricing-section .custom-card {
-  border-right: 3px solid var(--primary);
+  border-right: 3px solid #0D7FF2;
 }
 
 .fuel-section .custom-card {
-  border-right: 3px solid var(--secondary);
+  border-right: 3px solid #F28B0D;
 }
 
-.insurance-section .custom-card {
-  border-right: 3px solid var(--textSecondary);
+.reward-section .custom-card {
+  border-right: 3px solid #7c3aed;
 }
 
 .card-header-custom {
@@ -67,7 +67,7 @@
 .card-title {
   font-size: 16px;
   font-weight: 600;
-  color: var(--textSecondary);
+  color: #6B7280;
 }
 
 .card-icon {
@@ -82,26 +82,13 @@
 }
 
 .pricing-section .card-icon {
-  background-color: var(--primaryLight);
-  color: var(--primary);
+  background-color: #D6E9FF;
+  color: #0D7FF2;
 }
 
 .fuel-section .card-icon {
-  background-color: var(--secondaryLight);
-  color: var(--secondary);
-}
-
-.insurance-section .card-icon {
-  background-color: var(--darkTextSecondary);
-  color: var(--textSecondary);
-}
-
-.reward-section .section-title {
-  border-right-color: #7c3aed;
-}
-
-.reward-section .custom-card {
-  border-right: 3px solid #7c3aed;
+  background-color: #FFE3C2;
+  color: #F28B0D;
 }
 
 .reward-section .card-icon {
@@ -116,7 +103,7 @@
 .value {
   font-size: 24px;
   font-weight: 700;
-  color: var(--textPrimary);
+  color: #1A1A1A;
 }
 
 .edit-input {
@@ -126,7 +113,7 @@
 }
 
 .tn-btn-save {
-  background: var(--secondary) !important;
+  background: #F28B0D !important;
   border: none !important;
   border-radius: 6px;
   padding: 5px 10px;
@@ -135,7 +122,7 @@
 }
 
 .tn-btn-cancel {
-  background: var(--primary) !important;
+  background: #0D7FF2 !important;
   border: none !important;
   border-radius: 6px;
   padding: 5px 10px;
@@ -144,7 +131,7 @@
 }
 
 .tn-btn-edit {
-  background: var(--primary) !important;
+  background: #0D7FF2 !important;
   border: none !important;
   border-radius: 6px;
   padding: 5px 10px;
@@ -165,6 +152,10 @@
   background: #d47a00 !important;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(242, 140, 0, 0.3);
+}
+
+.tn-load-orange {
+  color: #f28c00  !important;
 }
 
 .modal-backdrop-custom {
