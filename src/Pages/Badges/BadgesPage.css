@@ -1,0 +1,174 @@
+.tn-s-admin-page-container {
+    padding: 30px;
+    min-height: 100vh;
+    background-color: #f8fafc;
+    width: 100%;
+}
+
+.tn-s-page-icon-wrapper {
+    width: 56px;
+    height: 56px;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(30, 41, 59, 0.05);
+}
+
+.tn-s-page-icon {
+    color: #F28B0D !important;
+    font-size: 1.6rem;
+}
+
+.tn-s-admin-page-title {
+    font-family: "Tajawal", sans-serif;
+    font-weight: 800;
+    color: #1e293b;
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.tn-s-admin-page-subtitle {
+    font-family: "Tajawal", sans-serif;
+    color: #64748b;
+    font-size: 0.9rem;
+    margin: 4px 0 0 0;
+}
+
+.tn-badge-card {
+    transition: transform 0.25s ease, box-shadow 0.25s ease !important;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03) !important;
+}
+
+.tn-badge-card:hover {
+    transform: translateY(-5px);
+}
+
+.tn-badge-icon-box {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+}
+
+.tn-badge-level-pill {
+    background-color: #f1f5f9;
+    color: #475569;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-family: "Tajawal", sans-serif;
+}
+
+.tn-badge-name {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #1e293b;
+    font-family: "Tajawal", sans-serif;
+}
+
+.tn-badge-text {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: #64748b !important;
+    font-family: "Tajawal", sans-serif;
+}
+
+.tn-badge-condition-label {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.tn-badge-condition-value {
+    font-size: 0.825rem;
+    color: #334155;
+    font-weight: 600;
+}
+
+.tn-condition-num {
+    color: #F28B0D;
+    font-size: 1rem;
+    font-weight: 800;
+}
+
+.tn-badge-level-0 {
+    box-shadow: 0 10px 25px rgba(13, 127, 242, 0.04) !important;
+    border-top: 4px solid #1a8cff !important; 
+}
+.tn-badge-level-0 .tn-badge-icon-box {
+    background-color: rgba(26, 140, 255, 0.08) !important; 
+}
+
+.tn-badge-level-1 {
+    box-shadow: 0 10px 25px rgba(25, 135, 84, 0.04) !important;
+    border-top: 4px solid #136941 !important;
+}
+.tn-badge-level-1 .tn-badge-icon-box {
+    background-color: rgba(19, 105, 65, 0.08) !important;
+}
+
+.tn-badge-level-2 {
+    box-shadow: 0 10px 25px rgba(242, 139, 13, 0.04) !important;
+    border-top: 4px solid #d97706 !important;
+}
+.tn-badge-level-2 .tn-badge-icon-box {
+    background-color: rgba(217, 119, 6, 0.08) !important;
+}
+
+.tn-badge-level-3 {
+    box-shadow: 0 10px 25px rgba(220, 53, 69, 0.04) !important;
+    border-top: 4px solid #b91c1c !important;
+}
+.tn-badge-level-3 .tn-badge-icon-box {
+    background-color: rgba(185, 28, 28, 0.08) !important;
+}
+
+.tn-badge-edit-btn {
+    background: #f1f5f9;
+    border: none;
+    color: #64748b;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.tn-badge-edit-btn:hover {
+    background-color: rgba(13, 127, 242, 0.1);
+    color: #0D7FF2;
+    transform: scale(1.05);
+}
+
+.font-tajawal {
+    font-family: "Tajawal", sans-serif;
+}
+
+.tn-load-orange {
+    color: #F28B0D !important;
+}
+
+.tn-badge-custom-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}

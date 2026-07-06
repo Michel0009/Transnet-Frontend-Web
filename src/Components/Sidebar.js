@@ -18,6 +18,7 @@ import {
   faUser,
   faBan,
   faFileSignature,
+  faAward,
 } from "@fortawesome/free-solid-svg-icons";
 import "./Sidebar.css";
 import logo from "../assets/logo2.png";
@@ -136,7 +137,7 @@ const Sidebar = () => {
             <span className="tn-nav-text">المحظورين</span>
           </Nav.Link>
 
-          {role === "admin" && (
+          
             <Nav.Link
               as={NavLink}
               to="/dashboard/vehicles"
@@ -145,7 +146,7 @@ const Sidebar = () => {
               <FontAwesomeIcon icon={faShippingFast} className="tn-icon" />
               <span className="tn-nav-text">المركبات</span>
             </Nav.Link>
-          )}
+          
 
           {role === "admin" && (
             <Nav.Link
@@ -180,13 +181,24 @@ const Sidebar = () => {
             </Nav.Link>
           )}
 
+                    {role === "admin" && (
+            <Nav.Link
+              as={NavLink}
+              to="/dashboard/badges"
+              className="tn-nav-item"
+            >
+              <FontAwesomeIcon icon={faAward} className="tn-icon" />
+              <span className="tn-nav-text">الشارات</span>
+            </Nav.Link>
+          )}
+
           <Nav.Link
             as={NavLink}
             to="/dashboard/reports"
             className="tn-nav-item"
           >
             <FontAwesomeIcon icon={faFileInvoice} className="tn-icon" />
-            <span className="tn-nav-text">التقارير</span>
+            <span className="tn-nav-text">الإبلاغات</span>
           </Nav.Link>
         </Nav>
 

@@ -1,0 +1,32 @@
+/* ==========================================================================
+   تنسيقات نافذة تعديل الشارات المنبثقة - TransNet Modals
+   ========================================================================== */
+
+.tn-badge-modal-wrapper .modal-content {
+    border-radius: 16px !important;
+    border: none !important;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+}
+
+.tn-badge-modal-wrapper .font-tajawal {
+    font-family: "Tajawal", sans-serif !important;
+}
+
+/* زر الإغلاق الافتراضي */
+.tn-badge-modal-wrapper .tn-modal-close-btn:focus {
+    box-shadow: none !important;
+}
+
+/* تحسين شكل حقل الإدخال الرقمي */
+.tn-badge-modal-wrapper .tn-s-filter-select {
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 10px !important;
+    padding: 10px 14px !important;
+    font-size: 0.95rem !important;
+    transition: all 0.2s ease-in-out !important;
+}
+
+.tn-badge-modal-wrapper .tn-s-filter-select:focus {
+    border-color: #F28B0D !important;
+    box-shadow: 0 0 0 3px rgba(242, 139, 13, 0.15) !important;
+}

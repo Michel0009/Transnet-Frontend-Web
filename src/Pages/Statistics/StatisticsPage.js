@@ -70,40 +70,7 @@ const Statistics = () => {
       if (selectedGovernorates.length > 0) {
         payload.governorate_ids = selectedGovernorates;
       }
-      setGeneralStats({
-        shipments_count_today: 187,
-        this_month_earnings: 8750000,
-        clients_count: 342,
-        drivers_count: 96,
 
-        user_statistics: {
-          clients_count: 342,
-          clients_percentage: 63,
-
-          drivers_count: 96,
-          drivers_percentage: 18,
-
-          frozen_drivers_count: 34,
-          frozen_drivers_percentage: 6,
-
-          blocked_clients_count: 41,
-          blocked_clients_percentage: 8,
-
-          blocked_drivers_count: 28,
-          blocked_drivers_percentage: 5,
-        },
-      });
-
-      setShipmentStats([
-        { name: "دمشق", shipments_count: 210 },
-        { name: "ريف دمشق", shipments_count: 185 },
-        { name: "حلب", shipments_count: 170 },
-        { name: "حمص", shipments_count: 95 },
-        { name: "حماة", shipments_count: 80 },
-        { name: "اللاذقية", shipments_count: 75 },
-        { name: "طرطوس", shipments_count: 52 },
-        { name: "درعا", shipments_count: 45 },
-      ]);
       const [generalRes, shipmentRes] = await Promise.all([
       api.get(endpoints.statistics.getGeneralStatistics),
       api.post(endpoints.statistics.getStatistics, payload),
