@@ -7,17 +7,13 @@ import {
   Table,
   Spinner,
   Pagination,
-  ButtonGroup,
   Button,
-  Form, 
+  Form,
   InputGroup,
 } from "react-bootstrap";
 import {
   FaBox,
-  FaShieldAlt,
-  FaTruck,
   FaArrowLeft,
-  FaCheck,
   FaTimes,
   FaCube,
   FaBoxes,
@@ -32,33 +28,25 @@ import { handleAxiosError } from "../../Utils/ErrorHandler";
 import { useNavigate } from "react-router-dom";
 
 const Shipments = () => {
-  const [filter, setFilter] = useState("all");
   const [shipments, setShipments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
   const [totalShipments, setTotalShipments] = useState(0);
-
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
-    let isCurrentRequest = true;
-    const fetchShipments = async (page = 1, currentFilter) => {
+    const fetchShipments = async (page = 1) => {
       setLoading(true);
       try {
         let endpoint;
         if (isSearching && searchQuery.trim()) {
           endpoint = endpoints.shipments.search(searchQuery.trim());
         } else {
-          endpoint =
-            currentFilter === "insured"
-              ? endpoints.shipments.insured(page)
-              : endpoints.shipments.get(page);
+          endpoint = endpoints.shipments.get(page);
         }
         const response = await api.get(endpoint);
-
-        if (!isCurrentRequest) return;
 
         if (isSearching) {
           if (response.data && response.data.shipment) {
@@ -75,36 +63,20 @@ const Shipments = () => {
           setTotalShipments(response.data.total || 0);
         }
       } catch (error) {
-        if (isCurrentRequest) {
-          if (error?.response?.status === 404) {
-            toast.info("لا توجد شحنات تطابق رقم التتبع المدخل.");
-          } else {
-            toast.error(handleAxiosError(error));
-          }
-          setShipments([]);
+        if (error?.response?.status === 404) {
+          toast.info("لا توجد شحنات تطابق رقم التتبع المدخل.");
+        } else {
+          toast.error(handleAxiosError(error));
         }
+        setShipments([]);
       } finally {
-        if (isCurrentRequest) {
-          setLoading(false);
-        }
+        setLoading(false);
       }
     };
-    fetchShipments(currentPage, filter);
-    return () => {
-      isCurrentRequest = false;
-    };
+    fetchShipments(currentPage);
     // eslint-disable-next-line
-  }, [currentPage, filter, isSearching]);
+  }, [currentPage, isSearching]);
 
-  const handleFilterChange = (newFilter) => {
-    if (newFilter === filter) return;
-    setLoading(true);
-    setShipments([]);
-    setFilter(newFilter);
-    setSearchQuery("");
-    setIsSearching(false);
-    setCurrentPage(1);
-  };
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     if (!searchQuery.trim()) return;
@@ -178,30 +150,6 @@ const Shipments = () => {
             </div>
           </div>
         </Col>
-
-        <Col xs={12} md={6} className="d-flex justify-content-md-end">
-          <div className="tn-s-admin-segmented-control">
-            <div
-              className={`tn-s-segmented-highlight ${filter === "insured" ? "tn-s-right-aligned" : ""}`}
-            ></div>
-            <ButtonGroup className="w-100 position-relative z-1">
-              <Button
-                variant="link"
-                className={`tn-s-segmented-btn ${filter === "all" ? "tn-s-active" : ""}`}
-                onClick={() => handleFilterChange("all")}
-              >
-                <FaTruck className="ms-2 tn-s-icon-sm" /> جميع الشحنات
-              </Button>
-              <Button
-                variant="link"
-                className={`tn-s-segmented-btn ${filter === "insured" ? "tn-s-active" : ""}`}
-                onClick={() => handleFilterChange("insured")}
-              >
-                <FaShieldAlt className="ms-2 tn-s-icon-sm" /> الشحنات المؤمنة
-              </Button>
-            </ButtonGroup>
-          </div>
-        </Col>
       </Row>
 
       <Row className="mb-4 g-3 align-items-end">
@@ -210,9 +158,7 @@ const Shipments = () => {
             <Card.Body className="d-flex align-items-center justify-content-between p-4">
               <div>
                 <p className="tn-s-kpi-title mb-1">
-                  {filter === "insured"
-                    ? "إجمالي الشحنات المؤمنة"
-                    : "إجمالي الشحنات الحالية"}
+                     إجمالي الشحنات الحالية
                 </p>
                 <h3 className="tn-s-kpi-value mb-0">
                   {loading ? (
@@ -296,7 +242,6 @@ const Shipments = () => {
                     </th>
                     <th className="text-center">الوزن</th>
                     <th className="text-center">التكلفة</th>
-                    <th className="text-center">التأمين</th>
                     <th className="text-center">الحالة</th>
                   </tr>
                 </thead>
@@ -330,7 +275,10 @@ const Shipments = () => {
                             <span>{shipment.end_governorate}</span>
                           </div>
                         </td>
-                        <td dir="ltr" className="tn-s-dimensions-cell text-center">
+                        <td
+                          dir="ltr"
+                          className="tn-s-dimensions-cell text-center"
+                        >
                           <div className="tn-s-dimension-group justify-content-end">
                             <div
                               className="tn-s-dimension-badge"
@@ -376,17 +324,8 @@ const Shipments = () => {
                           <span className="tn-s-currency-label">ل.س</span>
                         </td>
                         <td className="text-center">
-                          {shipment.insurance ? (
-                            <span className="tn-s-insurance-badge tn-s-true">
-                              <FaCheck size={9} /> مؤمنة
-                            </span>
-                          ) : (
-                            <span className="tn-s-insurance-badge tn-s-false">
-                              <FaTimes size={9} /> غير مؤمنة
-                            </span>
-                          )}
+                          {renderStatusBadge(shipment.status)}
                         </td>
-                        <td className="text-center">{renderStatusBadge(shipment.status)}</td>
                       </tr>
                     ))
                   ) : (

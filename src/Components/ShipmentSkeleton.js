@@ -34,12 +34,6 @@ const ShipmentsSkeleton = ({ rows = 10 }) => {
             <div className="tn-skeleton tn-skeleton-text w-50 mx-auto"></div>
           </td>
           <td className="text-center">
-            <div
-              className="tn-skeleton tn-skeleton-pill mx-auto"
-              style={{ width: "70px", height: "22px" }}
-            ></div>
-          </td>
-          <td className="text-center">
             <div className="d-flex align-items-center justify-content-center gap-2 small">
               <div
                 className="tn-skeleton tn-skeleton-badge"

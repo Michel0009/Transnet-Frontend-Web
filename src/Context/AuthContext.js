@@ -9,7 +9,7 @@ import api, { setupInterceptors, refreshTokenApi } from "../Api/Api";
 import LoadingScreen from "../Components/LoadingScreen";
 import { endpoints } from "../Api/Endpoints";
 import { toast } from "react-toastify";
-
+import { initEcho } from "../Api/Echo";
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
@@ -39,6 +39,7 @@ export const AuthProvider = ({ children }) => {
         try {
           const token = await refreshTokenApi();
           setAccessToken(token);
+          initEcho(token);
         } catch (error) {
           setAccessToken(null);
           setRole(null);
@@ -57,8 +58,13 @@ export const AuthProvider = ({ children }) => {
   const handleSetAccessToken = (token) => {
     if (token) {
       localStorage.setItem("was_logged_in", "true");
+       initEcho(token);
     } else {
       localStorage.removeItem("was_logged_in");
+       if (window.Echo) {
+         window.Echo.disconnect();
+         window.Echo = null;
+       }
     }
     setAccessToken(token);
   };

@@ -5,7 +5,6 @@ import {
   Truck,
   User,
   CreditCard,
-  ShieldCheck,
   Box,
   Map,
   ArrowRight,
@@ -393,7 +392,9 @@ const ShipmentDetails = () => {
 
                 <Button
                   className="tn-gt-trigger-map-action variant-action-neon-luxury border-0 w-100"
-                  onClick={() => navigate(`/shipments/${id}/map`)}
+                  onClick={() =>
+                    navigate(`/dashboard/tracking/${shipment.shipment_number}`)
+                  }
                 >
                   <Map size={16} />
                   <span>ولوج فوري للنظام الخرائطي المباشر والتتبع الحي</span>
@@ -503,28 +504,6 @@ const ShipmentDetails = () => {
                     </div>
                   </Col>
                 </Row>
-
-                <div className="tn-gt-insurance-compliance-banner mt-auto">
-                  {shipment.insurance ? (
-                    <div className="tn-gt-insurance-status is-protected">
-                      <ShieldCheck size={20} className="flex-shrink-0" />
-                      <div className="tn-gt-ins-text">
-                        <h5>التأمين: مفعل</h5>
-                        <p>
-                          هذه الشحنة مغطاة بالكامل ضد مخاطر الشحن أو الفقدان
-                          والضرر.
-                        </p>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="tn-gt-insurance-status is-exposed">
-                      <div className="tn-gt-ins-text">
-                        <h5>التأمين: غير مدرج</h5>
-                        <p>لم يتم تفعيل خيار التأمين المالي على هذه الشحنة.</p>
-                      </div>
-                    </div>
-                  )}
-                </div>
               </Card.Body>
             </Card>
           </Col>

@@ -88,7 +88,7 @@ const EmailVerification = () => {
       } else {
         if (response.data.token) {
           setAccessToken(response.data.token);
-          navigate("/dashboard");
+          navigate("/dashboard/drivers", { replace: true });
         }
       }
     } catch (error) {

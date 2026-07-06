@@ -8,16 +8,17 @@ import ProtectedRoute from "./Components/ProtectedRoute";
 import PublicRoute from "./Components/PublicRoute";
 import TopLoader from "./Components/TopLoader";
 
-
 const Login = lazy(() => import("./Pages/Auth/Login"));
 const EmailVerification = lazy(() => import("./Pages/Auth/EmailVerification"));
 const EmailSending = lazy(() => import("./Pages/Auth/EmailSending"));
 const NotFound = lazy(() => import("./Components/NotFound"));
 const ResetPassword = lazy(() => import("./Pages/Auth/ResetPassword"));
 const SubAdminsPage = lazy(() => import("./Pages/SubAdmins/SubAdminsPage"));
-const VehicleTypeDetails = lazy(() => import("./Pages/Vehicles/VehicleTypeDetails"));
-const PricingSettings = lazy(() => import ("./Pages/Pricing/PricingSettings"));
-const ContractTerms = lazy(() => import ("./Pages/Contracts/ContractTerms"));
+const VehicleTypeDetails = lazy(
+  () => import("./Pages/Vehicles/VehicleTypeDetails"),
+);
+const PricingSettings = lazy(() => import("./Pages/Pricing/PricingSettings"));
+const ContractTerms = lazy(() => import("./Pages/Contracts/ContractTerms"));
 const DashboardLayout = lazy(() => import("./Layouts/DashboardLayout"));
 const Drivers = lazy(() => import("./Pages/Drivers/Drivers"));
 const CreateDriver = lazy(() => import("./Pages/Drivers/CreateDriver"));
@@ -28,13 +29,13 @@ const ClientDetails = lazy(() => import("./Pages/Clients/ClientDetails"));
 const BlockedUsers = lazy(() => import("./Pages/General/BlockedUsers"));
 const Shipments = lazy(() => import("./Pages/Shipments/Shipments"));
 const ShipmentDetails = lazy(() => import("./Pages/Shipments/ShipmentDetails"));
+const TrackingMap = lazy(() => import("./Pages/Tracking/TrackingMap"));
 const StatisticsPage = lazy(() => import("./Pages/Statistics/StatisticsPage"));
 const BadgesPage = lazy(() => import("./Pages/Badges/BadgesPage"));
 const ReportsPage = lazy(() => import("./Pages/Reports/ReportsPage"));
 
 function App() {
   const { loading } = useAuth();
-
   if (loading) return <LoadingScreen />;
 
   return (
@@ -71,11 +72,19 @@ function App() {
               <Route path="vehicles" element={<VehicleTypeDetails />} />
               <Route path="pricing" element={<PricingSettings />} />
               <Route path="subadmins" element={<SubAdminsPage />} />
-              <Route path="contracts" element={<ContractTerms/>} />
-              <Route path="statistics" element={<StatisticsPage/>} />
+
               <Route path="badges" element={<BadgesPage/>} />
               <Route path="reports" element={<ReportsPage/>} />
 
+
+
+              <Route path="tracking" element={<TrackingMap />} />
+              <Route
+                path="tracking/:shipmentNumber"
+                element={<TrackingMap />}
+              />
+              <Route path="contracts" element={<ContractTerms />} />
+              <Route path="statistics" element={<StatisticsPage />} />
 
               <Route index element={<Navigate to="drivers" replace />} />
             </Route>

@@ -763,7 +763,6 @@ const DriverDetails = () => {
                             الأبعاد (ارتفاع×عرض×طول)
                           </th>
                           <th className="text-center">الوزن</th>
-                          <th className="text-center">التأمين</th>
                           <th className="text-center">المسار</th>
                           <th className="text-center">التكلفة</th>
                           <th className="text-center">الحالة</th>
@@ -840,19 +839,6 @@ const DriverDetails = () => {
                               </td>
                               <td className="text-center text-nowrap">
                                 {ship.weight} كغ
-                              </td>
-                              <td className="text-center">
-                                {ship.insurance ? (
-                                  <span className="tn-insurance-badge insured">
-                                    <span className="dot"></span>
-                                    مؤمنة
-                                  </span>
-                                ) : (
-                                  <span className="tn-insurance-badge not-insured">
-                                    <span className="dot"></span>
-                                    غير مؤمنة
-                                  </span>
-                                )}
                               </td>
                               <td className="text-center">
                                 <div className="d-flex align-items-center gap-2 small">

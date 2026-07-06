@@ -18,7 +18,7 @@ import {
   faUser,
   faBan,
   faFileSignature,
-  faAward,
+  faIdBadge,
 } from "@fortawesome/free-solid-svg-icons";
 import "./Sidebar.css";
 import logo from "../assets/logo2.png";
@@ -137,39 +137,46 @@ const Sidebar = () => {
             <span className="tn-nav-text">المحظورين</span>
           </Nav.Link>
 
-          
-            <Nav.Link
-              as={NavLink}
-              to="/dashboard/vehicles"
-              className="tn-nav-item"
-            >
-              <FontAwesomeIcon icon={faShippingFast} className="tn-icon" />
-              <span className="tn-nav-text">المركبات</span>
-            </Nav.Link>
-          
 
+          <Nav.Link
+            as={NavLink}
+            to="/dashboard/vehicles"
+            className="tn-nav-item"
+          >
+            <FontAwesomeIcon icon={faShippingFast} className="tn-icon" />
+            <span className="tn-nav-text">المركبات</span>
+          </Nav.Link>
+
+
+          <Nav.Link
+            as={NavLink}
+            to="/dashboard/badges"
+            className="tn-nav-item"
+            onClick={handleMobileLinkClick}
+          >
+            <FontAwesomeIcon icon={faIdBadge} className="tn-icon" />
+            <span className="tn-nav-text">الشارات</span>
+          </Nav.Link>
           {role === "admin" && (
-            <Nav.Link
-              as={NavLink}
-              to="/dashboard/pricing"
-              className="tn-nav-item"
-            >
-              <FontAwesomeIcon icon={faTags} className="tn-icon" />
-              <span className="tn-nav-text">التسعيرات</span>
-            </Nav.Link>
+            <>
+              <Nav.Link
+                as={NavLink}
+                to="/dashboard/pricing"
+                className="tn-nav-item"
+              >
+                <FontAwesomeIcon icon={faTags} className="tn-icon" />
+                <span className="tn-nav-text">التسعيرات</span>
+              </Nav.Link>
+              <Nav.Link
+                as={NavLink}
+                to="/dashboard/subadmins"
+                className="tn-nav-item"
+              >
+                <FontAwesomeIcon icon={faUser} className="tn-icon" />
+                <span className="tn-nav-text">الموظفين</span>
+              </Nav.Link>
+            </>
           )}
-
-          {role === "admin" && (
-            <Nav.Link
-              as={NavLink}
-              to="/dashboard/subadmins"
-              className="tn-nav-item"
-            >
-              <FontAwesomeIcon icon={faUser} className="tn-icon" />
-              <span className="tn-nav-text">الموظفين</span>
-            </Nav.Link>
-          )}
-
           {role === "admin" && (
             <Nav.Link
               as={NavLink}
@@ -181,16 +188,6 @@ const Sidebar = () => {
             </Nav.Link>
           )}
 
-                    {role === "admin" && (
-            <Nav.Link
-              as={NavLink}
-              to="/dashboard/badges"
-              className="tn-nav-item"
-            >
-              <FontAwesomeIcon icon={faAward} className="tn-icon" />
-              <span className="tn-nav-text">الشارات</span>
-            </Nav.Link>
-          )}
 
           <Nav.Link
             as={NavLink}
@@ -198,7 +195,9 @@ const Sidebar = () => {
             className="tn-nav-item"
           >
             <FontAwesomeIcon icon={faFileInvoice} className="tn-icon" />
-            <span className="tn-nav-text">الإبلاغات</span>
+
+            <span className="tn-nav-text">الابلاغات</span>
+
           </Nav.Link>
         </Nav>
 

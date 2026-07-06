@@ -25,8 +25,11 @@ import {
   CategoryScale,
   LinearScale,
   BarElement,
+  PointElement,
+  LineElement,
+  Filler,
 } from "chart.js";
-import { Pie, Bar } from "react-chartjs-2";
+import { Pie, Bar, Line } from "react-chartjs-2";
 import { toast } from "react-toastify";
 import api from "../../Api/Api";
 import { endpoints } from "../../Api/Endpoints";
@@ -41,6 +44,9 @@ ChartJS.register(
   CategoryScale,
   LinearScale,
   BarElement,
+  PointElement,
+  LineElement,
+  Filler,
 );
 
 const Statistics = () => {
@@ -48,6 +54,7 @@ const Statistics = () => {
   const [exporting, setExporting] = useState(false);
   const [generalStats, setGeneralStats] = useState(null);
   const [shipmentStats, setShipmentStats] = useState([]);
+  const [earningsStats, setEarningsStats] = useState(null);
 
   // الحالة الخاصة بالفلترة الزمنية (تم وضع قيمة افتراضية "month")
   const [filterDate, setFilterDate] = useState("months");
@@ -72,12 +79,13 @@ const Statistics = () => {
       }
 
       const [generalRes, shipmentRes] = await Promise.all([
-      api.get(endpoints.statistics.getGeneralStatistics),
-      api.post(endpoints.statistics.getStatistics, payload),
+        api.get(endpoints.statistics.getGeneralStatistics),
+        api.post(endpoints.statistics.getStatistics, payload),
       ]);
 
       setGeneralStats(generalRes.data);
       setShipmentStats(shipmentRes.data.shipments_count_statistics || []);
+      setEarningsStats(shipmentRes.data.shipments_earnings_statistics || null);
     } catch (error) {
       if (error?.response?.status === 422) {
         const validationErrors = error.response.data?.errors;
@@ -143,16 +151,16 @@ const Statistics = () => {
     }
   };
 
-if (loading) {
-  return (
-    <div className="d-flex flex-column justify-content-center align-items-center vh-100">
-      <Spinner animation="grow" className="tn-load-orange" /> 
-      <span className="mt-3 text-muted fw-semibold">
-        جاري تحميل الإحصائيات...
-      </span>
-    </div>
-  );
-}
+  if (loading) {
+    return (
+      <div className="d-flex flex-column justify-content-center align-items-center vh-100">
+        <Spinner animation="grow" className="tn-load-orange" />
+        <span className="mt-3 text-muted fw-semibold">
+          جاري تحميل الإحصائيات...
+        </span>
+      </div>
+    );
+  }
 
   // إعداد بيانات ومخطط Pie Chart لـ حالة المستخدمين
   const userStats = generalStats?.user_statistics || {};
@@ -174,11 +182,11 @@ if (loading) {
           userStats.blocked_drivers_percentage || 0,
         ],
         backgroundColor: [
-          "#0D7FF2", 
-          "#F28B0D", 
-          "#ffb04d", 
+          "#0D7FF2",
+          "#F28B0D",
+          "#ffb04d",
           "#64748b",
-          "#475569", 
+          "#475569",
         ],
         borderWidth: 2,
         borderColor: "#ffffff",
@@ -240,7 +248,86 @@ if (loading) {
       },
     },
   };
+  // إعداد بيانات ومخطط الأرباح (Line Chart) - يعكس الصعود والهبوط في الإيرادات عبر الزمن
+  const earningsByDate = earningsStats?.earnings_by_date || {};
+  const earningsEntries = Object.entries(earningsByDate);
 
+  const formatEarningsLabel = (key) => {
+    if (/^\d{4}-\d{2}-\d{2} \d{2}:00$/.test(key)) {
+      return key.split(" ")[1];
+    }
+    if (/^\d{4}-\d{2}-\d{2}$/.test(key)) {
+      const [, m, d] = key.split("-");
+      return `${d}/${m}`;
+    }
+    if (/^\d{4}-\d{2}$/.test(key)) {
+      const [y, m] = key.split("-");
+      return `${m}/${y}`;
+    }
+    return key;
+  };
+
+  const lineChartData = {
+    labels: earningsEntries.map(([key]) => formatEarningsLabel(key)),
+    datasets: [
+      {
+        label: "الأرباح",
+        data: earningsEntries.map(([, value]) => value),
+        borderColor: "#ff8c00",
+        backgroundColor: (context) => {
+          const chart = context.chart;
+          const { ctx, chartArea } = chart;
+          if (!chartArea) return "rgba(255, 140, 0, 0.15)";
+          const gradient = ctx.createLinearGradient(
+            0,
+            chartArea.top,
+            0,
+            chartArea.bottom,
+          );
+          gradient.addColorStop(0, "rgba(255, 140, 0, 0.28)");
+          gradient.addColorStop(1, "rgba(255, 140, 0, 0.02)");
+          return gradient;
+        },
+        fill: true,
+        tension: 0.35,
+        pointRadius: 4,
+        pointHoverRadius: 6,
+        pointBackgroundColor: "#ffffff",
+        pointBorderColor: "#ff8c00",
+        pointBorderWidth: 2,
+        borderWidth: 3,
+      },
+    ],
+  };
+
+  const lineChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        rtl: true,
+        callbacks: {
+          label: (context) =>
+            ` ${Number(context.raw).toLocaleString("ar-SY")} ل.س`,
+        },
+      },
+    },
+    scales: {
+      x: {
+        grid: { display: false },
+        ticks: { font: { family: "Tajawal", weight: "600" } },
+      },
+      y: {
+        beginAtZero: true,
+        grid: { color: "#f1f5f9" },
+        ticks: {
+          font: { family: "Tajawal" },
+          callback: (value) => Number(value).toLocaleString("ar-SY"),
+        },
+      },
+    },
+  };
   return (
     <Container fluid className="tn-s-admin-page-container" dir="rtl">
       {/* القسم العلوي: تم تقسيم الفلاتر لتصبح أسفل العنوان وزر التصدير لحل مشكلة التكدس المساحي */}
@@ -362,7 +449,7 @@ if (loading) {
           <Card className="tn-s-kpi-card border-0">
             <Card.Body className="d-flex align-items-center justify-content-between p-4">
               <div>
-                <p className="tn-s-kpi-title mb-1">الإيرادات الشهرية</p>
+                <p className="tn-s-kpi-title mb-1">إيرادات الشهر الحالي</p>
                 <h3 className="tn-s-kpi-value mb-0">
                   {generalStats?.this_month_earnings || 0}
                   <span className="tn-s-currency-label ms-1">ل.س</span>
@@ -412,48 +499,48 @@ if (loading) {
       <Row className="g-4 mb-5">
         {/* كارد حالة المستخدمين */}
         <Col xs={12} lg={6}>
-  <Card className="tn-s-admin-card border-0 p-4">
-    <h5 className="tn-s-chart-title mb-4">حالة المستخدمين</h5>
-    <div className="tn-s-chart-wrapper-pie">
-      <Pie data={pieChartData} options={pieChartOptions} />
-    </div>
-    <div className="tn-s-real-counts-container mt-4 pt-3 border-top">
-      <Row className="g-2 text-center">
-        <Col xs={4}>
-          <div className="tn-s-count-label">العملاء</div>
-          {/* تم تعديل الكلاس ليصبح مخصصاً للعملاء */}
-          <div className="tn-s-count-val tn-s-color-clients">
-            {userStats.clients_count || 0}
-          </div>
-        </Col>
-        <Col xs={4}>
-          <div className="tn-s-count-label">السائقون</div>
-          {/* تم تعديل الكلاس ليصبح مخصصاً للسائقين */}
-          <div className="tn-s-count-val tn-s-color-drivers">
-            {userStats.drivers_count || 0}
-          </div>
-        </Col>
-        <Col xs={4}>
-          <div className="tn-s-count-label">السائقون المجمدون</div>
-          {/* تم تعديل الكلاس ليصبح مخصصاً للمجمدين */}
-          <div className="tn-s-count-val tn-s-color-frozen">
-            {userStats.frozen_drivers_count || 0}
-          </div>
-        </Col>
-        <Col xs={6} className="mt-2">
-          <div className="tn-s-count-label">عملاء محظورون</div>
-          {/* تم تعديل الكلاس ليصبح مخصصاً للعملاء المحظورين */}
-          <div className="tn-s-count-val tn-s-color-blocked-clients">
-            {userStats.blocked_clients_count || 0}
-          </div>
-        </Col>
-        <Col xs={6} className="mt-2">
-          <div className="tn-s-count-label">سائقون محظورون</div>
-          {/* تم تعديل الكلاس ليصبح مخصصاً للسائقين المحظورين */}
-          <div className="tn-s-count-val tn-s-color-blocked-drivers">
-            {userStats.blocked_drivers_count || 0}
-          </div>
-        </Col>
+          <Card className="tn-s-admin-card border-0 p-4">
+            <h5 className="tn-s-chart-title mb-4">حالة المستخدمين</h5>
+            <div className="tn-s-chart-wrapper-pie">
+              <Pie data={pieChartData} options={pieChartOptions} />
+            </div>
+            <div className="tn-s-real-counts-container mt-4 pt-3 border-top">
+              <Row className="g-2 text-center">
+                <Col xs={4}>
+                  <div className="tn-s-count-label">العملاء</div>
+                  {/* تم تعديل الكلاس ليصبح مخصصاً للعملاء */}
+                  <div className="tn-s-count-val tn-s-color-clients">
+                    {userStats.clients_count || 0}
+                  </div>
+                </Col>
+                <Col xs={4}>
+                  <div className="tn-s-count-label">السائقون</div>
+                  {/* تم تعديل الكلاس ليصبح مخصصاً للسائقين */}
+                  <div className="tn-s-count-val tn-s-color-drivers">
+                    {userStats.drivers_count || 0}
+                  </div>
+                </Col>
+                <Col xs={4}>
+                  <div className="tn-s-count-label">السائقون المجمدون</div>
+                  {/* تم تعديل الكلاس ليصبح مخصصاً للمجمدين */}
+                  <div className="tn-s-count-val tn-s-color-frozen">
+                    {userStats.frozen_drivers_count || 0}
+                  </div>
+                </Col>
+                <Col xs={6} className="mt-2">
+                  <div className="tn-s-count-label">عملاء محظورون</div>
+                  {/* تم تعديل الكلاس ليصبح مخصصاً للعملاء المحظورين */}
+                  <div className="tn-s-count-val tn-s-color-blocked-clients">
+                    {userStats.blocked_clients_count || 0}
+                  </div>
+                </Col>
+                <Col xs={6} className="mt-2">
+                  <div className="tn-s-count-label">سائقون محظورون</div>
+                  {/* تم تعديل الكلاس ليصبح مخصصاً للسائقين المحظورين */}
+                  <div className="tn-s-count-val tn-s-color-blocked-drivers">
+                    {userStats.blocked_drivers_count || 0}
+                  </div>
+                </Col>
               </Row>
             </div>
           </Card>
@@ -572,24 +659,52 @@ if (loading) {
       </Row>
 
       {/* الصف الثالث: Placeholder نسبة الأرباح الشهرية */}
+      {/* الصف الثالث: مخطط الأرباح عبر الزمن */}
       <Row>
         <Col xs={12}>
-          <Card className="tn-s-admin-card border-0 p-5 text-center">
-            <div className="tn-s-placeholder-icon-box mb-3">
-              <FaClock className="tn-s-clock-pulse" />
+          <Card className="tn-s-admin-card border-0 p-4">
+            <div className="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-4">
+              <h5 className="tn-s-chart-title mb-0">تطور الأرباح عبر الزمن</h5>
+
+              {earningsStats && (
+                <div className="d-flex align-items-center gap-4">
+                  <div className="text-center">
+                    <div className="tn-s-count-label">شحنات غير مدفوعة</div>
+                    <div className="tn-s-count-val tn-s-color-blocked-drivers">
+                      {earningsStats.unpaid_shipments_count || 0}
+                    </div>
+                  </div>
+                  <div className="text-center">
+                    <div className="tn-s-count-label">أرباح غير محصلة</div>
+                    <div className="tn-s-count-val tn-s-color-drivers">
+                      {Number(
+                        earningsStats.unpaid_shipments_earnings || 0,
+                      ).toLocaleString("ar-SY")}{" "}
+                      <span className="tn-s-currency-label">ل.س</span>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
-            <h5 className="fw-bold text-dark mb-2">نسبة الأرباح الشهرية</h5>
-            <p
-              className="tn-s-admin-page-subtitle mx-auto"
-              style={{ maxWidth: "450px" }}
-            >
-              سيتم إضافة إحصائيات الأرباح الشهرية قريباً.
-            </p>
+
+            <div className="tn-s-chart-wrapper-line">
+              {earningsEntries.length > 0 ? (
+                <Line data={lineChartData} options={lineChartOptions} />
+              ) : (
+                <div className="h-100 d-flex flex-column align-items-center justify-content-center text-muted">
+                  <FaClock
+                    className="tn-s-clock-pulse mb-2"
+                    style={{ fontSize: "1.8rem" }}
+                  />
+                  لا توجد بيانات أرباح لعرضها ضمن الفترة المحددة.
+                </div>
+              )}
+            </div>
           </Card>
         </Col>
       </Row>
     </Container>
   );
-};
+};;
 
 export default Statistics;
