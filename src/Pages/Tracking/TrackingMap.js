@@ -147,7 +147,6 @@ function ShipmentPanel({ data, onClose }) {
 
       <StatusBadge status={shipment.status} />
 
-      {/* مسار بصري */}
       <div style={{ margin: "4px 0 2px" }}>
         <div className="route-visual">
           <div className="route-dot start" />

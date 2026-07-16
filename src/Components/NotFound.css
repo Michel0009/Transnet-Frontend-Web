@@ -10,7 +10,6 @@
     padding: 20px;
 }
 
-/* Blobs الخلفية للديكور */
 .nf-blob {
     position: absolute;
     width: 500px;
@@ -33,7 +32,6 @@
     left: -5%;
 }
 
-/* كارد الـ Glassmorphism */
 .nf-content-card {
     max-width: 600px;
     z-index: 10;
@@ -88,7 +86,6 @@
     line-height: 1.7;
 }
 
-/* الأزرار */
 .nf-actions {
     display: flex;
     gap: 15px;
@@ -144,7 +141,6 @@
     color: #00357f;
 }
 
-/* Responsive */
 @media (max-width: 576px) {
     .nf-error-code { font-size: 5rem; }
     .nf-actions { flex-direction: column; }

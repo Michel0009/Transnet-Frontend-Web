@@ -65,7 +65,6 @@ export default function AddVehicleTypeModal({ onClose, onSuccess }) {
         onClose();
       }
     } catch (error) {
-      // Validation Errors من Laravel
       if (error.response?.status === 422) {
         toast.error(error.response.data.message);
 

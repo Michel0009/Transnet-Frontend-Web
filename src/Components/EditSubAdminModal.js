@@ -33,7 +33,6 @@ const EditAdminModal = ({
     phone_number: "",
   });
 
-  // تعبئة البيانات عند فتح المودال
   useEffect(() => {
 
     if (show && adminData) {
@@ -75,7 +74,6 @@ const EditAdminModal = ({
       updatedFields.phone_number = form.phone_number;
     }
 
-    // لا يوجد تعديلات
     if (Object.keys(updatedFields).length === 0) {
 
       toast.info("لم تقم بإجراء أي تعديل");
@@ -215,7 +213,6 @@ const EditAdminModal = ({
 
           </Form.Group>
 
-          {/* PHONE */}
           <Form.Group>
 
             <Form.Label className="fw-bold">

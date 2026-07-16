@@ -131,7 +131,6 @@ const ClientDetails = () => {
           </div>
         </div>
 
-        {/* Bento Grid Stats */}
         <Row className="g-4 mb-5">
           <Col xs={12} lg={4}>
             <div className="tn-cd-bento-card">
@@ -175,7 +174,6 @@ const ClientDetails = () => {
                 </span>
               </div>
               <div className="d-flex flex-column gap-3">
-                {/* الحالة */}
                 <div className="d-flex align-items-center justify-content-between">
                   <span className="tn-cd-text-muted fw-medium">الحالة:</span>
                   <span
@@ -184,7 +182,6 @@ const ClientDetails = () => {
                     {client.status || "نشط"}
                   </span>
                 </div>
-                {/* رقم المعرف */}
                 <div className="d-flex align-items-center justify-content-between">
                   <span className="tn-cd-text-muted fw-medium">
                     رقم المعرف:
@@ -196,7 +193,6 @@ const ClientDetails = () => {
                     <Hash size={14} /> {client.user_number}
                   </div>
                 </div>
-                {/* تاريخ الانضمام - المضاف حديثاً */}
                 <div className="d-flex align-items-center justify-content-between">
                   <span className="tn-cd-text-muted fw-medium">
                     تاريخ الانضمام:
@@ -234,7 +230,6 @@ const ClientDetails = () => {
           </Col>
         </Row>
 
-        {/* Timeline Section */}
         <div className="mt-5">
           <div className="d-flex align-items-center gap-3 mb-4">
             <div

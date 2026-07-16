@@ -447,7 +447,6 @@ const ShipmentDetails = () => {
                         className="d-flex align-items-center justify-content-center gap-1 font-monospace tn-gt-dims"
                         title={`الطول: ${Number(shipment.length)} | العرض: ${Number(shipment.width)} | الارتفاع: ${Number(shipment.height)}`}
                       >
-                        {/* الطول */}
                         <div className="d-flex flex-column align-items-center">
                           <h4 className="m-0 fw-bold">
                             {Number(shipment.length)}
@@ -460,7 +459,6 @@ const ShipmentDetails = () => {
                           </small>
                         </div>
 
-                        {/* فاصل */}
                         <span
                           className="text-muted px-1 align-self-start"
                           style={{ transform: "translateY(2px)" }}
@@ -468,7 +466,6 @@ const ShipmentDetails = () => {
                           ×
                         </span>
 
-                        {/* العرض */}
                         <div className="d-flex flex-column align-items-center">
                           <h4 className="m-0 fw-bold">
                             {Number(shipment.width)}
@@ -481,7 +478,6 @@ const ShipmentDetails = () => {
                           </small>
                         </div>
 
-                        {/* فاصل */}
                         <span
                           className="text-muted px-1 align-self-start"
                           style={{ transform: "translateY(2px)" }}
@@ -489,7 +485,6 @@ const ShipmentDetails = () => {
                           ×
                         </span>
 
-                        {/* الارتفاع */}
                         <div className="d-flex flex-column align-items-center">
                           <h4 className="m-0 fw-bold">
                             {Number(shipment.height)}

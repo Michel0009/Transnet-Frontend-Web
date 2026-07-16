@@ -13,7 +13,6 @@ const AddCoefficientModal = ({ onClose, onSuccess }) => {
 
   const [errors, setErrors] = useState({});
 
-  // منع إدخال HTML
   const stripHtml = (value) => {
     const div = document.createElement("div");
 
@@ -22,7 +21,6 @@ const AddCoefficientModal = ({ onClose, onSuccess }) => {
     return div.textContent || div.innerText || "";
   };
 
-  // تغيير القيم + تصفير الخطأ
   const handleChange = (field, value) => {
     setFormData((prev) => ({
       ...prev,

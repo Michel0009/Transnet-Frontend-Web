@@ -9,7 +9,7 @@
   justify-content: center;
   align-items: center;
   z-index: 3000;
-    overflow: hidden; /* يمنع تمرير الصفحة الخلفية */
+    overflow: hidden;
 }
 
 .modal-container {
@@ -20,9 +20,9 @@
   max-width: 95%;
   box-shadow: 0 8px 25px rgba(0,0,0,0.2);
   animation: popup 0.25s ease;
-   max-height: 90vh; /* لا يتجاوز الشاشة */
-  overflow-y: auto; /* يسمح بالسكرول */
-  padding-right: 10px; /* حتى لا يلتصق المحتوى */
+   max-height: 90vh; 
+  overflow-y: auto; 
+  padding-right: 10px;
    overflow: visible; 
 }
 
@@ -30,7 +30,7 @@
   max-height: 80vh;
   overflow-y: auto;
   padding: 20px;
-    overscroll-behavior: contain; /* يمنع تمرير الحدث للصفحة */
+    overscroll-behavior: contain; 
 }
 
 @keyframes popup {
@@ -45,7 +45,7 @@
   font-weight: 700;
    display: flex;
   align-items: center;
-  gap: 10px; /* مسافة بين الأيقونة والعنوان */
+  gap: 10px;
   
 
 }

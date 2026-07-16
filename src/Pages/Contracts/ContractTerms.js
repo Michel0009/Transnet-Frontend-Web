@@ -40,7 +40,6 @@ const ContractTerms = () => {
     const originalOrder = Number(term.order);
     const newOrder = Number(editedOrder);
 
-    // لا تحفظ إذا لم يتغير الرقم
     if (newOrder === originalOrder) {
       setEditingId(null);
       return;

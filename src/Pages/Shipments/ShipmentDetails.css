@@ -334,7 +334,6 @@
   letter-spacing: 0.05em;
 }
 
-/* صفوف البيانات النقية */
 .tn-gt-data-row {
   display: flex;
   justify-content: space-between;

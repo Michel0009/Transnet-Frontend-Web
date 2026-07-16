@@ -31,6 +31,8 @@ const Shipments = lazy(() => import("./Pages/Shipments/Shipments"));
 const ShipmentDetails = lazy(() => import("./Pages/Shipments/ShipmentDetails"));
 const TrackingMap = lazy(() => import("./Pages/Tracking/TrackingMap"));
 const StatisticsPage = lazy(() => import("./Pages/Statistics/StatisticsPage"));
+const BadgesPage = lazy(() => import("./Pages/Badges/BadgesPage"));
+const ReportsPage = lazy(() => import("./Pages/Reports/ReportsPage"));
 
 function App() {
   const { loading } = useAuth();
@@ -66,6 +68,8 @@ function App() {
               <Route path="clients" element={<Clients />} />
               <Route path="shipments" element={<Shipments />} />
               <Route path="vehicles" element={<VehicleTypeDetails />} />
+              <Route path="badges" element={<BadgesPage/>} />
+              <Route path="reports" element={<ReportsPage/>} />
               <Route path="tracking" element={<TrackingMap />} />
               <Route
                 path="tracking/:shipmentNumber"
@@ -80,7 +84,6 @@ function App() {
             <Route path="shipments/:id" element={<ShipmentDetails />} />
           </Route>
 
-          {/* Admin-only routes */}
           <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
             <Route path="/dashboard" element={<DashboardLayout />}>
               <Route path="blocked-users" element={<BlockedUsers />} />

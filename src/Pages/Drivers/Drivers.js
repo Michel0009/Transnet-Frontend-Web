@@ -165,7 +165,6 @@ const Drivers = () => {
       </header>
 
       <Container fluid className="p-0">
-        {/* Changed Col md={3} to xs={12} sm={6} lg={3} for better stacking */}
         <Row className="mb-4 mb-md-5 gx-3 gy-3">
           {[
             { label: "إجمالي السائقين", value: totalDrivers },
@@ -185,7 +184,6 @@ const Drivers = () => {
         </Row>
 
         <Card className="tn-main-card border-0 shadow-sm">
-          {/* Updated Toolbar to stack on mobile */}
           <div className="tn-toolbar p-3 p-md-4 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 border-bottom bg-white">
             <h4 className="fw-bold m-0 tn-navy fs-5">قائمة السائقين</h4>
             <div className="d-flex flex-column flex-sm-row align-items-stretch align-items-sm-center gap-3">

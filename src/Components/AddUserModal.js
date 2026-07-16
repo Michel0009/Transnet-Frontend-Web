@@ -43,7 +43,6 @@ const AddAdminModal = ({ show, onHide, onSuccess }) => {
   const handleSubmit = async (e) => {
     if (e) e.preventDefault();
 
-    // تحقق بسيط قبل الإرسال
     const newErrors = {
       first_name: !form.first_name.trim() ? "الاسم الأول مطلوب" : "",
       last_name: !form.last_name.trim() ? "الاسم الأخير مطلوب" : "",

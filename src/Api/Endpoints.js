@@ -38,6 +38,7 @@ export const endpoints = {
     unblock: (id) => `/unblockUser/${id}`,
   },
   reports: {
+    get: "/reports",
     sendWarning: "/sendWarning",
     sendNotificationAll: "/sendNotificationForAll",
     getWarnings: (id) => `/warnings/user/${id}`,
@@ -74,5 +75,9 @@ export const endpoints = {
     getGeneralStatistics: "/generalStatistics",
     exportStatisticsPDF: "/exportStatisticsPdf",
 
-  }
+  },
+    badges:{
+    get: "/badges",
+    update: (id) => `/badge/${id}`,
+  },
 };

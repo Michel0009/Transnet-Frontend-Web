@@ -228,7 +228,6 @@ const PricingSettings = () => {
             {fuelPrices.map((item) => (
               <div key={item.id} className="col-12 col-md-6 col-lg-3">
                 <div className="card custom-card h-100 border-0">
-                  {/* HEADER */}
                   <div className="card-header-custom d-flex justify-content-between align-items-center mb-3">
                     <h3 className="card-title mb-0">{item.name}</h3>
 
@@ -299,7 +298,6 @@ const PricingSettings = () => {
             {reward.map((item) => (
               <div key={item.id} className="col-12 col-md-6 col-lg-3">
                 <div className="card custom-card h-100 border-0">
-                  {/* HEADER */}
                   <div className="card-header-custom d-flex justify-content-between align-items-center mb-3">
                     <h3 className="card-title mb-0">المكافئات</h3>
 
@@ -308,7 +306,6 @@ const PricingSettings = () => {
                     </div>
                   </div>
 
-                  {/* BODY */}
                   <div className="card-footer-custom mt-auto">
                     {editId === item.id ? (
                       <div className="edit-row d-flex align-items-start gap-2 flex-wrap w-100">

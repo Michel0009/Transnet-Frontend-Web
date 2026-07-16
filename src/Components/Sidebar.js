@@ -138,6 +138,7 @@ const Sidebar = () => {
               <span className="tn-nav-text">المحظورين</span>
             </Nav.Link>
           )}
+
           <Nav.Link
             as={NavLink}
             to="/dashboard/vehicles"
@@ -146,6 +147,7 @@ const Sidebar = () => {
             <FontAwesomeIcon icon={faShippingFast} className="tn-icon" />
             <span className="tn-nav-text">المركبات</span>
           </Nav.Link>
+
 
           <Nav.Link
             as={NavLink}
@@ -185,13 +187,16 @@ const Sidebar = () => {
               <span className="tn-nav-text">العقود</span>
             </Nav.Link>
 
+
           <Nav.Link
             as={NavLink}
             to="/dashboard/reports"
             className="tn-nav-item"
           >
             <FontAwesomeIcon icon={faFileInvoice} className="tn-icon" />
+
             <span className="tn-nav-text">الابلاغات</span>
+
           </Nav.Link>
         </Nav>
 

@@ -30,7 +30,7 @@
 .auth-logo-circle {
     width: 68px;
     height: 68px;
-    background-color: #0D7FF2; /* Blue Logo */
+    background-color: #0D7FF2; 
     border-radius: 50%;
     margin: 0 auto 20px;
     display: flex;
@@ -65,7 +65,7 @@
 }
 
 .email-text {
-    color: #0D7FF2; /* Brand Blue */
+    color: #0D7FF2; 
     font-weight: 600;
     display: block;
 }
@@ -97,7 +97,7 @@
 }
 
 .otp-input:focus {
-    border-color: #0D7FF2; /* Focus on Blue */
+    border-color: #0D7FF2; 
     outline: none;
     box-shadow: 0 0 0 3px rgba(13, 127, 242, 0.15);
     transform: scale(1.05);
