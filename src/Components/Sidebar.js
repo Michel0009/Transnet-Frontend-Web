@@ -137,7 +137,6 @@ const Sidebar = () => {
             <span className="tn-nav-text">المحظورين</span>
           </Nav.Link>
 
-
           <Nav.Link
             as={NavLink}
             to="/dashboard/vehicles"
@@ -147,16 +146,18 @@ const Sidebar = () => {
             <span className="tn-nav-text">المركبات</span>
           </Nav.Link>
 
+          {role === "admin" && (
+            <Nav.Link
+              as={NavLink}
+              to="/dashboard/badges"
+              className="tn-nav-item"
+              onClick={handleMobileLinkClick}
+            >
+              <FontAwesomeIcon icon={faIdBadge} className="tn-icon" />
+              <span className="tn-nav-text">الشارات</span>
+            </Nav.Link>
+          )}
 
-          <Nav.Link
-            as={NavLink}
-            to="/dashboard/badges"
-            className="tn-nav-item"
-            onClick={handleMobileLinkClick}
-          >
-            <FontAwesomeIcon icon={faIdBadge} className="tn-icon" />
-            <span className="tn-nav-text">الشارات</span>
-          </Nav.Link>
           {role === "admin" && (
             <>
               <Nav.Link
@@ -188,7 +189,6 @@ const Sidebar = () => {
             </Nav.Link>
           )}
 
-
           <Nav.Link
             as={NavLink}
             to="/dashboard/reports"
@@ -197,7 +197,6 @@ const Sidebar = () => {
             <FontAwesomeIcon icon={faFileInvoice} className="tn-icon" />
 
             <span className="tn-nav-text">الابلاغات</span>
-
           </Nav.Link>
         </Nav>
 
