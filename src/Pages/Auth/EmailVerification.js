@@ -17,7 +17,7 @@ const EmailVerification = () => {
   const [isResending, setIsResending] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { setAccessToken } = useAuth();
+  const { setAccessToken,setRole } = useAuth();
   const userEmail = location.state?.email;
   const purpose = location.state?.purpose;
   const [namePart, domainPart] = userEmail ? userEmail.split("@") : ["", ""];
@@ -74,6 +74,9 @@ const EmailVerification = () => {
       const response = await api.post(endpoint, {
         email: userEmail,
         verification_code: code,
+      },{
+        headers: { "X-Remember-Me": "false" },
+        withCredentials: true,
       });
 
       toast.success(response.data.message);
@@ -87,8 +90,14 @@ const EmailVerification = () => {
         });
       } else {
         if (response.data.token) {
+          console.log(response)
+          if (response.data.role !== "admin" && response.data.role !== "employee") {
+            toast.error("غير مسموح لك بالوصول الى هذا المورد");
+            return;
+          }
           setAccessToken(response.data.token);
-          navigate("/dashboard/drivers", { replace: true });
+          setRole(response.data.role);
+          navigate("/dashboard/tracking", { replace: true });
         }
       }
     } catch (error) {

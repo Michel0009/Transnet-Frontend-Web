@@ -1,5 +1,5 @@
 .tn-cd-page {
-  font-family:"Cairo", sans-serif;
+  font-family: "Cairo", sans-serif;
   background-color: #f4f7f9;
   min-height: 100vh;
   padding-bottom: 4rem;
@@ -165,13 +165,13 @@
 .tn-cd-timeline-item {
   position: relative;
   padding: 1.8rem;
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(10px);
+  background: #ffffff;
   border: 1px solid rgba(255, 107, 0, 0.1);
   border-radius: 20px;
   margin-bottom: 1.5rem;
   transition: all 0.3s ease;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  will-change: transform;
 }
 
 .tn-cd-timeline-item:hover {
@@ -245,7 +245,6 @@
   background: #dc2626;
 }
 
-
 .tn-cd-btn-danger {
   background: #fee2e2;
   border: 1px solid #fca5a5;
@@ -273,9 +272,9 @@
 }
 
 .tn-cd-btn-success {
-  background: #d1fae5; 
+  background: #d1fae5;
   border: 1px solid #a7f3d0;
-  color: #065f46; 
+  color: #065f46;
   border-radius: 14px;
   font-weight: 700;
   transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -283,7 +282,7 @@
 }
 
 .tn-cd-btn-success:hover {
-  background: #10b981; 
+  background: #10b981;
   color: #ffffff;
   border-color: #10b981;
   transform: translateY(-2px);

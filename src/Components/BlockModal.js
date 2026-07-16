@@ -48,10 +48,14 @@ const BlockModal = ({ show, onHide, userId, onSuccess }) => {
     } catch (err) {
       if (err.response?.status === 422) {
         const msg = err.response?.data?.message;
-        const deadline = err.response?.data?.deadline;
-        toast.warning(
-          `${msg} ${deadline ? `\nموعد التسليم: ${deadline}` : ""}`,
-        );
+        if (msg === "The days number field must be at least 1.") {
+          toast.warning("عدد ايام الحظر يجب ان يكون اكبر من 1");
+        } else {
+          const deadline = err.response?.data?.deadline;
+          toast.warning(
+            `${msg} ${deadline ? `\nموعد التسليم: ${deadline}` : ""}`,
+          );
+        }
       } else {
         toast.error(handleAxiosError(err));
       }

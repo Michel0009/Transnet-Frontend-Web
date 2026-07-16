@@ -19,7 +19,6 @@ const ResetPassword = () => {
   const location = useLocation();
   const email = location.state?.email;
   const resetToken = location.state?.reset_token;
-  // الحماية: إذا دخل المستخدم الصفحة بدون إيميل يتم تحويله للوجن
   useEffect(() => {
     if (!email || !resetToken) {
       navigate("/login");
@@ -118,7 +117,6 @@ const ResetPassword = () => {
             </div>
           </div>
 
-          {/* حقل تأكيد كلمة المرور */}
           <div className="transnet-reset-form-group">
             <label className="transnet-reset-label">تأكيد كلمة المرور</label>
             <div className="transnet-reset-input-wrapper" dir="ltr">

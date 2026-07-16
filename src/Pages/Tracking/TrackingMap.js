@@ -315,7 +315,6 @@ export default function TrackingMap() {
   const [liveCount, setLiveCount] = useState(0);
 
   const fetchDriverLocations = useCallback(async () => {
-    console.log("fetchDriverLocations fired at", new Date().toISOString());
     try {
       const data = await api.get(endpoints.drivers.getLocation);
       const normalized = (data.data.drivers || []).map((d) => ({

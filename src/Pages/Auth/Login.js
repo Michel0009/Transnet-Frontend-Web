@@ -64,19 +64,22 @@ const Login = () => {
           toast.error(handleAxiosError(Error));
         }
       } else {
-        toast.success("تم تسجيل الدخول بنجاح");
         const userRole = response.data.role;
-        setAccessToken(response.data.token);
         setRole(userRole);
-
-        navigate("/dashboard/drivers", { replace: true });
+        if (userRole !== "admin" && userRole !== "employee") {
+          toast.error("غير مسموح لك بالوصول الى هذا المورد");
+          return;
+        }
+        toast.success("تم تسجيل الدخول بنجاح");
+        setAccessToken(response.data.token);
+        navigate("/dashboard/tracking", { replace: true });
       }
     } catch (err) {
       toast.error(handleAxiosError(err));
     } finally {
       setDataLoading(false);
     }
-  };
+  };  
   return (
     <div className="login-page-wrapper">
       <Container>

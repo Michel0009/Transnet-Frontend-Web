@@ -58,32 +58,37 @@ function App() {
             <Route path="/verify-email" element={<EmailVerification />} />
             <Route path="/reset-password" element={<ResetPassword />} />
           </Route>
-          <Route element={<ProtectedRoute allowedRoles={["admin"]} />}></Route>
           <Route
             element={<ProtectedRoute allowedRoles={["admin", "employee"]} />}
           >
             <Route path="/dashboard" element={<DashboardLayout />}>
               <Route path="drivers" element={<Drivers />} />
               <Route path="clients" element={<Clients />} />
-              <Route path="blocked-users" element={<BlockedUsers />} />
               <Route path="shipments" element={<Shipments />} />
               <Route path="vehicles" element={<VehicleTypeDetails />} />
-              <Route path="pricing" element={<PricingSettings />} />
-              <Route path="subadmins" element={<SubAdminsPage />} />
               <Route path="tracking" element={<TrackingMap />} />
               <Route
                 path="tracking/:shipmentNumber"
                 element={<TrackingMap />}
               />
-              <Route path="contracts" element={<ContractTerms />} />
-              <Route path="statistics" element={<StatisticsPage />} />
-              <Route index element={<Navigate to="drivers" replace />} />
+              <Route index element={<Navigate to="tracking" replace />} />
             </Route>
             <Route path="drivers/create" element={<CreateDriver />} />
             <Route path="drivers/edit/:id" element={<UpdateDriver />} />
             <Route path="drivers/:id" element={<DriverDetails />} />
             <Route path="clients/:id" element={<ClientDetails />} />
             <Route path="shipments/:id" element={<ShipmentDetails />} />
+          </Route>
+
+          {/* Admin-only routes */}
+          <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
+            <Route path="/dashboard" element={<DashboardLayout />}>
+              <Route path="blocked-users" element={<BlockedUsers />} />
+              <Route path="pricing" element={<PricingSettings />} />
+              <Route path="subadmins" element={<SubAdminsPage />} />
+              <Route path="contracts" element={<ContractTerms />} />
+              <Route path="statistics" element={<StatisticsPage />} />
+            </Route>
           </Route>
 
           <Route path="/" element={<Navigate to="/login" replace />} />

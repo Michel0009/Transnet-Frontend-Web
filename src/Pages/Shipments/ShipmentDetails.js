@@ -388,18 +388,19 @@ const ShipmentDetails = () => {
                         </div>
                       </Col>
                     </Row>
-                  ))}
-
-                <Button
-                  className="tn-gt-trigger-map-action variant-action-neon-luxury border-0 w-100"
-                  onClick={() =>
-                    navigate(`/dashboard/tracking/${shipment.shipment_number}`)
-                  }
-                >
-                  <Map size={16} />
-                  <span>ولوج فوري للنظام الخرائطي المباشر والتتبع الحي</span>
-                  <ArrowUpRight size={14} className="tn-gt-arrow-link" />
-                </Button>
+                  ))}     
+                  <Button
+                    className="tn-gt-trigger-map-action variant-action-neon-luxury border-0 w-100"
+                    onClick={() =>
+                      navigate(
+                        `/dashboard/tracking/${shipment.shipment_number}`,
+                      )
+                    }
+                  >
+                    <Map size={16} />
+                    <span>ولوج فوري للنظام الخرائطي المباشر والتتبع الحي</span>
+                    <ArrowUpRight size={14} className="tn-gt-arrow-link" />
+                  </Button>
               </Card.Body>
             </Card>
           </Col>

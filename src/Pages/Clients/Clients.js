@@ -9,7 +9,6 @@ import {
   Button,
   InputGroup,
   Form,
-  Dropdown,
 } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -28,8 +27,11 @@ import WarningModal from "../../Components/WarningModal";
 import NotificationAllModal from "../../Components/NotificationAllModal";
 import { useNavigate } from "react-router-dom";
 import { formatBentoDate } from "../../Utils/dateFormatter";
+import { FaBan, FaExclamationTriangle, FaUnlock } from "react-icons/fa";
+import { useAuth } from "../../Context/AuthContext";
 
 const Clients = () => {
+  const { role } = useAuth();
   const [clients, setClients] = useState([]);
   const [pagination, setPagination] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -283,65 +285,71 @@ const Clients = () => {
                       </span>
                     </td>
 
-                    <td className="text-center text-muted">
-                      <Dropdown onClick={(e) => e.stopPropagation()}>
-                        <Dropdown.Toggle
-                          variant="link"
-                          className="text-muted p-0 shadow-none border-0 tn-no-caret"
-                          id={`dropdown-${client.id}`}
+                    <td
+                      className="text-center text-muted"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <div className="dropdown">
+                        <button
+                          className="btn btn-sm action-btn"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
                         >
                           <FontAwesomeIcon
                             icon={faEllipsisV}
                             className="tn-d-operations-cursor-pointer"
                           />
-                        </Dropdown.Toggle>
+                        </button>
 
-                        <Dropdown.Menu>
-                          <Dropdown.Item
-                            onClick={() => {
-                              setSelectedUserId(client.id);
-                            }}
-                          >
-                            عرض سجل الإنذارات
-                          </Dropdown.Item>
-                          <Dropdown.Divider />
-
-                          <Dropdown.Item
-                            onClick={() => {
-                              setShowWarningModal(true);
-                              setSelectedUserId(client.id);
-                              setClientName(
-                                `${client.first_name} ${client.last_name}`,
-                              );
-                            }}
-                          >
-                            إرسال إنذار
-                          </Dropdown.Item>
-                          <Dropdown.Divider />
-
-                          {client.status === "محظور" ? (
-                            <Dropdown.Item
-                              onClick={() => {
-                                setShowUnblockModal(true);
+                        <ul className="dropdown-menu dropdown-menu-end shadow border-0 text-end">
+                          <li>
+                            <button
+                              className="dropdown-item d-flex align-items-center gap-2"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setShowWarningModal(true);
                                 setSelectedUserId(client.id);
+                                setClientName(
+                                  `${client.first_name} ${client.last_name}`,
+                                );
                               }}
-                              className="text-success fw-bold"
                             >
-                              فك الحظر
-                            </Dropdown.Item>
-                          ) : (
-                            <Dropdown.Item
-                              onClick={() => {
-                                setShowBlockModal(true);
-                                setSelectedUserId(client.id);
-                              }}
-                              className="text-danger fw-bold"
-                            >
-                              حظر العميل
-                            </Dropdown.Item>
-                          )}
-                        </Dropdown.Menu>
-                      </Dropdown>
+                              <FaExclamationTriangle className="ms-2 text-warning" />
+                              إرسال إنذار
+                            </button>
+                          </li>
+                          {role === "admin" &&
+                            (client.status === "محظور" ? (
+                              <li>
+                                <button
+                                  className="dropdown-item d-flex align-items-center gap-2 text-success fw-bold"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setShowUnblockModal(true);
+                                    setSelectedUserId(client.id);
+                                  }}
+                                >
+                                  <FaUnlock className="ms-2 text-success" />
+                                  فك الحظر
+                                </button>
+                              </li>
+                            ) : (
+                              <li>
+                                <button
+                                  className="dropdown-item d-flex align-items-center gap-2 text-danger fw-bold"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setShowBlockModal(true);
+                                    setSelectedUserId(client.id);
+                                  }}
+                                >
+                                  <FaBan className="ms-2 text-danger" />
+                                  حظر العميل
+                                </button>
+                              </li>
+                            ))}
+                        </ul>
+                      </div>
                     </td>
                   </tr>
                 ))
