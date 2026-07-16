@@ -67,7 +67,6 @@ const ReportsPage = () => {
 
   return (
     <div className="tn-s-admin-page-container">
-      {/* رأس الصفحة */}
       <Row className="align-items-center mb-5 g-3">
         <Col xs={12}>
           <div className="d-flex align-items-center gap-3">
