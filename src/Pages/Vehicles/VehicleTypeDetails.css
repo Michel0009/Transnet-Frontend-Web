@@ -73,7 +73,7 @@
 .vehicle-table {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0 10px; /* مسافة بين الصفوف */
+  border-spacing: 0 10px;
 }
 
 .vehicle-table thead tr {
@@ -89,7 +89,6 @@
   border-bottom: 2px solid #0D7FF2;
 }
 
-/* الصفوف */
 .vehicle-table tbody tr {
   background-color: #ffffff;
   transition: all 0.25s ease;
@@ -108,7 +107,6 @@
   border-top: 1px solid #D9E2EC;
 }
 
-/* أول خلية في كل صف */
 .vehicle-table tbody tr td:first-child {
   font-weight: 600;
   color: #1A1A1A;

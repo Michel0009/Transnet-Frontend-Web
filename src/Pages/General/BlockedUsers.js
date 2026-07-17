@@ -203,7 +203,6 @@ const BlockedUsers = () => {
           </Table>
         </div>
 
-        {/* Pagination Component */}
         {totalPages > 1 && (
           <div className="d-flex justify-content-center mt-4">
             <Pagination className="tn-b-pagination" dir="ltr">

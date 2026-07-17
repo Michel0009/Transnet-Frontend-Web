@@ -9,7 +9,6 @@ import {
   Button,
   InputGroup,
   Form,
-  Dropdown,
 } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -28,7 +27,10 @@ import BlockModal from "../../Components/BlockModal";
 import UnblockModal from "../../Components/UnblockModal";
 import WarningModal from "../../Components/WarningModal";
 import NotificationAllModal from "../../Components/NotificationAllModal";
+import { FaBan, FaExclamationTriangle, FaUnlock } from "react-icons/fa";
+import { useAuth } from "../../Context/AuthContext";
 const Drivers = () => {
+  const { role } = useAuth();
   const navigate = useNavigate();
   const [drivers, setDrivers] = useState([]);
   const [availableCount, setAvailableCount] = useState(0);
@@ -53,7 +55,7 @@ const Drivers = () => {
       const { available_drivers, drivers: driversObj } = response.data;
       setDrivers(driversObj.data);
       setAvailableCount(available_drivers);
-      setTotalDrivers(driversObj.total || 0); 
+      setTotalDrivers(driversObj.total || 0);
       setPagination({
         total: driversObj.total || 0,
         from: driversObj.from || 0,
@@ -163,7 +165,6 @@ const Drivers = () => {
       </header>
 
       <Container fluid className="p-0">
-        {/* Changed Col md={3} to xs={12} sm={6} lg={3} for better stacking */}
         <Row className="mb-4 mb-md-5 gx-3 gy-3">
           {[
             { label: "إجمالي السائقين", value: totalDrivers },
@@ -183,7 +184,6 @@ const Drivers = () => {
         </Row>
 
         <Card className="tn-main-card border-0 shadow-sm">
-          {/* Updated Toolbar to stack on mobile */}
           <div className="tn-toolbar p-3 p-md-4 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 border-bottom bg-white">
             <h4 className="fw-bold m-0 tn-navy fs-5">قائمة السائقين</h4>
             <div className="d-flex flex-column flex-sm-row align-items-stretch align-items-sm-center gap-3">
@@ -302,57 +302,68 @@ const Drivers = () => {
                         {driver.status}
                       </span>
                     </td>
-                    <td className="text-center text-muted">
-                      <Dropdown onClick={(e) => e.stopPropagation()}>
-                        <Dropdown.Toggle
-                          variant="link"
-                          className="text-muted p-0 shadow-none border-0 tn-no-caret"
-                          id={`dropdown-${driver.id}`}
+                    <td
+                      className="text-center"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <div className="dropdown">
+                        <button
+                          className="btn btn-sm action-btn"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
                         >
-                          <FontAwesomeIcon
-                            icon={faEllipsisV}
-                            className="tn-d-operations-cursor-pointer"
-                          />
-                        </Dropdown.Toggle>
+                          <FontAwesomeIcon icon={faEllipsisV} />
+                        </button>
 
-                        <Dropdown.Menu>
-                          <Dropdown.Item
-                            onClick={() => {
-                              setShowWarningModal(true);
-                              setSelectedUserId(driver.user_id);
-                              setDriverName(
-                                `${driver.first_name} ${driver.last_name}`,
-                              );
-                            }}
-                          >
-                            إرسال إنذار
-                          </Dropdown.Item>
-                          <Dropdown.Divider />
-
-                          {/* Conditional Block/Unblock based on status */}
-                          {driver.status === "محظور" ? (
-                            <Dropdown.Item
-                              onClick={() => {
-                                setShowUnblockModal(true);
+                        <ul className="dropdown-menu dropdown-menu-end shadow border-0 text-end">
+                          <li>
+                            <button
+                              className="dropdown-item d-flex align-items-center gap-2"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setShowWarningModal(true);
                                 setSelectedUserId(driver.user_id);
+                                setDriverName(
+                                  `${driver.first_name} ${driver.last_name}`,
+                                );
                               }}
-                              className="text-success fw-bold"
                             >
-                              فك الحظر
-                            </Dropdown.Item>
-                          ) : (
-                            <Dropdown.Item
-                              onClick={() => {
-                                setShowBlockModal(true);
-                                setSelectedUserId(driver.user_id);
-                              }}
-                              className="text-danger fw-bold"
-                            >
-                              حظر السائق
-                            </Dropdown.Item>
-                          )}
-                        </Dropdown.Menu>
-                      </Dropdown>
+                              <FaExclamationTriangle className="ms-2 text-warning" />
+                              إرسال إنذار
+                            </button>
+                          </li>
+                          {role === "admin" &&
+                            (driver.status === "محظور" ? (
+                              <li>
+                                <button
+                                  className="dropdown-item d-flex align-items-center gap-2 text-success fw-bold"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setShowUnblockModal(true);
+                                    setSelectedUserId(driver.user_id);
+                                  }}
+                                >
+                                  <FaUnlock className="ms-2 text-success" />
+                                  فك الحظر
+                                </button>
+                              </li>
+                            ) : (
+                              <li>
+                                <button
+                                  className="dropdown-item d-flex align-items-center gap-2 text-danger fw-bold"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setShowBlockModal(true);
+                                    setSelectedUserId(driver.user_id);
+                                  }}
+                                >
+                                  <FaBan className="ms-2 text-danger" />
+                                  حظر السائق
+                                </button>
+                              </li>
+                            ))}
+                        </ul>
+                      </div>
                     </td>
                   </tr>
                 ))

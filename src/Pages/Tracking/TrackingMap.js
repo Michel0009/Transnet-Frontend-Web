@@ -147,7 +147,6 @@ function ShipmentPanel({ data, onClose }) {
 
       <StatusBadge status={shipment.status} />
 
-      {/* مسار بصري */}
       <div style={{ margin: "4px 0 2px" }}>
         <div className="route-visual">
           <div className="route-dot start" />
@@ -315,7 +314,6 @@ export default function TrackingMap() {
   const [liveCount, setLiveCount] = useState(0);
 
   const fetchDriverLocations = useCallback(async () => {
-    console.log("fetchDriverLocations fired at", new Date().toISOString());
     try {
       const data = await api.get(endpoints.drivers.getLocation);
       const normalized = (data.data.drivers || []).map((d) => ({

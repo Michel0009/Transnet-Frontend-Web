@@ -58,8 +58,10 @@ import TaxModal from "../../Components/TaxModal";
 import WarningModal from "../../Components/WarningModal";
 import { AlertTriangle } from "lucide-react";
 import { formatBentoDate } from "../../Utils/dateFormatter";
+import { useAuth } from "../../Context/AuthContext";
 
 const DriverDetails = () => {
+  const { role } = useAuth();
   const navigate = useNavigate();
   const { id } = useParams();
   const [data, setData] = useState(null);
@@ -312,23 +314,24 @@ const DriverDetails = () => {
               <FaSync className="animate-spin-hover" /> تجديد الاشتراك
             </Button>
           )}
-          {isBlocked ? (
-            <Button
-              variant="success"
-              className="d-flex align-items-center gap-2 fw-bold rounded-pill px-4 shadow-sm"
-              onClick={() => setShowUnblockModal(true)}
-            >
-              <FaUnlock /> فك الحظر
-            </Button>
-          ) : (
-            <Button
-              variant="danger"
-              className="d-flex align-items-center gap-2 fw-bold rounded-pill px-4 shadow-sm"
-              onClick={() => setShowBlockModal(true)}
-            >
-              <FaBan /> حظر الحساب
-            </Button>
-          )}
+          {role === "admin" &&
+            (isBlocked ? (
+              <Button
+                variant="success"
+                className="d-flex align-items-center gap-2 fw-bold rounded-pill px-4 shadow-sm"
+                onClick={() => setShowUnblockModal(true)}
+              >
+                <FaUnlock /> فك الحظر
+              </Button>
+            ) : (
+              <Button
+                variant="danger"
+                className="d-flex align-items-center gap-2 fw-bold rounded-pill px-4 shadow-sm"
+                onClick={() => setShowBlockModal(true)}
+              >
+                <FaBan /> حظر الحساب
+              </Button>
+            ))}
           <Button
             className="tn-dd-btn-primary rounded-pill shadow-sm"
             onClick={() => navigate(`/drivers/edit/${id}`)}
@@ -773,7 +776,7 @@ const DriverDetails = () => {
                           <ShipmentSkeleton rows={10} />
                         ) : shipmentsData.data &&
                           shipmentsData.data.length > 0 ? (
-                          shipmentsData.data.map((ship,index) => (
+                          shipmentsData.data.map((ship, index) => (
                             <tr
                               key={index}
                               onClick={() => navigate(`/shipments/${ship.id}`)}
@@ -1208,17 +1211,12 @@ const DriverDetails = () => {
                                   {warning.warning_text}
                                 </p>
 
-                                <small className="text-muted d-flex align-items-center flex-shrink-0 mt-1 align-self-end align-self-lg-start ">
+                                <small
+                                  className="text-muted d-flex align-items-center flex-shrink-0 mt-1 align-self-end align-self-lg-start "
+                                  dir="ltr"
+                                >
                                   <FaRegClock className="me-1" />
-                                  {new Date(
-                                    warning.created_at,
-                                  ).toLocaleDateString("ar-EG", {
-                                    year: "numeric",
-                                    month: "numeric",
-                                    day: "numeric",
-                                    hour: "2-digit",
-                                    minute: "2-digit",
-                                  })}
+                                  {formatBentoDate(warning.created_at, true)}
                                 </small>
                               </Alert>
                             ))}

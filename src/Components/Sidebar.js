@@ -127,15 +127,18 @@ const Sidebar = () => {
             <FontAwesomeIcon icon={faUsers} className="tn-icon" />
             <span className="tn-nav-text">العملاء</span>
           </Nav.Link>
-          <Nav.Link
-            as={NavLink}
-            to="/dashboard/blocked-users"
-            className="tn-nav-item"
-            onClick={handleMobileLinkClick}
-          >
-            <FontAwesomeIcon icon={faBan} className="tn-icon" />
-            <span className="tn-nav-text">المحظورين</span>
-          </Nav.Link>
+
+          {role === "admin" && (
+            <Nav.Link
+              as={NavLink}
+              to="/dashboard/blocked-users"
+              className="tn-nav-item"
+              onClick={handleMobileLinkClick}
+            >
+              <FontAwesomeIcon icon={faBan} className="tn-icon" />
+              <span className="tn-nav-text">المحظورين</span>
+            </Nav.Link>
+          )}
 
           <Nav.Link
             as={NavLink}
@@ -146,7 +149,6 @@ const Sidebar = () => {
             <span className="tn-nav-text">المركبات</span>
           </Nav.Link>
 
-          {role === "admin" && (
             <Nav.Link
               as={NavLink}
               to="/dashboard/badges"
@@ -156,7 +158,7 @@ const Sidebar = () => {
               <FontAwesomeIcon icon={faIdBadge} className="tn-icon" />
               <span className="tn-nav-text">الشارات</span>
             </Nav.Link>
-          )}
+          
 
           {role === "admin" && (
             <>
@@ -178,7 +180,6 @@ const Sidebar = () => {
               </Nav.Link>
             </>
           )}
-          {role === "admin" && (
             <Nav.Link
               as={NavLink}
               to="/dashboard/contracts"
@@ -187,7 +188,6 @@ const Sidebar = () => {
               <FontAwesomeIcon icon={faFileSignature} className="tn-icon" />
               <span className="tn-nav-text">العقود</span>
             </Nav.Link>
-          )}
 
           <Nav.Link
             as={NavLink}

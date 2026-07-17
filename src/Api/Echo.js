@@ -20,7 +20,4 @@ export const initEcho = (token) => {
       },
     },
   });
-  window.Echo.connector.pusher.connection.bind("state_change", (states) => {
-    console.log("Pusher state:", states.previous, "→", states.current);
-  });
 };

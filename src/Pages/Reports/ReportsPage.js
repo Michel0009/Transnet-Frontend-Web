@@ -48,7 +48,7 @@ const ReportsPage = () => {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString("ar-SY", {
+    return date.toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -67,17 +67,19 @@ const ReportsPage = () => {
 
   return (
     <div className="tn-s-admin-page-container">
-      {/* رأس الصفحة */}
       <Row className="align-items-center mb-5 g-3">
         <Col xs={12}>
           <div className="d-flex align-items-center gap-3">
-            <div className="tn-s-page-icon-wrapper tn-report-icon-bg">
+            <div className="tn-r-page-icon-wrapper tn-report-icon-bg">
               <FaExclamationTriangle className="tn-s-page-icon tn-report-icon-color" />
             </div>
             <div>
-              <h2 className="tn-s-admin-page-title">إدارة بلاغات وشكاوى المستخدمين</h2>
+              <h2 className="tn-s-admin-page-title">
+                إدارة بلاغات وشكاوى المستخدمين
+              </h2>
               <p className="tn-s-admin-page-subtitle">
-                متابعة المشاكل التشغيلية، مراقبة سلوك السائقين، وضمان جودة خدمات شحن TransNet
+                متابعة المشاكل التشغيلية، مراقبة سلوك السائقين، وضمان جودة خدمات
+                شحن TransNet
               </p>
             </div>
           </div>
@@ -100,78 +102,76 @@ const ReportsPage = () => {
         </Col>
       </Row>
 
-      <Card className="tn-report-table-card border-0 shadow-sm">
-        <Card.Body className="p-0">
-          <div className="table-responsive">
-            <Table className="tn-custom-table align-middle mb-0">
-              <thead>
-                <tr>
-                  <th>رقم البلاغ</th>
-                  <th>المُبلِغ (Reporter)</th>
-                  <th>المُبلَغ ضده (Reported)</th>
-                  <th>نوع المخالفة</th>
-                  <th style={{ width: "35%" }}>تفاصيل الشكوى</th>
-                  <th>تاريخ البلاغ</th>
-                </tr>
-              </thead>
-              <tbody>
-                {reports.map((report) => (
-                  <tr key={report.id}>
-                    {/* رقم البلاغ */}
-                    <td className="fw-bold text-secondary">#{report.id}</td>
-                    
-                    {/* بيانات المُبلِغ */}
-                    <td>
-                      <div className="d-flex flex-column">
-                        <span className="tn-user-fullname">
-                          {report.reporter.first_name} {report.reporter.last_name}
-                        </span>
-                        <span className="tn-user-sub-info">
-                          رقم: {report.reporter.user_number} | {report.reporter.phone_number}
-                        </span>
-                      </div>
-                    </td>
+<Card className="tn-report-table-card border-0 shadow-sm">
+  <Card.Body className="p-0">
+    <div className="table-responsive">
+      {/* 1. أضفنا الكلاس text-center هنا لتوسيط عناوين وأعمدة الجدول ككل */}
+      <Table className="tn-custom-table align-middle text-center mb-0">
+        <thead>
+          <tr>
+            <th>المُبلِغ (Reporter)</th>
+            <th>المُبلَغ ضده (Reported)</th>
+            <th>نوع المخالفة</th>
+            <th style={{ width: "35%" }}>تفاصيل الشكوى</th>
+            <th>تاريخ البلاغ</th>
+          </tr>
+        </thead>
+        <tbody>
+          {reports.map((report) => (
+            <tr key={report.id}>
+              
+              {/* بيانات المُبلِغ (تمت إضافة align-items-center) */}
+              <td>
+                <div className="d-flex flex-column align-items-center">
+                  <span className="tn-user-fullname">
+                    {report.reporter.first_name} {report.reporter.last_name}
+                  </span>
+                  <span className="tn-user-sub-info">
+                    رقم: {report.reporter.user_number} | {report.reporter.phone_number}
+                  </span>
+                </div>
+              </td>
 
-                    {/* بيانات المُبلَغ ضده */}
-                    <td>
-                      <div className="d-flex flex-column">
-                        <span className="tn-user-fullname fw-bold text-dark">
-                          {report.reported_user.first_name} {report.reported_user.last_name}
-                        </span>
-                        <span className="tn-user-sub-info text-danger">
-                          رقم: {report.reported_user.user_number} | {report.reported_user.phone_number}
-                        </span>
-                      </div>
-                    </td>
+              {/* بيانات المُبلَغ ضده (تمت إضافة align-items-center) */}
+              <td>
+                <div className="d-flex flex-column align-items-center">
+                  <span className="tn-user-fullname fw-bold text-dark">
+                    {report.reported_user.first_name} {report.reported_user.last_name}
+                  </span>
+                  <span className="tn-user-sub-info text-danger">
+                    رقم: {report.reported_user.user_number} | {report.reported_user.phone_number}
+                  </span>
+                </div>
+              </td>
 
-                    {/* نوع المخالفة */}
-                    <td>
-                      <span className={`tn-report-badge ${getTypeBadgeClass(report.type)}`}>
-                        {report.type}
-                      </span>
-                    </td>
+              {/* نوع المخالفة - سيتوسط تلقائياً بسبب كلاس الجدول */}
+              <td>
+                <span className={`tn-report-badge ${getTypeBadgeClass(report.type)}`}>
+                  {report.type}
+                </span>
+              </td>
 
-                    {/* تفاصيل الشكوى */}
-                    <td>
-                      <p className="tn-report-description-text mb-0" title={report.description}>
-                        {report.description}
-                      </p>
-                    </td>
+              {/* تفاصيل الشكوى - ستتوسط تلقائياً */}
+              <td>
+                <p className="tn-report-description-text mb-0" title={report.description}>
+                  {report.description}
+                </p>
+              </td>
 
-                    {/* تاريخ البلاغ */}
-                    <td>
-                      <div className="d-flex align-items-center gap-2 text-muted tn-report-date">
-                        <FaCalendarAlt className="small-icon" />
-                        <span>{formatDate(report.created_at)}</span>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          </div>
-        </Card.Body>
-      </Card>
+              {/* تاريخ البلاغ (تمت إضافة justify-content-center) */}
+              <td>
+                <div className="d-flex align-items-center justify-content-center gap-2 text-muted tn-report-date">
+                  <FaCalendarAlt className="small-icon" />
+                  <span>{formatDate(report.created_at)}</span>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+    </div>
+  </Card.Body>
+</Card>
     </div>
   );
 };

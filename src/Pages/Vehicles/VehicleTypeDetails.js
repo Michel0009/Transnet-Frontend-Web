@@ -6,6 +6,7 @@ import { handleAxiosError } from "../../Utils/ErrorHandler";
 import { Spinner } from "react-bootstrap";
 import AddVehicleTypeModal from "../../Components/AddVehicleTypeModal";
 import EditVehicleTypeModal from "../../Components/EditVehicleTypeModal";
+import { useAuth } from "../../Context/AuthContext";
 
 import {
   FaCogs,
@@ -28,6 +29,8 @@ export default function VehicleTypeDetails() {
   const [vehicleToEdit, setVehicleToEdit] = useState(null);
 
   const [showAddForm, setShowAddForm] = useState(false);
+
+  const { role } = useAuth();
 
   const fetchVehicles = async () => {
     setLoading(true);
@@ -69,16 +72,18 @@ export default function VehicleTypeDetails() {
 
                 <p className="vehicle-desc">{selectedVehicle.description}</p>
               </div>
-
-              <button
-                className="btn-edit-card"
-                onClick={() => {
-                  setVehicleToEdit(selectedVehicle);
-                  setShowEditModal(true);
-                }}
-              >
-                تعديل
-              </button>
+              {role === "admin" && (
+                <button
+                  className="btn-edit-card"
+                  onClick={() => {
+                    if (role !== "admin") return;
+                    setVehicleToEdit(selectedVehicle);
+                    setShowEditModal(true);
+                  }}
+                >
+                  تعديل
+                </button>
+              )}
             </div>
 
             <h5 className="section-title">تفاصيل المركبة</h5>
@@ -221,14 +226,15 @@ export default function VehicleTypeDetails() {
           <p className="text-muted">اختر مركبة من الجدول لعرض تفاصيلها هنا</p>
         )}
       </div>
+      {role === "admin" && (
+        <div className="d-flex justify-content-end mb-3">
+          <button className="btn-add" onClick={() => setShowAddForm(true)}>
+            إضافة مركبة +
+          </button>
+        </div>
+      )}
 
-      <div className="d-flex justify-content-end mb-3">
-        <button className="btn-add" onClick={() => setShowAddForm(true)}>
-          إضافة مركبة +
-        </button>
-      </div>
-
-      {showAddForm && (
+      {role === "admin" && showAddForm && (
         <div className="modal-backdrop-custom">
           <div className="modal-card">
             <AddVehicleTypeModal
@@ -239,7 +245,7 @@ export default function VehicleTypeDetails() {
         </div>
       )}
 
-      {showEditModal && (
+      {role === "admin" && showEditModal && (
         <EditVehicleTypeModal
           vehicle={vehicleToEdit}
           onClose={() => setShowEditModal(false)}

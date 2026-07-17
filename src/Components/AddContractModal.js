@@ -79,6 +79,53 @@ const AddContractModal = ({ show, onHide, onSuccess }) => {
   }, [show]);
 
   const handleSubmit = async () => {
+     const validationErrors = {};
+
+  if (!form.company_name.trim())
+    validationErrors.company_name = "اسم الشركة مطلوب";
+
+  if (!form.hq.trim())
+    validationErrors.hq = "المقر الرئيسي مطلوب";
+
+  if (!form.representative.trim())
+    validationErrors.representative = "المفوض بالتوقيع مطلوب";
+
+  if (!form.name.trim())
+    validationErrors.name = "الاسم الكامل مطلوب";
+
+  if (!form.father_name.trim())
+    validationErrors.father_name = "اسم الأب مطلوب";
+
+  if (!form.mother_name.trim())
+    validationErrors.mother_name = "اسم الأم مطلوب";
+
+  if (!form.birth_place_date.trim())
+    validationErrors.birth_place_date = "مكان وتاريخ الولادة مطلوب";
+
+  if (!form.national_id.trim())
+    validationErrors.national_id = "الرقم الوطني مطلوب";
+
+  if (!form.amana.trim())
+    validationErrors.amana = "الأمانة مطلوبة";
+
+  if (!form.qaid.trim())
+    validationErrors.qaid = "القيد مطلوب";
+
+  if (!form.address.trim())
+    validationErrors.address = "العنوان السكني مطلوب";
+
+  if (!form.grant_date)
+    validationErrors.grant_date = "تاريخ منح البطاقة مطلوب";
+
+  if (Object.keys(validationErrors).length > 0) {
+    setErrors((prev) => ({
+      ...prev,
+      ...validationErrors,
+    }));
+
+    toast.error("يرجى تعبئة جميع الحقول المطلوبة");
+    return;
+  }
     setLoading(true);
 
     try {
@@ -118,8 +165,6 @@ const AddContractModal = ({ show, onHide, onSuccess }) => {
 
       window.URL.revokeObjectURL(pdfUrl);
 
-      toast.success("تم إنشاء العقد وتنزيله بنجاح");
-
       onHide();
 
       if (onSuccess) {
@@ -127,7 +172,7 @@ const AddContractModal = ({ show, onHide, onSuccess }) => {
       }
 
       if (response.status === 200) {
-        toast.success("تمت إنشاء العقد بنجاح");
+        toast.success("تم إنشاء العقد بنجاح");
 
         onHide();
         if (onSuccess) await onSuccess();
@@ -168,7 +213,7 @@ if (err.response?.status === 422) {
   };
 
   return (
-    <Modal show={show} onHide={onHide} centered dir="rtl">
+    <Modal show={show} onHide={onHide} centered dir="rtl" size="lg">
       <Modal.Header closeButton>
         <Modal.Title className="text-primary d-flex align-items-center gap-2">
           <FontAwesomeIcon icon={faFileSignature} /> إضافة عقد جديد
@@ -177,7 +222,7 @@ if (err.response?.status === 422) {
 
       <Modal.Body>
         <Form>
-          <div className="row g-3">
+          <div className="row g-4">
             <div className="col-md-6">
               <Form.Label className="fw-bold">
                 اسم الشركة <span className="text-danger">*</span>

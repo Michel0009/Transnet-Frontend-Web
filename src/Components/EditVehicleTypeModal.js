@@ -34,7 +34,6 @@ export default function EditVehicleTypeModal({
     }
   };
 
-  // منع إدخال HTML
   const stripHtml = (value) => {
     const div = document.createElement("div");
 
@@ -43,17 +42,14 @@ export default function EditVehicleTypeModal({
     return div.textContent || div.innerText || "";
   };
 
-  // تحميل بيانات المركبة داخل الفورم
   useEffect(() => {
     if (vehicle) {
       setFormData(vehicle);
 
-      // حفظ نسخة أصلية للمقارنة
       setOriginalData(vehicle);
     }
   }, [vehicle]);
 
-  // إرسال التعديل
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -65,14 +61,12 @@ export default function EditVehicleTypeModal({
       }
     });
 
-    // لا يوجد تعديل
     if (Object.keys(updatedFields).length === 0) {
       toast.info("لم تقم بإجراء أي تعديل");
 
       return;
     }
 
-    // تصفير الأخطاء القديمة
     setErrors({});
 
     try {
@@ -94,7 +88,6 @@ export default function EditVehicleTypeModal({
         onClose();
       }
     } catch (error) {
-      // Validation Errors من Laravel
       if (error.response?.status === 422) {
         const backendErrors = error.response.data.errors;
 

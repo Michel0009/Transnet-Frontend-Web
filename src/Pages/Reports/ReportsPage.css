@@ -1,9 +1,21 @@
+
 .tn-report-icon-bg {
     background-color:#ffffff !important;
 }
 
 .tn-report-icon-color {
     color: #dc3545 !important;
+}
+
+.tn-r-page-icon-wrapper {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px; /* زوايا منحنية ناعمة */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* ظل خفيف جداً وعصري */
+  transition: all 0.3s ease;
 }
 
 .tn-report-mini-card {
@@ -77,7 +89,6 @@
     font-size: 0.9rem;
 }
 
-/* معلومات المستخدمين داخل الخلايا */
 .tn-user-fullname {
     font-weight: 700;
     color: #334155;
@@ -90,7 +101,6 @@
     margin-top: 2px;
 }
 
-/* نصوص الشكاوى وتحديد السطور */
 .tn-report-description-text {
     color: #475569;
     font-size: 0.85rem;
@@ -119,19 +129,16 @@
     text-align: center;
 }
 
-/* مالي وتسعير */
 .tn-report-badge-warning {
     background-color: rgba(242, 139, 13, 0.1) !important;
     color: #b45309 !important;
 }
 
-/* عدم الالتزام وتكسر الأغراض */
 .tn-report-badge-danger {
     background-color: rgba(220, 53, 69, 0.1) !important;
     color: #dc3545 !important;
 }
 
-/* التأخير */
 .tn-report-badge-info {
     background-color: rgba(13, 127, 242, 0.1) !important;
     color: #0D7FF2 !important;

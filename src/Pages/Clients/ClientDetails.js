@@ -24,30 +24,31 @@ import BlockModal from "../../Components/BlockModal";
 import UnblockModal from "../../Components/UnblockModal";
 import { FaUnlock } from "react-icons/fa";
 import { formatBentoDate } from "../../Utils/dateFormatter";
+import { useAuth } from "../../Context/AuthContext";
 const ClientDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-
+  const { role } = useAuth();
   const [client, setClient] = useState(null);
   const [warnings, setWarnings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showWarningModal, setShowWarningModal] = useState(false);
   const [showBlockModal, setShowBlockModal] = useState(false);
-  const [showUnblockModal,setShowUnblockModal]=useState(false)
+  const [showUnblockModal, setShowUnblockModal] = useState(false);
   const fetchClientDetails = async () => {
     try {
       const Res = await api.get(endpoints.clients.details(id));
       setClient(Res.data);
       return true;
     } catch (error) {
-     if (
-       error.response?.status === 404 &&
-       error.response.data.message === "العميل غير موجود"
-     ) {
-       navigate("/not-found", { replace: true });
-     } else {
-       toast.error(handleAxiosError(error));
-     }
+      if (
+        error.response?.status === 404 &&
+        error.response.data.message === "العميل غير موجود"
+      ) {
+        navigate("/not-found", { replace: true });
+      } else {
+        toast.error(handleAxiosError(error));
+      }
       return false;
     }
   };
@@ -111,25 +112,25 @@ const ClientDetails = () => {
             >
               <AlertTriangle size={18} /> إرسال إنذار
             </Button>
-            {client.status === "محظور" ? (
-              <Button
-                className="tn-cd-btn-success px-4 py-2 d-flex align-items-center gap-2"
-                onClick={() => setShowUnblockModal(true)}
-              >
-                <FaUnlock /> فك الحظر
-              </Button>
-            ) : (
-              <Button
-                className="tn-cd-btn-danger px-4 py-2 d-flex align-items-center gap-2"
-                onClick={() => setShowBlockModal(true)}
-              >
-                <Ban size={18} /> حظر العميل
-              </Button>
-            )}
+            {role === "admin" &&
+              (client.status === "محظور" ? (
+                <Button
+                  className="tn-cd-btn-success px-4 py-2 d-flex align-items-center gap-2"
+                  onClick={() => setShowUnblockModal(true)}
+                >
+                  <FaUnlock /> فك الحظر
+                </Button>
+              ) : (
+                <Button
+                  className="tn-cd-btn-danger px-4 py-2 d-flex align-items-center gap-2"
+                  onClick={() => setShowBlockModal(true)}
+                >
+                  <Ban size={18} /> حظر العميل
+                </Button>
+              ))}
           </div>
         </div>
 
-        {/* Bento Grid Stats */}
         <Row className="g-4 mb-5">
           <Col xs={12} lg={4}>
             <div className="tn-cd-bento-card">
@@ -173,7 +174,6 @@ const ClientDetails = () => {
                 </span>
               </div>
               <div className="d-flex flex-column gap-3">
-                {/* الحالة */}
                 <div className="d-flex align-items-center justify-content-between">
                   <span className="tn-cd-text-muted fw-medium">الحالة:</span>
                   <span
@@ -182,23 +182,27 @@ const ClientDetails = () => {
                     {client.status || "نشط"}
                   </span>
                 </div>
-                {/* رقم المعرف */}
                 <div className="d-flex align-items-center justify-content-between">
                   <span className="tn-cd-text-muted fw-medium">
                     رقم المعرف:
                   </span>
-                  <div className="d-flex align-items-center gap-1 tn-cd-title fw-bold" dir="ltr">
+                  <div
+                    className="d-flex align-items-center gap-1 tn-cd-title fw-bold"
+                    dir="ltr"
+                  >
                     <Hash size={14} /> {client.user_number}
                   </div>
                 </div>
-                {/* تاريخ الانضمام - المضاف حديثاً */}
                 <div className="d-flex align-items-center justify-content-between">
                   <span className="tn-cd-text-muted fw-medium">
                     تاريخ الانضمام:
                   </span>
-                  <div className="d-flex align-items-center gap-2 tn-cd-title fw-bold" dir="ltr">
+                  <div
+                    className="d-flex align-items-center gap-2 tn-cd-title fw-bold"
+                    dir="ltr"
+                  >
                     <Calendar size={14} className="tn-cd-text-muted" />
-                   {formatBentoDate(client.created_at,true)}
+                    {formatBentoDate(client.created_at, true)}
                   </div>
                 </div>
               </div>
@@ -226,7 +230,6 @@ const ClientDetails = () => {
           </Col>
         </Row>
 
-        {/* Timeline Section */}
         <div className="mt-5">
           <div className="d-flex align-items-center gap-3 mb-4">
             <div
@@ -243,9 +246,12 @@ const ClientDetails = () => {
               {warnings.map((warning, index) => (
                 <div key={warning.id || index} className="tn-cd-timeline-item">
                   <div className="d-flex flex-column gap-3">
-                    <div className="tn-cd-timeline-date align-self-start" dir="ltr">
+                    <div
+                      className="tn-cd-timeline-date align-self-start"
+                      dir="ltr"
+                    >
                       <Clock size={14} />
-                      {formatBentoDate(warning.created_at,true)}
+                      {formatBentoDate(warning.created_at, true)}
                     </div>
                     <p className="mb-0 tn-cd-title fw-medium lh-lg fs-6">
                       {warning.warning_text}

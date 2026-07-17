@@ -1179,7 +1179,6 @@ const DriverForm = () => {
                         </div>
                       </Alert>
                     )}
-                    {/* Basic Files */}
                     <Row className="g-4 mb-4">
                       <Col lg={4}>
                         <div
@@ -1278,12 +1277,10 @@ const DriverForm = () => {
                       </Col>
                     </Row>
 
-                    {/* Dynamic Car Papers Array */}
                     <h5 className="fw-bold mb-3 border-bottom pb-2">
                       أوراق المركبة (مطلوب ورقتين) (PDF)
                     </h5>
 
-                    {/* الورقة الأولى: ميكانيك فقط ومثبتة */}
                     <Card className="mb-3 border-dashed">
                       <Card.Body>
                         <Row className="align-items-center">
@@ -1316,7 +1313,6 @@ const DriverForm = () => {
                       </Card.Body>
                     </Card>
 
-                    {/* الورقة الثانية: خيار بين ملكية أو آجار */}
                     <Card className="mb-3 border-dashed">
                       <Card.Body>
                         <Row className="align-items-center">

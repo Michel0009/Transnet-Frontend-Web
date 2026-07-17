@@ -36,6 +36,27 @@ const AddContractTermModal = ({ show, onHide, onSuccess }) => {
   }, [show]);
 
   const handleSubmit = async () => {
+      const validationErrors = {};
+
+  if (!form.order.toString().trim()) {
+    validationErrors.order = "ترتيب البند مطلوب";
+  } else if (isNaN(form.order) || Number(form.order) < 1) {
+    validationErrors.order = "يجب أن يكون ترتيب البند رقماً أكبر من أو يساوي 1";
+  }
+
+  if (!form.term_text.trim()) {
+    validationErrors.term_text = "نص البند مطلوب";
+  }
+
+  if (Object.keys(validationErrors).length > 0) {
+    setErrors((prev) => ({
+      ...prev,
+      ...validationErrors,
+    }));
+
+    toast.error("يرجى تعبئة جميع الحقول المطلوبة");
+    return;
+  }
     setLoading(true);
 
     try {

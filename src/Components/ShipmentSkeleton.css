@@ -30,7 +30,6 @@
     background-position-x: -200%;
   }
 }
-/* تحسينات إضافية لجعل الـ Skeleton يظهر بشكل صحيح داخل خلايا الجدول */
 .tn-dd-table td .tn-skeleton {
   vertical-align: middle;
 }

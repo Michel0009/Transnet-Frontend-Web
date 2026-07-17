@@ -10,6 +10,7 @@ import AddContractTermModal from "../../Components/AddContractTermModal";
 
 import "./ContractTerms.css";
 import AddContractModal from "../../Components/AddContractModal";
+import { useAuth } from "../../Context/AuthContext";
 
 const ContractTerms = () => {
   const [terms, setTerms] = useState([]);
@@ -20,6 +21,9 @@ const ContractTerms = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [editedOrder, setEditedOrder] = useState("");
+  const { role } = useAuth();
+
+  const isAdmin = role === "admin";
 
   const fetchTerms = async () => {
     setLoading(true);
@@ -40,7 +44,6 @@ const ContractTerms = () => {
     const originalOrder = Number(term.order);
     const newOrder = Number(editedOrder);
 
-    // لا تحفظ إذا لم يتغير الرقم
     if (newOrder === originalOrder) {
       setEditingId(null);
       return;
@@ -93,22 +96,23 @@ const ContractTerms = () => {
             النظام والشركات لضمان أعلى مستويات الشفافية والأمان.
           </p>
         </div>
+        {isAdmin && (
+          <div className="d-flex gap-2 flex-wrap">
+            <Button
+              className="contract-add-btn fw-bold"
+              onClick={() => setShowAddModal(true)}
+            >
+              إضافة بند +
+            </Button>
 
-        <div className="d-flex gap-2 flex-wrap">
-          <Button
-            className="contract-add-btn fw-bold"
-            onClick={() => setShowAddModal(true)}
-          >
-            إضافة بند +
-          </Button>
-
-          <Button
-            className="contract-add-btn fw-bold"
-            onClick={() => setShowAddContractModal(true)}
-          >
-            إضافة عقد +
-          </Button>
-        </div>
+            <Button
+              className="contract-add-btn fw-bold"
+              onClick={() => setShowAddContractModal(true)}
+            >
+              إضافة عقد +
+            </Button>
+          </div>
+        )}
       </header>
 
       <Container fluid className="p-0">
@@ -123,7 +127,7 @@ const ContractTerms = () => {
                         <div className="d-flex align-items-center justify-content-between gap-3">
                           <div className="d-flex align-items-center gap-3 flex-grow-1 min-w-0">
                             <div className="contract-number">
-                              {editingId === term.id ? (
+                              {isAdmin && editingId === term.id ? (
                                 <input
                                   type="number"
                                   className="contract-order-input"
@@ -146,25 +150,28 @@ const ContractTerms = () => {
                               {term.term_text}
                             </div>
                           </div>
-
-                          <button
-                            className="contract-delete-btn"
-                            onClick={() => {
-                              setSelectedTermId(term.id);
-                              setShowDeleteModal(true);
-                            }}
-                          >
-                            <FaTrash />
-                          </button>
-                          <button
-                            className="contract-edit-btn"
-                            onClick={() => {
-                              setEditingId(term.id);
-                              setEditedOrder(term.order);
-                            }}
-                          >
-                            <FaEdit />
-                          </button>
+                          {isAdmin && (
+                            <>
+                              <button
+                                className="contract-delete-btn"
+                                onClick={() => {
+                                  setSelectedTermId(term.id);
+                                  setShowDeleteModal(true);
+                                }}
+                              >
+                                <FaTrash />
+                              </button>
+                              <button
+                                className="contract-edit-btn"
+                                onClick={() => {
+                                  setEditingId(term.id);
+                                  setEditedOrder(term.order);
+                                }}
+                              >
+                                <FaEdit />
+                              </button>
+                            </>
+                          )}
                         </div>
                       </Card.Body>
                     </Card>
@@ -177,19 +184,19 @@ const ContractTerms = () => {
       </Container>
 
       <AddContractTermModal
-        show={showAddModal}
+        show={isAdmin && showAddModal}
         onHide={() => setShowAddModal(false)}
         onSuccess={fetchTerms}
       />
       <DeleteContractTermModal
-        show={showDeleteModal}
+        show={isAdmin && showDeleteModal}
         onHide={() => setShowDeleteModal(false)}
         termId={selectedTermId}
         onSuccess={fetchTerms}
       />
 
       <AddContractModal
-        show={showAddContractModal}
+        show={isAdmin && showAddContractModal}
         onHide={() => setShowAddContractModal(false)}
         onSuccess={fetchTerms}
       />

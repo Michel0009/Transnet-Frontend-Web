@@ -14,6 +14,7 @@ import مضمون from "../../assets/مضمون.png";
 import خبير from "../../assets/خبير.png";
 import "./BadgesPage.css";
 import EditBadgeModal from "../../Components/EditBadgeModal";
+import { useAuth } from "../../Context/AuthContext";
 
 const BadgesPage = () => {
   const [badges, setBadges] = useState([]);
@@ -22,6 +23,7 @@ const BadgesPage = () => {
   const [selectedBadge, setSelectedBadge] = useState(null);
   const [conditionValue, setConditionValue] = useState("");
   const [updateLoading, setUpdateLoading] = useState(false);
+  const { role } = useAuth();
 
   const fetchBadges = async () => {
     setLoading(true);
@@ -39,6 +41,7 @@ const BadgesPage = () => {
   };
 
   const openEditModal = (badge) => {
+     if (role !== "admin") return;
     setSelectedBadge(badge);
     setConditionValue(badge.continuous_successful_shipments_condition);
     setShowModal(true);
@@ -46,6 +49,11 @@ const BadgesPage = () => {
 
   const handleUpdateBadge = async (e) => {
     e.preventDefault();
+
+  if (role !== "admin") {
+    toast.error("ليس لديك صلاحية لتعديل الشارات");
+    return;
+  }
 
     const originalCondition = Number(
       selectedBadge.continuous_successful_shipments_condition,
@@ -165,6 +173,7 @@ case 0:
                 <div className="d-flex justify-content-between align-items-start mb-3">
                   <div className="tn-badge-icon-box">{meta.icon}</div>
                   <div className="d-flex align-items-center gap-2">
+                    {role === "admin" && (
                     <button
                       className="tn-badge-edit-btn"
                       onClick={() => openEditModal(badge)}
@@ -172,6 +181,7 @@ case 0:
                     >
                       <FaEdit />
                     </button>
+                    )}
                     <span className="tn-badge-level-pill">
                       مستوى {badge.level}
                     </span>
@@ -204,7 +214,7 @@ case 0:
       </Row>
 
       <EditBadgeModal
-        show={showModal}
+        show={role === "admin" && showModal}
         onHide={() => setShowModal(false)}
         onSubmit={handleUpdateBadge}
         selectedBadge={selectedBadge}
