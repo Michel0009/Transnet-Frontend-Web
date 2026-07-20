@@ -240,7 +240,7 @@
   cursor: not-allowed;
   transform: none;
 }
-.action-btn {
+.d-action-btn {
   width: 36px;
   height: 36px;
 
@@ -258,7 +258,7 @@
   transition: 0.2s ease;
 }
 
-.action-btn:hover {
+.d-action-btn:hover {
   background: white !important;
   color: #1a1a1a !important;
 

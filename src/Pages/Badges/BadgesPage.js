@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col, Card, Spinner } from "react-bootstrap";
-import {
-  FaAward,
-  FaEdit,
-} from "react-icons/fa";
+import { FaAward, FaEdit } from "react-icons/fa";
 import api from "../../Api/Api";
 import { handleAxiosError } from "../../Utils/ErrorHandler";
 import { endpoints } from "../../Api/Endpoints";
@@ -41,7 +38,7 @@ const BadgesPage = () => {
   };
 
   const openEditModal = (badge) => {
-     if (role !== "admin") return;
+    if (role !== "admin") return;
     setSelectedBadge(badge);
     setConditionValue(badge.continuous_successful_shipments_condition);
     setShowModal(true);
@@ -50,16 +47,15 @@ const BadgesPage = () => {
   const handleUpdateBadge = async (e) => {
     e.preventDefault();
 
-  if (role !== "admin") {
-    toast.error("ليس لديك صلاحية لتعديل الشارات");
-    return;
-  }
+    if (role !== "admin") {
+      toast.error("ليس لديك صلاحية لتعديل الشارات");
+      return;
+    }
 
     const originalCondition = Number(
       selectedBadge.continuous_successful_shipments_condition,
     );
     const newCondition = Number(conditionValue);
-
 
     if (newCondition === originalCondition) {
       setShowModal(false);
@@ -80,10 +76,9 @@ const BadgesPage = () => {
           response.data?.message || "تم تعديل نظام إعطاء هذه الشارة بنجاح",
         );
         setShowModal(false);
-        fetchBadges(); 
+        fetchBadges();
       }
     } catch (error) {
-    
       if (error.response && error.response.status === 422) {
         const backendMessage =
           error.response.data?.errors
@@ -104,31 +99,37 @@ const BadgesPage = () => {
 
   const getBadgeMeta = (level) => {
     switch (level) {
-case 0: 
-      return { 
-        icon: <img src={معتمد} alt="معتمد" className="tn-badge-custom-img" />, 
-        class: "tn-badge-level-0" 
-      };
-    case 1: 
-      return { 
-        icon: <img src={منتظم} alt="منتظم" className="tn-badge-custom-img" />, 
-        class: "tn-badge-level-1" 
-      };
-    case 2: 
-      return { 
-        icon: <img src={خبير} alt="خبير" className="tn-badge-custom-img" />, 
-        class: "tn-badge-level-2" 
-      };
-    case 3: 
-      return { 
-        icon: <img src={مضمون} alt="مضمون" className="tn-badge-custom-img" />, 
-        class: "tn-badge-level-3" 
-      };
-    default: 
-      return { 
-        icon: <img src="/assets/images/badges/default-badge.svg" alt="شارة" className="tn-badge-custom-img" />, 
-        class: "tn-badge-level-default" 
-      };
+      case 0:
+        return {
+          icon: <img src={معتمد} alt="معتمد" className="tn-badge-custom-img" />,
+          class: "tn-badge-level-0",
+        };
+      case 1:
+        return {
+          icon: <img src={منتظم} alt="منتظم" className="tn-badge-custom-img" />,
+          class: "tn-badge-level-1",
+        };
+      case 2:
+        return {
+          icon: <img src={خبير} alt="خبير" className="tn-badge-custom-img" />,
+          class: "tn-badge-level-2",
+        };
+      case 3:
+        return {
+          icon: <img src={مضمون} alt="مضمون" className="tn-badge-custom-img" />,
+          class: "tn-badge-level-3",
+        };
+      default:
+        return {
+          icon: (
+            <img
+              src="/assets/images/badges/default-badge.svg"
+              alt="شارة"
+              className="tn-badge-custom-img"
+            />
+          ),
+          class: "tn-badge-level-default",
+        };
     }
   };
 
@@ -143,18 +144,18 @@ case 0:
     );
 
   return (
-    <div className="tn-s-admin-page-container">
+    <div className="tn-b-admin-page-container">
       <Row className="align-items-center mb-5 g-3">
         <Col xs={12}>
           <div className="d-flex align-items-center gap-3">
-            <div className="tn-s-page-icon-wrapper">
-              <FaAward className="tn-s-page-icon" />
+            <div className="tn-b-page-icon-wrapper">
+              <FaAward className="tn-b-page-icon" />
             </div>
             <div>
-              <h2 className="tn-s-admin-page-title">
+              <h2 className="tn-b-admin-page-title">
                 نظام شارات ومستويات السائقين
               </h2>
-              <p className="tn-s-admin-page-subtitle">
+              <p className="tn-b-admin-page-subtitle">
                 إدارة معايير ترقية السائقين، شروط المكافآت، وضمانات شحن TransNet
               </p>
             </div>
@@ -173,14 +174,14 @@ case 0:
                 <div className="d-flex justify-content-between align-items-start mb-3">
                   <div className="tn-badge-icon-box">{meta.icon}</div>
                   <div className="d-flex align-items-center gap-2">
-                    {role === "admin" && (
-                    <button
-                      className="tn-badge-edit-btn"
-                      onClick={() => openEditModal(badge)}
-                      title="تعديل شرط الشارة"
-                    >
-                      <FaEdit />
-                    </button>
+                    {role === "admin" && badge.level !== 0 && (
+                      <button
+                        className="tn-badge-edit-btn"
+                        onClick={() => openEditModal(badge)}
+                        title="تعديل شرط الشارة"
+                      >
+                        <FaEdit />
+                      </button>
                     )}
                     <span className="tn-badge-level-pill">
                       مستوى {badge.level}

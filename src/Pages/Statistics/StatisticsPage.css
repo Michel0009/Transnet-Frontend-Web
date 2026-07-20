@@ -8,7 +8,7 @@
   --border-color: #e2e8f0;
 }
 
-.tn-s-admin-page-container {
+.tn-st-admin-page-container {
   padding: 2.5rem 1rem; 
   min-height: 100vh;
   background-color: var(--bg-light);
@@ -16,7 +16,7 @@
   color: var(--text-dark);
 }
 
-.tn-s-page-icon-wrapper {
+.tn-st-page-icon-wrapper {
   background-color: var(--white);
   border: 1px solid var(--border-color);
   border-radius: 16px;
@@ -28,12 +28,12 @@
   box-shadow: 0 4px 20px rgba(30, 41, 59, 0.05);
 }
 
-.tn-s-page-icon {
+.tn-st-page-icon {
   color: var(--primary-orange);
   font-size: 1.6rem;
 }
 
-.tn-s-admin-page-title {
+.tn-st-admin-page-title {
   font-size: 1.85rem;
   font-weight: 800;
   color: var(--text-dark);
@@ -41,7 +41,7 @@
   letter-spacing: -0.5px;
 }
 
-.tn-s-admin-page-subtitle {
+.tn-st-admin-page-subtitle {
   font-size: 0.925rem;
   color: var(--text-muted);
   margin-bottom: 0;

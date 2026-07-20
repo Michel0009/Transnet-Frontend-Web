@@ -29,22 +29,6 @@ const ReportsPage = () => {
     fetchReports();
   }, []);
 
-  const getTypeBadgeClass = (type) => {
-    switch (type) {
-      case "عدم الالتزام":
-        return "tn-report-badge-danger";
-      case "تكسر الأغراض":
-        return "tn-report-badge-danger";
-      case "مالي":
-      case "تسعير":
-        return "tn-report-badge-warning";
-      case "تأخير بالتسليم":
-      case "تأخير بالتوصيل":
-        return "tn-report-badge-info";
-      default:
-        return "tn-report-badge-secondary";
-    }
-  };
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -66,26 +50,18 @@ const ReportsPage = () => {
     );
 
   return (
-    <div className="tn-s-admin-page-container">
-      <Row className="align-items-center mb-5 g-3">
+    <div className="tn-r-admin-page-container">
+      <Row className="align-items-start mb-4 g-3">
         <Col xs={12}>
           <div className="d-flex align-items-center gap-3">
-            <div className="tn-r-page-icon-wrapper tn-report-icon-bg">
-              <FaExclamationTriangle className="tn-s-page-icon tn-report-icon-color" />
-            </div>
             <div>
-              <h2 className="tn-s-admin-page-title">
+              <h2 className="tn-r-admin-page-title">
                 إدارة بلاغات وشكاوى المستخدمين
               </h2>
-              <p className="tn-s-admin-page-subtitle">
-                متابعة المشاكل التشغيلية، مراقبة سلوك السائقين، وضمان جودة خدمات
-                شحن TransNet
-              </p>
             </div>
           </div>
         </Col>
       </Row>
-
       <Row className="mb-4 g-4">
         <Col xs={12} sm={6} md={4}>
           <Card className="tn-report-mini-card">
@@ -101,77 +77,94 @@ const ReportsPage = () => {
           </Card>
         </Col>
       </Row>
+      <Card className="tn-r-table-card border-0">
+        <Card.Body className="p-0">
+          {reports.length === 0 ? (
+            <div className="tn-r-empty-state">
+              <div className="tn-r-empty-icon">
+                <FaExclamationTriangle />
+              </div>
+              <h5 className="tn-r-empty-title">لا توجد بلاغات حالياً</h5>
+              <p className="tn-r-empty-subtitle">
+                ستظهر هنا أي بلاغات أو شكاوى يقدمها المستخدمون فور ورودها.
+              </p>
+            </div>
+          ) : (
+            <div className="table-responsive">
+              <Table className="tn-r-table align-middle mb-0">
+                <thead>
+                  <tr>
+                    <th>المُبلِغ</th>
+                    <th>المُبلَغ ضده</th>
+                    <th>نوع المخالفة</th>
+                    <th>تفاصيل الشكوى</th>
+                    <th>تاريخ البلاغ</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {reports.map((report) => {
+                    return (
+                      <tr key={report.id} className="tn-r-row">
+                        <td>
+                          <div className="tn-r-user-cell">
+                        
+                            <div className="tn-r-user-text">
+                              <span className="tn-r-user-name">
+                                {report.reporter.first_name}{" "}
+                                {report.reporter.last_name}
+                              </span>
+                              <span className="tn-r-user-meta">
+                                #{report.reporter.user_number} ·{" "}
+                                {report.reporter.phone_number}
+                              </span>
+                            </div>
+                          </div>
+                        </td>
 
-<Card className="tn-report-table-card border-0 shadow-sm">
-  <Card.Body className="p-0">
-    <div className="table-responsive">
-      {/* 1. أضفنا الكلاس text-center هنا لتوسيط عناوين وأعمدة الجدول ككل */}
-      <Table className="tn-custom-table align-middle text-center mb-0">
-        <thead>
-          <tr>
-            <th>المُبلِغ (Reporter)</th>
-            <th>المُبلَغ ضده (Reported)</th>
-            <th>نوع المخالفة</th>
-            <th style={{ width: "35%" }}>تفاصيل الشكوى</th>
-            <th>تاريخ البلاغ</th>
-          </tr>
-        </thead>
-        <tbody>
-          {reports.map((report) => (
-            <tr key={report.id}>
-              
-              {/* بيانات المُبلِغ (تمت إضافة align-items-center) */}
-              <td>
-                <div className="d-flex flex-column align-items-center">
-                  <span className="tn-user-fullname">
-                    {report.reporter.first_name} {report.reporter.last_name}
-                  </span>
-                  <span className="tn-user-sub-info">
-                    رقم: {report.reporter.user_number} | {report.reporter.phone_number}
-                  </span>
-                </div>
-              </td>
+                        <td>
+                          <div className="tn-r-user-cell">
+                  
+                            <div className="tn-r-user-text">
+                              <span className="tn-r-user-name tn-r-user-name-flagged">
+                                {report.reported_user.first_name}{" "}
+                                {report.reported_user.last_name}
+                              </span>
+                              <span className="tn-r-user-meta tn-r-user-meta-flagged">
+                                #{report.reported_user.user_number} ·{" "}
+                                {report.reported_user.phone_number}
+                              </span>
+                            </div>
+                          </div>
+                        </td>
 
-              {/* بيانات المُبلَغ ضده (تمت إضافة align-items-center) */}
-              <td>
-                <div className="d-flex flex-column align-items-center">
-                  <span className="tn-user-fullname fw-bold text-dark">
-                    {report.reported_user.first_name} {report.reported_user.last_name}
-                  </span>
-                  <span className="tn-user-sub-info text-danger">
-                    رقم: {report.reported_user.user_number} | {report.reported_user.phone_number}
-                  </span>
-                </div>
-              </td>
+                        <td>
+                          <span className="tn-r-badge">{report.type}</span>
+                        </td>
 
-              {/* نوع المخالفة - سيتوسط تلقائياً بسبب كلاس الجدول */}
-              <td>
-                <span className={`tn-report-badge ${getTypeBadgeClass(report.type)}`}>
-                  {report.type}
-                </span>
-              </td>
+                        <td>
+                          <p
+                            className="tn-r-description"
+                            title={report.description}
+                          >
+                            {report.description}
+                          </p>
+                        </td>
 
-              {/* تفاصيل الشكوى - ستتوسط تلقائياً */}
-              <td>
-                <p className="tn-report-description-text mb-0" title={report.description}>
-                  {report.description}
-                </p>
-              </td>
-
-              {/* تاريخ البلاغ (تمت إضافة justify-content-center) */}
-              <td>
-                <div className="d-flex align-items-center justify-content-center gap-2 text-muted tn-report-date">
-                  <FaCalendarAlt className="small-icon" />
-                  <span>{formatDate(report.created_at)}</span>
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-    </div>
-  </Card.Body>
-</Card>
+                        <td>
+                          <div className="tn-r-date-cell">
+                            <FaCalendarAlt className="tn-r-date-icon" />
+                            <span>{formatDate(report.created_at)}</span>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </Table>
+            </div>
+          )}
+        </Card.Body>
+      </Card>
     </div>
   );
 };

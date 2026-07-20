@@ -318,16 +318,16 @@ const Statistics = () => {
     },
   };
   return (
-    <Container fluid className="tn-s-admin-page-container" dir="rtl">
+    <Container fluid className="tn-st-admin-page-container" dir="rtl">
       <Row className="align-items-center mb-4 g-3">
         <Col xs={12} md={8}>
           <div className="d-flex align-items-center gap-3">
-            <div className="tn-s-page-icon-wrapper">
-              <FaChartPie className="tn-s-page-icon" />
+            <div className="tn-st-page-icon-wrapper">
+              <FaChartPie className="tn-st-page-icon" />
             </div>
             <div>
-              <h2 className="tn-s-admin-page-title">الإحصائيات الشاملة</h2>
-              <p className="tn-s-admin-page-subtitle">
+              <h2 className="tn-st-admin-page-title">الإحصائيات الشاملة</h2>
+              <p className="tn-st-admin-page-subtitle">
                 متابعة نشاط النظام والشحنات والعملاء والسائقين لشبكة TransNet
               </p>
             </div>

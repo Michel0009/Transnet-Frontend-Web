@@ -20,7 +20,7 @@
 }
 
 .btn-add-new {
-  background-color: #F28B0D !important;
+  background-color: #f28b0d !important;
   border: none !important;
   color: white;
   padding: 10px 20px;
@@ -33,7 +33,7 @@
 }
 
 .btn-add-new:hover {
-  background-color: #C46F0A !important;
+  background-color: #c46f0a !important;
   transform: translateY(-2px);
 }
 
@@ -51,7 +51,7 @@
 
 .subadmins-table thead th {
   background-color: #eff8ff;
-  color: #6B7280;
+  color: #6b7280;
 
   font-size: 13px;
   font-weight: 700;
@@ -67,7 +67,7 @@
 
   vertical-align: middle;
 
-  color: #1A1A1A;
+  color: #1a1a1a;
   font-size: 14px;
   font-weight: 600;
 
@@ -105,7 +105,7 @@
   color: #fa5252;
 }
 
-.action-btn {
+.tn-sa-action-btn {
   width: 36px;
   height: 36px;
 
@@ -118,14 +118,14 @@
   background: #f8fafc !important;
   border: 1px solid #e2e8f0 !important;
 
-  color: #6B7280 !important;
+  color: #6b7280 !important;
 
   transition: 0.2s ease;
 }
 
-.action-btn:hover {
+.tn-sa-action-btn:hover {
   background: white !important;
-  color: #1A1A1A !important;
+  color: #1a1a1a !important;
 
   transform: scale(1.05);
 }

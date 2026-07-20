@@ -120,7 +120,7 @@ const SubAdminsPage = () => {
                   <td className="text-center">
                     <div className="dropdown">
                       <button
-                        className="btn btn-sm action-btn"
+                        className="btn btn-sm tn-sa-action-btn"
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
                       >

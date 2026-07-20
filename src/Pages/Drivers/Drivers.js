@@ -308,7 +308,7 @@ const Drivers = () => {
                     >
                       <div className="dropdown">
                         <button
-                          className="btn btn-sm action-btn"
+                          className="btn btn-sm d-action-btn"
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
                         >

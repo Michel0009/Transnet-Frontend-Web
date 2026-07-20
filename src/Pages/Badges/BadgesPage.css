@@ -1,11 +1,11 @@
-.tn-s-admin-page-container {
+.tn-b-admin-page-container {
     padding: 30px;
     min-height: 100vh;
     background-color: #f8fafc;
     width: 100%;
 }
 
-.tn-s-page-icon-wrapper {
+.tn-b-page-icon-wrapper {
     width: 56px;
     height: 56px;
     background-color: #ffffff;
@@ -17,12 +17,12 @@
     box-shadow: 0 4px 20px rgba(30, 41, 59, 0.05);
 }
 
-.tn-s-page-icon {
+.tn-b-page-icon {
     color: #F28B0D !important;
     font-size: 1.6rem;
 }
 
-.tn-s-admin-page-title {
+.tn-b-admin-page-title {
     font-family: "Tajawal", sans-serif;
     font-weight: 800;
     color: #1e293b;
@@ -30,7 +30,7 @@
     font-size: 1.5rem;
 }
 
-.tn-s-admin-page-subtitle {
+.tn-b-admin-page-subtitle {
     font-family: "Tajawal", sans-serif;
     color: #64748b;
     font-size: 0.9rem;
