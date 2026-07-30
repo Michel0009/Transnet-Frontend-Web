@@ -13,6 +13,7 @@ import {
   FaUsers,
   FaUserShield,
   FaCalendarAlt,
+  FaBan,
 } from "react-icons/fa";
 import { toast } from "react-toastify";
 import api from "../../Api/Api";
@@ -93,8 +94,18 @@ const BlockedUsers = () => {
   };
   return (
     <Container fluid className="tn-b-page py-4 px-xl-5">
-      <div className="d-flex justify-content-between align-items-end mb-4">
-        <h3 className="fw-bold tn-b-text-navy">الحسابات المحظورة</h3>
+      <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+        <div className="d-flex align-items-center gap-3">
+          <div className="tn-b-page-icon-wrapper">
+            <FaBan className="tn-b-page-icon" />
+          </div>
+          <div>
+            <h3 className="fw-bold tn-b-text-navy mb-1 tn-b-title">الحسابات المحظورة</h3>
+            <p className="tn-b-text-slate mb-0 tn-b-subtitle" style={{ fontSize: "0.9rem" }}>
+              عرض ومتابعة كافة الحسابات الموقوفة في النظام
+            </p>
+          </div>
+        </div>
         <Badge className="tn-b-bg-brand fs-6 px-4 py-2 rounded-pill">
           الإجمالي: {totalItems}
         </Badge>
@@ -147,7 +158,7 @@ const BlockedUsers = () => {
                   </td>
                 </tr>
               ) : (
-                data.map((item,index) => (
+                data.map((item, index) => (
                   <tr key={index}>
                     <td className="fw-bold tn-b-text-navy text-center">
                       #{item.user_number}
@@ -173,7 +184,10 @@ const BlockedUsers = () => {
                     </td>
                     <td className="text-center">
                       {item.ban_end_date ? (
-                        <Badge className="tn-b-badge-temp rounded-pill" dir="ltr">
+                        <Badge
+                          className="tn-b-badge-temp rounded-pill"
+                          dir="ltr"
+                        >
                           {formatBentoDate(item.ban_end_date, true)}
                         </Badge>
                       ) : (

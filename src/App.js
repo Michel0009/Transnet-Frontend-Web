@@ -68,9 +68,11 @@ function App() {
               <Route path="clients" element={<Clients />} />
               <Route path="shipments" element={<Shipments />} />
               <Route path="vehicles" element={<VehicleTypeDetails />} />
-              <Route path="badges" element={<BadgesPage/>} />
-              <Route path="reports" element={<ReportsPage/>} />
+              <Route path="badges" element={<BadgesPage />} />
+              <Route path="reports" element={<ReportsPage />} />
               <Route path="tracking" element={<TrackingMap />} />
+              <Route path="contracts" element={<ContractTerms />} />
+
               <Route
                 path="tracking/:shipmentNumber"
                 element={<TrackingMap />}
@@ -89,7 +91,6 @@ function App() {
               <Route path="blocked-users" element={<BlockedUsers />} />
               <Route path="pricing" element={<PricingSettings />} />
               <Route path="subadmins" element={<SubAdminsPage />} />
-              <Route path="contracts" element={<ContractTerms />} />
               <Route path="statistics" element={<StatisticsPage />} />
             </Route>
           </Route>

@@ -36,7 +36,7 @@ const ShipmentDetails = () => {
   const { id } = useParams();
   const [shipmentData, setShipmentData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [copied, setCopied] = useState(false);
+  const [copiedField, setCopiedField] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -59,12 +59,12 @@ const ShipmentDetails = () => {
     fetchShipment();
   }, [id, navigate]);
 
-  const handleCopyNumber = (e, num) => {
-    e.stopPropagation();
-    navigator.clipboard.writeText(num);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+const handleCopyNumber = (e, num, field) => {
+  e.stopPropagation();
+  navigator.clipboard.writeText(num);
+  setCopiedField(field);
+  setTimeout(() => setCopiedField(null), 2000);
+};
   const getStatusConfig = (status) => {
     switch (status) {
       case "جارية":
@@ -124,10 +124,12 @@ const ShipmentDetails = () => {
                 <Badge
                   bg="none"
                   className="tn-gt-copy-badge"
-                  onClick={(e) => handleCopyNumber(e, shipment.shipment_number)}
+                  onClick={(e) =>
+                    handleCopyNumber(e, shipment.shipment_number, "shipment")
+                  }
                 >
                   <span>#{shipment.shipment_number}</span>
-                  {copied ? (
+                  {copiedField === "shipment" ? (
                     <Check size={12} className="text-success ms-1" />
                   ) : (
                     <Copy size={12} className="ms-1" />
@@ -193,10 +195,12 @@ const ShipmentDetails = () => {
                     <Badge
                       bg="none"
                       className="tn-gt-copy-badge"
-                      onClick={(e) => handleCopyNumber(e, client.user_number)}
+                      onClick={(e) =>
+                        handleCopyNumber(e, client.user_number, "client")
+                      }
                     >
                       <span>#{client.user_number}</span>
-                      {copied ? (
+                      {copiedField === "client" ? (
                         <Check size={12} className="text-success ms-1" />
                       ) : (
                         <Copy size={12} className="ms-1" />
@@ -249,10 +253,12 @@ const ShipmentDetails = () => {
                     <Badge
                       bg="none"
                       className="tn-gt-copy-badge"
-                      onClick={(e) => handleCopyNumber(e, driver.user_number)}
+                      onClick={(e) =>
+                        handleCopyNumber(e, driver.user_number, "driver")
+                      }
                     >
                       <span>#{driver.user_number}</span>
-                      {copied ? (
+                      {copiedField === "driver" ? (
                         <Check size={12} className="text-success ms-1" />
                       ) : (
                         <Copy size={12} className="ms-1" />
@@ -388,19 +394,17 @@ const ShipmentDetails = () => {
                         </div>
                       </Col>
                     </Row>
-                  ))}     
-                  <Button
-                    className="tn-gt-trigger-map-action variant-action-neon-luxury border-0 w-100"
-                    onClick={() =>
-                      navigate(
-                        `/dashboard/tracking/${shipment.shipment_number}`,
-                      )
-                    }
-                  >
-                    <Map size={16} />
-                    <span>ولوج فوري للنظام الخرائطي المباشر والتتبع الحي</span>
-                    <ArrowUpRight size={14} className="tn-gt-arrow-link" />
-                  </Button>
+                  ))}
+                <Button
+                  className="tn-gt-trigger-map-action variant-action-neon-luxury border-0 w-100"
+                  onClick={() =>
+                    navigate(`/dashboard/tracking/${shipment.shipment_number}`)
+                  }
+                >
+                  <Map size={16} />
+                  <span>ولوج فوري للنظام الخرائطي المباشر والتتبع الحي</span>
+                  <ArrowUpRight size={14} className="tn-gt-arrow-link" />
+                </Button>
               </Card.Body>
             </Card>
           </Col>

@@ -180,3 +180,28 @@
 
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
 }
+.pricing-page-icon-wrapper {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  flex-shrink: 0;
+}
+
+.pricing-page-icon {
+  color: #0d7ff2;
+  font-size: 1.6rem;
+}
+.pricing-title{
+      font-family: "Tajawal", "Cairo", system-ui, sans-serif;
+
+}
+.pricing-subtitle{
+      font-family: "Tajawal", "Cairo", system-ui, sans-serif;
+
+}

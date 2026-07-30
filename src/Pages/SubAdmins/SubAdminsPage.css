@@ -10,9 +10,13 @@
   font-size: 26px;
   font-weight: 700;
   color: #1a2d48;
+    font-family: "Tajawal", "Cairo", system-ui, sans-serif;
+
 }
 
 .page-description {
+    font-family: "Tajawal", "Cairo", system-ui, sans-serif;
+
   color: #1a2d48;
   font-size: 15px;
   max-width: 700px;
@@ -159,4 +163,21 @@
 
 .dropdown-item svg {
   font-size: 14px;
+}
+.tn-sa-page-icon-wrapper {
+  background-color: #ffffff;
+  border: 1px solid #eef2f7;
+  border-radius: 16px;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(30, 41, 59, 0.05);
+  flex-shrink: 0;
+}
+
+.tn-sa-page-icon {
+  color: #ff6b00;
+  font-size: 1.6rem;
 }

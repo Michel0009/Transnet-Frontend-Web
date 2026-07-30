@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Nav } from "react-bootstrap";
+import { Nav,Modal, Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -25,6 +25,7 @@ import logo from "../assets/logo2.png";
 import { useAuth } from "../Context/AuthContext";
 
 const Sidebar = () => {
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const { role, logout } = useAuth();
@@ -33,7 +34,11 @@ const Sidebar = () => {
       setIsMobileOpen(false);
     }
   };
-
+const handleConfirmLogout = () => {
+  setShowLogoutConfirm(false);
+  handleMobileLinkClick();
+  logout();
+};
   return (
     <>
       <div className="tn-mobile-navbar" dir="rtl">
@@ -149,16 +154,15 @@ const Sidebar = () => {
             <span className="tn-nav-text">المركبات</span>
           </Nav.Link>
 
-            <Nav.Link
-              as={NavLink}
-              to="/dashboard/badges"
-              className="tn-nav-item"
-              onClick={handleMobileLinkClick}
-            >
-              <FontAwesomeIcon icon={faIdBadge} className="tn-icon" />
-              <span className="tn-nav-text">الشارات</span>
-            </Nav.Link>
-          
+          <Nav.Link
+            as={NavLink}
+            to="/dashboard/badges"
+            className="tn-nav-item"
+            onClick={handleMobileLinkClick}
+          >
+            <FontAwesomeIcon icon={faIdBadge} className="tn-icon" />
+            <span className="tn-nav-text">الشارات</span>
+          </Nav.Link>
 
           {role === "admin" && (
             <>
@@ -180,14 +184,14 @@ const Sidebar = () => {
               </Nav.Link>
             </>
           )}
-            <Nav.Link
-              as={NavLink}
-              to="/dashboard/contracts"
-              className="tn-nav-item"
-            >
-              <FontAwesomeIcon icon={faFileSignature} className="tn-icon" />
-              <span className="tn-nav-text">العقود</span>
-            </Nav.Link>
+          <Nav.Link
+            as={NavLink}
+            to="/dashboard/contracts"
+            className="tn-nav-item"
+          >
+            <FontAwesomeIcon icon={faFileSignature} className="tn-icon" />
+            <span className="tn-nav-text">العقود</span>
+          </Nav.Link>
 
           <Nav.Link
             as={NavLink}
@@ -196,23 +200,42 @@ const Sidebar = () => {
           >
             <FontAwesomeIcon icon={faFileInvoice} className="tn-icon" />
 
-            <span className="tn-nav-text">الابلاغات</span>
+            <span className="tn-nav-text">الإبلاغات</span>
           </Nav.Link>
         </Nav>
 
         <div className="tn-sidebar-footer">
           <Nav.Link
             className="tn-nav-item"
-            onClick={() => {
-              handleMobileLinkClick();
-              logout();
-            }}
+            onClick={() => setShowLogoutConfirm(true)}
           >
             <FontAwesomeIcon icon={faSignOutAlt} className="tn-icon" />
             <span className="tn-nav-text">تسجيل الخروج</span>
           </Nav.Link>
         </div>
       </aside>
+      <Modal
+        show={showLogoutConfirm}
+        onHide={() => setShowLogoutConfirm(false)}
+        centered
+        dir="rtl"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>تأكيد تسجيل الخروج</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>هل أنت متأكد من رغبتك في تسجيل الخروج؟</Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="secondary"
+            onClick={() => setShowLogoutConfirm(false)}
+          >
+            إلغاء
+          </Button>
+          <Button variant="danger" onClick={handleConfirmLogout}>
+            تسجيل الخروج
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };

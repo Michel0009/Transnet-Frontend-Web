@@ -35,6 +35,7 @@ const Shipments = () => {
   const [totalShipments, setTotalShipments] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearching, setIsSearching] = useState(false);
+  const [searchTrigger, setSearchTrigger] = useState(0);
   const navigate = useNavigate();
   useEffect(() => {
     const fetchShipments = async (page = 1) => {
@@ -75,13 +76,14 @@ const Shipments = () => {
     };
     fetchShipments(currentPage);
     // eslint-disable-next-line
-  }, [currentPage, isSearching]);
+  }, [currentPage, isSearching, searchTrigger]);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     if (!searchQuery.trim()) return;
     setIsSearching(true);
     setCurrentPage(1);
+     setSearchTrigger((t) => t + 1); 
   };
   const handleClearSearch = () => {
     setSearchQuery("");

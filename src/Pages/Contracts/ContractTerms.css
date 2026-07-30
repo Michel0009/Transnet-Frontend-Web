@@ -1,5 +1,5 @@
 .contract-page {
-  padding: 20px 24px;
+  padding: 35px;
 
   min-height: 100vh;
 
@@ -15,12 +15,16 @@
 }
 
 .contract-title {
+    font-family: "Tajawal", "Cairo", system-ui, sans-serif;
+
   font-size: 26px;
   font-weight: 700;
   color: #1a2d48;
 }
 
 .contract-subtitle {
+    font-family: "Tajawal", "Cairo", system-ui, sans-serif;
+
   color: #1a2d48;
   font-size: 15px;
   max-width: 700px;
@@ -180,4 +184,21 @@
 
 .tn-load-orange {
   color: #f28c00  !important;
+}
+.contract-page-icon-wrapper {
+  background-color: #ffffff;
+  border: 1px solid #eef2ff;
+  border-radius: 16px;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(30, 41, 59, 0.05);
+  flex-shrink: 0;
+}
+
+.contract-page-icon {
+  color: #f28c00;
+  font-size: 1.6rem;
 }

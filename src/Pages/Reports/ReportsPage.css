@@ -6,10 +6,10 @@
   --tn-r-text-dark: #1e293b;
   --tn-r-text-muted: #64748b;
   --tn-r-border: #e2e8f0;
- }
+}
 
 .tn-r-admin-page-container {
-  padding: 2.5rem 1rem;
+  padding: 35px;
   min-height: 100vh;
   background-color: var(--tn-r-bg);
   font-family: "Tajawal", "Cairo", system-ui, sans-serif;
@@ -45,6 +45,7 @@
 }
 
 .tn-r-admin-page-title {
+  font-family: "Tajawal", "Cairo", system-ui, sans-serif;
   font-size: 1.85rem;
   font-weight: 800;
   color: var(--tn-r-text-dark);
@@ -54,6 +55,7 @@
 }
 
 .tn-r-admin-page-subtitle {
+  font-family: "Tajawal", "Cairo", system-ui, sans-serif;
   font-size: 0.925rem;
   color: var(--tn-r-text-muted);
   margin-bottom: 0;
@@ -124,8 +126,7 @@
   border-bottom: 1px solid #f1f5f9;
   font-size: 0.875rem;
   vertical-align: middle;
-    text-align: center;
-
+  text-align: center;
 }
 
 .tn-r-table tbody tr:last-child td {
@@ -155,7 +156,11 @@
 }
 
 .tn-r-avatar-flagged {
-  background: linear-gradient(135deg, rgba(234, 88, 12, 0.12) 0%, rgba(234, 88, 12, 0.18) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(234, 88, 12, 0.12) 0%,
+    rgba(234, 88, 12, 0.18) 100%
+  );
   color: var(--tn-r-sev-high);
   border: 1px solid rgba(234, 88, 12, 0.15);
 }
@@ -206,7 +211,7 @@
   font-size: 0.84rem;
   line-height: 1.6;
   max-width: 340px;
-  margin: 0 auto;    
+  margin: 0 auto;
   text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -217,7 +222,7 @@
 .tn-r-date-cell {
   display: flex;
   align-items: center;
-    justify-content: center;
+  justify-content: center;
 
   gap: 6px;
   color: var(--tn-r-text-muted);
@@ -231,38 +236,29 @@
   color: #cbd5e1;
 }
 .tn-load-orange {
-  color: #f28c00  !important;
+  color: #f28c00 !important;
 }
 .tn-report-mini-card {
-    border: none !important;
-    border-radius: 12px !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03) !important;
-    background-color: #ffffff;
-    margin-right: 0.5rem;
+  border: none !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03) !important;
+  background-color: #ffffff;
+  max-width: 270px;
 }
 
 .tn-report-card-label {
-    font-family: "Tajawal", sans-serif;
-    font-size: 1rem;
-    color: #64748b;
-    font-weight: 600;
+  font-family: "Tajawal", sans-serif;
+  font-size: 1rem;
+  color: #64748b;
+  font-weight: 600;
 }
 
 .tn-report-card-value {
-    font-family: "Tajawal", sans-serif;
-    font-weight: 800;
-    color: #1e293b;
+  font-family: "Tajawal", sans-serif;
+  font-weight: 800;
+  color: #1e293b;
 }
 
-.tn-report-mini-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.75rem;
-}
 @media (max-width: 768px) {
   .tn-r-stat-pill {
     width: 100%;

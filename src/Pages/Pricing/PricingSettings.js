@@ -6,6 +6,7 @@ import {
   faGasPump,
   faBolt,
   faAward,
+  faSlidersH,
 } from "@fortawesome/free-solid-svg-icons";
 import api from "../../Api/Api";
 import { endpoints } from "../../Api/Endpoints";
@@ -81,6 +82,12 @@ const PricingSettings = () => {
   };
 
   const handleSave = async (item) => {
+    if (parseFloat(editValue) === parseFloat(item.value)) {
+      setEditId(null);
+      setEditValue("");
+      setEditErrors({});
+      return;
+    }
     try {
       const response = await api.put(endpoints.coefficients.update, {
         coefficient_id: item.id,
@@ -138,8 +145,20 @@ const PricingSettings = () => {
 
   return (
     <div className="tn-main-content" dir="rtl">
-      <header className="d-flex justify-content-between align-items-center mb-4">
-        <h2 className="fw-bold tn-navy">إعدادات معايير الوقود و التسعير</h2>
+      <header className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+        <div className="d-flex align-items-center gap-3">
+          <div className="pricing-page-icon-wrapper">
+            <FontAwesomeIcon icon={faSlidersH} className="pricing-page-icon" />
+          </div>
+          <div>
+            <h2 className="fw-bold tn-navy mb-1 pricing-title">
+              إعدادات معايير الوقود و التسعير
+            </h2>
+            <p className="mb-0 pricing-subtitle" style={{ color: "#6B7280", fontSize: "15px" }}>
+              إدارة معايير التسعير وأسعار الوقود والمكافآت في النظام
+            </p>
+          </div>
+        </div>
       </header>
       <Container fluid className="p-0">
         <div className="section pricing-section mb-5">
@@ -150,7 +169,7 @@ const PricingSettings = () => {
               <div key={item.id} className="col-12 col-md-6 col-lg-3">
                 <div className="card custom-card h-100 border-0">
                   <div className="card-header-custom d-flex justify-content-between align-items-center mb-3">
-                    <h3 className="card-title mb-0">التسعيرة الأساسية</h3>
+                    <h3 className="card-title mb-0">الربح الصافي بالكيلومتر</h3>
 
                     <div className="card-icon">
                       <FontAwesomeIcon icon={getIcon(item.type, item.name)} />

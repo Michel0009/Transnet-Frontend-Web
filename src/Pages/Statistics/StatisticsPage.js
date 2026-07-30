@@ -50,6 +50,9 @@ ChartJS.register(
 
 const Statistics = () => {
   const [loading, setLoading] = useState(true);
+const [barChartLoading, setBarChartLoading] = useState(false);
+const [lineChartLoading, setLineChartLoading] = useState(false);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [exporting, setExporting] = useState(false);
   const [generalStats, setGeneralStats] = useState(null);
   const [shipmentStats, setShipmentStats] = useState([]);
@@ -58,9 +61,15 @@ const Statistics = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [selectedGovernorates, setSelectedGovernorates] = useState([]);
-
-  const fetchStatisticsData = async () => {
-    setLoading(true);
+const previousFilterDateRef = React.useRef("months");
+const isRevertingRef = React.useRef(false);
+  const fetchStatisticsData = async (source = "both") => {
+    if (isInitialLoad) {
+      setLoading(true);
+    } else {
+      if (source === "bar" || source === "both") setBarChartLoading(true);
+      if (source === "line" || source === "both") setLineChartLoading(true);
+    }
     try {
       const payload = {
         filter_date: filterDate,
@@ -85,6 +94,8 @@ const Statistics = () => {
         const validationErrors = error.response.data?.errors;
         if (validationErrors?.filter_date)
           toast.error(validationErrors.filter_date[0]);
+         isRevertingRef.current = true;
+          setFilterDate(previousFilterDateRef.current);
         if (validationErrors?.start_date)
           toast.error(validationErrors.start_date[0]);
         if (validationErrors?.end_date)
@@ -95,13 +106,31 @@ const Statistics = () => {
         );
       }
     } finally {
-      setLoading(false);
+      if (isInitialLoad) {
+        setLoading(false);
+        setIsInitialLoad(false);
+      } else {
+        setBarChartLoading(false);
+        setLineChartLoading(false);
+      }
     }
   };
-  useEffect(() => {
-    fetchStatisticsData();
-  }, [filterDate, selectedGovernorates]);
+useEffect(() => {
+  if (!isInitialLoad) {
+    if (isRevertingRef.current) {
+      isRevertingRef.current = false;
+      return; 
+    }
+    fetchStatisticsData("line");
+  }
+}, [filterDate]);
+useEffect(() => {
+  if (!isInitialLoad) fetchStatisticsData("bar");
+}, [selectedGovernorates]);
 
+useEffect(() => {
+  fetchStatisticsData("both");
+}, []);
   const handleExportPdf = async () => {
     try {
       setExporting(true);
@@ -215,6 +244,8 @@ const Statistics = () => {
         data: shipmentStats.map((item) => item.shipments_count),
         backgroundColor: "#ff8c00",
         borderRadius: 0,
+        barThickness: 30,
+        maxBarThickness: 50,
       },
     ],
   };
@@ -234,7 +265,14 @@ const Statistics = () => {
       y: {
         beginAtZero: true,
         grid: { color: "#f1f5f9" },
-        ticks: { font: { family: "Tajawal" } },
+        ticks: {
+          font: { family: "Tajawal" },
+          precision: 0,
+          callback: (value) => (Number.isInteger(value) ? value : null),
+        },
+        afterBuildTicks: (axis) => {
+          axis.ticks = axis.ticks.filter((t) => Number.isInteger(t.value));
+        },
       },
     },
   };
@@ -298,7 +336,7 @@ const Statistics = () => {
         rtl: true,
         callbacks: {
           label: (context) =>
-            ` ${Number(context.raw).toLocaleString("ar-SY")} ل.س`,
+            ` ${Number(context.raw).toLocaleString("en-US")} ل.س`,
         },
       },
     },
@@ -312,7 +350,7 @@ const Statistics = () => {
         grid: { color: "#f1f5f9" },
         ticks: {
           font: { family: "Tajawal" },
-          callback: (value) => Number(value).toLocaleString("ar-SY"),
+          callback: (value) => Number(value).toLocaleString("en-US"),
         },
       },
     },
@@ -355,19 +393,7 @@ const Statistics = () => {
       </Row>
 
       <Row className="mb-5 g-3">
-        <Col xs={12} className="d-flex align-items-center gap-3 flex-wrap">
-          <div className="tn-s-filter-select-wrapper">
-            <Form.Select
-              className="tn-s-filter-select"
-              value={filterDate}
-              onChange={(e) => setFilterDate(e.target.value)}
-            >
-              <option value="days">اليوم</option>
-              <option value="months">الأشهر</option>
-              <option value="years">السنوات</option>
-            </Form.Select>
-          </div>
-
+        <Col xs={12} className="d-flex flex-column gap-2">
           <div className="tn-s-date-range-container d-flex align-items-center gap-2">
             <div className="tn-s-date-range-picker">
               <div className="tn-s-date-input-group">
@@ -395,14 +421,17 @@ const Statistics = () => {
 
                 <Button
                   className="tn-s-apply-filter-btn"
-                  onClick={fetchStatisticsData}
-                  disabled={loading}
+                  onClick={() => fetchStatisticsData("both")}
+                  disabled={barChartLoading || lineChartLoading}
                 >
                   تطبيق
                 </Button>
               </div>
             </div>
           </div>
+          <small className="tn-s-filter-note text-primary">
+            * فلتر التاريخ ينطبق فقط على مخطط عدد الشحنات ومخطط الأرباح
+          </small>
         </Col>
       </Row>
 
@@ -611,7 +640,9 @@ const Statistics = () => {
             </div>
 
             <div className="tn-s-chart-wrapper-bar">
-              {shipmentStats.length > 0 ? (
+              {barChartLoading ? (
+                <div className="tn-s-chart-skeleton" />
+              ) : shipmentStats.length > 0 ? (
                 <Bar data={barChartData} options={barChartOptions} />
               ) : (
                 <div className="h-100 d-flex align-items-center justify-content-center text-muted">
@@ -627,30 +658,47 @@ const Statistics = () => {
           <Card className="tn-s-admin-card border-0 p-4">
             <div className="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-4">
               <h5 className="tn-s-chart-title mb-0">تطور الأرباح عبر الزمن</h5>
-
-              {earningsStats && (
-                <div className="d-flex align-items-center gap-4">
-                  <div className="text-center">
-                    <div className="tn-s-count-label">شحنات غير مدفوعة</div>
-                    <div className="tn-s-count-val tn-s-color-blocked-drivers">
-                      {earningsStats.unpaid_shipments_count || 0}
+              <div className="d-flex align-items-center gap-4 ms-auto">
+                {earningsStats && (
+                  <div className="d-flex align-items-center gap-4">
+                    <div className="text-center">
+                      <div className="tn-s-count-label">شحنات غير مدفوعة</div>
+                      <div className="tn-s-count-val tn-s-color-blocked-drivers">
+                        {earningsStats.unpaid_shipments_count || 0}
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <div className="tn-s-count-label">أرباح غير محصلة</div>
+                      <div className="tn-s-count-val tn-s-color-drivers">
+                        {Number(
+                          earningsStats.unpaid_shipments_earnings || 0,
+                        ).toLocaleString("en-US")}{" "}
+                        <span className="tn-s-currency-label">ل.س</span>
+                      </div>
                     </div>
                   </div>
-                  <div className="text-center">
-                    <div className="tn-s-count-label">أرباح غير محصلة</div>
-                    <div className="tn-s-count-val tn-s-color-drivers">
-                      {Number(
-                        earningsStats.unpaid_shipments_earnings || 0,
-                      ).toLocaleString("ar-SY")}{" "}
-                      <span className="tn-s-currency-label">ل.س</span>
-                    </div>
-                  </div>
+                )}
+                <div className="d-flex align-items-center gap-2">
+                  <Form.Select
+                    className="tn-s-filter-select tn-s-filter-select-inline"
+                    value={filterDate}
+                    onChange={(e) => {
+                      previousFilterDateRef.current = filterDate;
+                      setFilterDate(e.target.value);
+                    }}
+                  >
+                    <option value="days">اليوم</option>
+                    <option value="months">الأشهر</option>
+                    <option value="years">السنوات</option>
+                  </Form.Select>
                 </div>
-              )}
+              </div>
             </div>
 
             <div className="tn-s-chart-wrapper-line">
-              {earningsEntries.length > 0 ? (
+              {lineChartLoading ? (
+                <div className="tn-s-chart-skeleton" />
+              ) : earningsEntries.length > 0 ? (
                 <Line data={lineChartData} options={lineChartOptions} />
               ) : (
                 <div className="h-100 d-flex flex-column align-items-center justify-content-center text-muted">

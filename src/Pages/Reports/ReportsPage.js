@@ -54,10 +54,17 @@ const ReportsPage = () => {
       <Row className="align-items-start mb-4 g-3">
         <Col xs={12}>
           <div className="d-flex align-items-center gap-3">
+            <div className="tn-r-page-icon-wrapper">
+              <FaExclamationTriangle className="tn-r-page-icon" />
+            </div>
             <div>
               <h2 className="tn-r-admin-page-title">
                 إدارة بلاغات وشكاوى المستخدمين
               </h2>
+              <p className="tn-r-admin-page-subtitle mb-0">
+                مراجعة ومتابعة البلاغات المقدمة من المستخدمين لضمان بيئة آمنة
+                وموثوقة
+              </p>
             </div>
           </div>
         </Col>
@@ -69,9 +76,6 @@ const ReportsPage = () => {
               <div>
                 <span className="tn-report-card-label">إجمالي البلاغات</span>
                 <h3 className="tn-report-card-value mt-1">{reports.length}</h3>
-              </div>
-              <div className="tn-report-mini-icon text-danger bg-light-danger">
-                <FaExclamationTriangle />
               </div>
             </Card.Body>
           </Card>
@@ -107,7 +111,6 @@ const ReportsPage = () => {
                       <tr key={report.id} className="tn-r-row">
                         <td>
                           <div className="tn-r-user-cell">
-                        
                             <div className="tn-r-user-text">
                               <span className="tn-r-user-name">
                                 {report.reporter.first_name}{" "}
@@ -123,7 +126,6 @@ const ReportsPage = () => {
 
                         <td>
                           <div className="tn-r-user-cell">
-                  
                             <div className="tn-r-user-text">
                               <span className="tn-r-user-name tn-r-user-name-flagged">
                                 {report.reported_user.first_name}{" "}

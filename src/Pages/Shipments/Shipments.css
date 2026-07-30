@@ -10,7 +10,7 @@
 }
 
 .tn-s-admin-page-container {
-  padding: 2.5rem 1rem; 
+  padding: 3rem 2.5rem; 
   min-height: 100vh;
   background-color: var(--bg-light);
   font-family: "Tajawal", "Cairo", system-ui, sans-serif;

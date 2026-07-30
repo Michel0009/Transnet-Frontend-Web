@@ -1,6 +1,7 @@
 .tn-b-page {
   background-color: #f4f7f9;
   min-height: 100vh;
+  margin-top: 1rem;
 }
 .tn-b-card {
   background-color: #ffffff;
@@ -126,3 +127,28 @@
   border-color: #e2e8f0;
 }
 
+.tn-b-page-icon-wrapper {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(30, 41, 59, 0.05);
+  flex-shrink: 0;
+}
+
+.tn-b-page-icon {
+  color: #ff6b00;
+  font-size: 1.6rem;
+}
+.tn-b-title{
+    font-family: "Tajawal", "Cairo", system-ui, sans-serif;
+
+}
+.tn-b-subtitle{
+    font-family: "Tajawal", "Cairo", system-ui, sans-serif;
+
+}

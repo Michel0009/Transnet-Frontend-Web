@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import api from "../../Api/Api";
 import { endpoints } from "../../Api/Endpoints";
 import { toast } from "react-toastify";
@@ -29,7 +29,7 @@ export default function VehicleTypeDetails() {
   const [vehicleToEdit, setVehicleToEdit] = useState(null);
 
   const [showAddForm, setShowAddForm] = useState(false);
-
+const detailsRef = useRef(null);
   const { role } = useAuth();
 
   const fetchVehicles = async () => {
@@ -63,7 +63,7 @@ export default function VehicleTypeDetails() {
 
   return (
     <div className="vehicle-page" dir="rtl">
-      <div className="vehicle-card p-4 mb-4">
+      <div className="vehicle-card p-4 mb-4" ref={detailsRef}>
         {selectedVehicle ? (
           <>
             <div className="d-flex justify-content-between align-items-center mb-3">
@@ -269,7 +269,13 @@ export default function VehicleTypeDetails() {
             {vehicles.map((v) => (
               <tr
                 key={v.id}
-                onClick={() => setSelectedVehicle(v)}
+                onClick={() => {
+                  setSelectedVehicle(v);
+                  detailsRef.current?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                  });
+                }}
                 style={{ cursor: "pointer" }}
               >
                 <td>{v.type}</td>

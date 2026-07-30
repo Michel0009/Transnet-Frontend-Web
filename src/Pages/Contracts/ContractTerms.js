@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Card, Button, Spinner } from "react-bootstrap";
-import { FaTrash, FaEdit } from "react-icons/fa";
+import { FaTrash, FaEdit, FaFileContract } from "react-icons/fa";
 import api from "../../Api/Api";
 import { handleAxiosError } from "../../Utils/ErrorHandler";
 import { endpoints } from "../../Api/Endpoints";
@@ -87,32 +87,36 @@ const ContractTerms = () => {
 
   return (
     <div className="tn-main-content contract-page" dir="rtl">
-      <header className="d-flex justify-content-between align-items-center mb-4">
-        <div>
-          <h2 className="contract-title mb-2">البنود والشروط</h2>
-
-          <p className="contract-subtitle mb-0">
-            قم بمراجعة وتحديث البنود القانونية التي تحكم العلاقة التعاقدية بين
-            النظام والشركات لضمان أعلى مستويات الشفافية والأمان.
-          </p>
+      <header className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+        <div className="d-flex align-items-center gap-3">
+          <div className="contract-page-icon-wrapper">
+            <FaFileContract className="contract-page-icon" />
+          </div>
+          <div>
+            <h2 className="contract-title mb-1">البنود والشروط</h2>
+            <p className="contract-subtitle mb-0">
+              قم بمراجعة وتحديث البنود القانونية التي تحكم العلاقة التعاقدية بين
+              النظام والشركات لضمان أعلى مستويات الشفافية والأمان.
+            </p>
+          </div>
         </div>
-        {isAdmin && (
-          <div className="d-flex gap-2 flex-wrap">
+
+        <div className="d-flex gap-2 flex-wrap">
+          {isAdmin && (
             <Button
               className="contract-add-btn fw-bold"
               onClick={() => setShowAddModal(true)}
             >
               إضافة بند +
             </Button>
-
-            <Button
-              className="contract-add-btn fw-bold"
-              onClick={() => setShowAddContractModal(true)}
-            >
-              إضافة عقد +
-            </Button>
-          </div>
-        )}
+          )}
+          <Button
+            className="contract-add-btn fw-bold"
+            onClick={() => setShowAddContractModal(true)}
+          >
+            إضافة عقد +
+          </Button>
+        </div>
       </header>
 
       <Container fluid className="p-0">
