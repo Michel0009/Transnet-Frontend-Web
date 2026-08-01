@@ -66,8 +66,6 @@ export default function AddVehicleTypeModal({ onClose, onSuccess }) {
       }
     } catch (error) {
       if (error.response?.status === 422) {
-        toast.error(error.response.data.message);
-
         const backendErrors = error.response.data.errors;
 
         setErrors({
