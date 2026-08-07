@@ -149,6 +149,7 @@ const handleConfirmLogout = () => {
             as={NavLink}
             to="/dashboard/vehicles"
             className="tn-nav-item"
+            onClick={handleMobileLinkClick}
           >
             <FontAwesomeIcon icon={faShippingFast} className="tn-icon" />
             <span className="tn-nav-text">المركبات</span>
@@ -178,6 +179,7 @@ const handleConfirmLogout = () => {
                 as={NavLink}
                 to="/dashboard/subadmins"
                 className="tn-nav-item"
+                onClick={handleMobileLinkClick}
               >
                 <FontAwesomeIcon icon={faUser} className="tn-icon" />
                 <span className="tn-nav-text">الموظفين</span>
@@ -188,6 +190,7 @@ const handleConfirmLogout = () => {
             as={NavLink}
             to="/dashboard/contracts"
             className="tn-nav-item"
+            onClick={handleMobileLinkClick}
           >
             <FontAwesomeIcon icon={faFileSignature} className="tn-icon" />
             <span className="tn-nav-text">العقود</span>
@@ -197,6 +200,7 @@ const handleConfirmLogout = () => {
             as={NavLink}
             to="/dashboard/reports"
             className="tn-nav-item"
+            onClick={handleMobileLinkClick}
           >
             <FontAwesomeIcon icon={faFileInvoice} className="tn-icon" />
 
@@ -207,7 +211,10 @@ const handleConfirmLogout = () => {
         <div className="tn-sidebar-footer">
           <Nav.Link
             className="tn-nav-item"
-            onClick={() => setShowLogoutConfirm(true)}
+            onClick={() => {
+              handleMobileLinkClick();
+              setShowLogoutConfirm(true)
+            }}
           >
             <FontAwesomeIcon icon={faSignOutAlt} className="tn-icon" />
             <span className="tn-nav-text">تسجيل الخروج</span>
