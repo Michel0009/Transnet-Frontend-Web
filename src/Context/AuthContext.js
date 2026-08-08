@@ -16,7 +16,11 @@ export const AuthProvider = ({ children }) => {
   const [accessToken, setAccessToken] = useState(null);
   const [loading, setLoading] = useState(true);
   const [role, setRole] = useState(localStorage.getItem("userRole") || null);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
   const logout = async () => {
+     if (isLoggingOut) return;
+     setIsLoggingOut(true);
     setLoading(true);
     try {
       await api.get(endpoints.auth.logout);
@@ -29,6 +33,7 @@ export const AuthProvider = ({ children }) => {
       setAccessToken(null);
       setRole(null);
       setLoading(false);
+      setIsLoggingOut(false);
     }
   };
 

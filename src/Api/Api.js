@@ -69,6 +69,9 @@ export const setupInterceptors = (accessToken, setAccessToken, logout) => {
       const originalRequest = error.config;
       const status = error.response?.status;
       const message = error.response?.data?.message;
+      if (originalRequest.url?.includes(endpoints.auth.logout)) {
+        return Promise.reject(error);
+      }
       if (
         status === 401 &&
         (message === "البريد الإلكتروني غير صحيح، يرجى المحاولة مرة أخرى" ||
