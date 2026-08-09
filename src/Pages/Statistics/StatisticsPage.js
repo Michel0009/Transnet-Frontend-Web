@@ -260,7 +260,11 @@ useEffect(() => {
     scales: {
       x: {
         grid: { display: false },
-        ticks: { font: { family: "Tajawal", weight: "600" } },
+        ticks: { font: { family: "Tajawal", weight: "600" } ,
+      autoSkip: false, // إيقاف إخفاء الأسماء التلقائي
+        maxRotation: 45, // تدوير الأسماء بزاوية لراحة العين
+        minRotation: 45,
+      },
       },
       y: {
         beginAtZero: true,

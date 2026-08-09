@@ -99,8 +99,8 @@
   color: #1e293b;
 
   line-height: 1.9;
-
-  overflow-wrap: break-word;
+word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 .contract-delete-btn {
@@ -201,4 +201,15 @@
 .contract-page-icon {
   color: #f28c00;
   font-size: 1.6rem;
+}
+/* تحسينات الشاشات الصغيرة (الموبايل) */
+@media (max-width: 576px) {
+  .contract-page {
+    padding: 16px 12px;
+  }
+
+  .contract-add-btn {
+    flex: 1;
+    min-width: auto;
+  }
 }
