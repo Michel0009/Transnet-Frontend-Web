@@ -127,44 +127,28 @@ const ContractTerms = () => {
                 <div className="d-flex flex-column gap-3">
                   {terms.map((term) => (
                     <Card key={term.id} className="contract-item border-0">
-                      <Card.Body className="p-4">
-                        <div className="d-flex align-items-center justify-content-between gap-3">
-                          <div className="d-flex align-items-center gap-3 flex-grow-1 min-w-0">
-                            <div className="contract-number">
-                              {isAdmin && editingId === term.id ? (
-                                <input
-                                  type="number"
-                                  className="contract-order-input"
-                                  value={editedOrder}
-                                  autoFocus
-                                  onChange={(e) =>
-                                    setEditedOrder(e.target.value)
-                                  }
-                                  onBlur={() => setEditingId(null)}
-                                  onKeyDown={(e) => {
-                                    if (e.key === "Enter") saveOrder(term);
-                                  }}
-                                />
-                              ) : (
-                                String(term.order).padStart(2, "0")
-                              )}
-                            </div>
-
-                            <div className="contract-text">
-                              {term.term_text}
-                            </div>
-                          </div>
-                          {isAdmin && (
-                            <>
-                              <button
-                                className="contract-delete-btn"
-                                onClick={() => {
-                                  setSelectedTermId(term.id);
-                                  setShowDeleteModal(true);
+                      <Card.Body className="p-3 p-md-4">
+                        <div className="d-flex align-items-center justify-content-between mb-3">
+                          <div className="contract-number">
+                            {isAdmin && editingId === term.id ? (
+                              <input
+                                type="number"
+                                className="contract-order-input"
+                                value={editedOrder}
+                                autoFocus
+                                onChange={(e) => setEditedOrder(e.target.value)}
+                                onBlur={() => setEditingId(null)}
+                                onKeyDown={(e) => {
+                                  if (e.key === "Enter") saveOrder(term);
                                 }}
-                              >
-                                <FaTrash />
-                              </button>
+                              />
+                            ) : (
+                              String(term.order).padStart(2, "0")
+                            )}
+                          </div>
+
+                          {isAdmin && (
+                            <div className="d-flex align-items-center gap-1">
                               <button
                                 className="contract-edit-btn"
                                 onClick={() => {
@@ -174,9 +158,19 @@ const ContractTerms = () => {
                               >
                                 <FaEdit />
                               </button>
-                            </>
+                              <button
+                                className="contract-delete-btn"
+                                onClick={() => {
+                                  setSelectedTermId(term.id);
+                                  setShowDeleteModal(true);
+                                }}
+                              >
+                                <FaTrash />
+                              </button>
+                            </div>
                           )}
                         </div>
+                        <div className="contract-text">{term.term_text}</div>
                       </Card.Body>
                     </Card>
                   ))}
