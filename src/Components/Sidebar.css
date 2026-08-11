@@ -224,6 +224,60 @@
 .tn-mobile-burger:active {
   transform: scale(0.9);
 }
+@media (max-height: 716px) and (min-width: 992px) {
+  .tn-sidebar-bs {
+    height: 100vh !important;
+    min-height: 100vh !important;
+    max-height: 100vh !important;
+    overflow: visible !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .tn-brand-section {
+    flex: 0 0 auto !important;
+  }
+
+  .tn-sidebar-footer {
+    flex: 0 0 auto !important;
+  }
+
+  .tn-sidebar-bs .tn-nav-menu.tn-nav-menu {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    max-height: 100% !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    flex-wrap: nowrap !important;
+    padding-left: 4px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(242, 140, 0, 0.4) transparent;
+  }
+
+  .tn-nav-menu::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  .tn-nav-menu::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 4px 0;
+  }
+
+  .tn-nav-menu::-webkit-scrollbar-thumb {
+    background-color: rgba(242, 140, 0, 0.35);
+    border-radius: 10px;
+  }
+
+  .tn-nav-menu:hover::-webkit-scrollbar-thumb {
+    background-color: rgba(242, 140, 0, 0.6);
+  }
+
+  .tn-brand-section,
+  .tn-sidebar-footer {
+    flex-shrink: 0;
+  }
+}
+
 @media (max-width: 991px) {
   .tn-mobile-navbar {
     display: flex;
@@ -237,7 +291,7 @@
   }
 
   .tn-sidebar-bs {
-    position: absolute;
+    position: fixed;
     top: 70px;
     left: 0;
     width: 100% !important;
@@ -245,6 +299,7 @@
     z-index: 1950;
     min-height: auto !important;
     height: auto !important;
+    max-height: calc(100vh - 70px) !important;
     overflow: hidden !important;
     visibility: hidden;
     opacity: 0;
@@ -259,18 +314,27 @@
   }
 
   .tn-sidebar-bs.mobile-dropdown-open {
-    max-height: 1000px !important;
+    max-height: calc(100vh - 70px) !important;
     opacity: 1;
     visibility: visible;
-    padding-bottom: 20px;
   }
 
-  .tn-nav-menu {
+  .tn-sidebar-bs .tn-nav-menu.tn-nav-menu {
     width: 100%;
-    display: flex;
-    flex-direction: column;
+    display: flex !important;
+    flex-direction: column !important;
     padding: 0;
-    flex-grow: 0;
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    max-height: 100% !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    flex-wrap: nowrap !important;
+  }
+
+  .tn-sidebar-bs .tn-sidebar-footer {
+    flex-shrink: 0 !important;
+    padding-bottom: 20px;
   }
 
   .tn-nav-item {

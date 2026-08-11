@@ -205,6 +205,15 @@
   .tn-s-date-input-group {
     justify-content: space-between;
   }
+   .tn-s-date-control {
+    border: 1px solid var(--border-color) !important;
+    min-width: 110px !important;
+    -webkit-appearance: none;
+  }
+  .tn-s-date-control.tn-s-mm-dd-yyyy::-webkit-datetime-edit-fields-wrapper {
+    direction: ltr !important;
+    unicode-bidi: bidi-override;
+  }
 }
 
 .tn-s-date-control.tn-s-mm-dd-yyyy {
