@@ -202,7 +202,6 @@ word-break: break-word;
   color: #f28c00;
   font-size: 1.6rem;
 }
-/* تحسينات الشاشات الصغيرة (الموبايل) */
 @media (max-width: 576px) {
   .contract-page {
     padding: 16px 12px;
