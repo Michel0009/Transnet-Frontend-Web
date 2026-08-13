@@ -460,7 +460,6 @@
   }
   .tn-s-date-control,
   .tn-s-date-control.tn-s-mm-dd-yyyy {
-    border: 1px solid var(--border-color) !important;
     background: #ffffff !important;
     min-width: 110px !important;
   }
@@ -468,15 +467,11 @@
     direction: ltr !important;
     unicode-bidi: bidi-override;
   }
-}
-
-@media (max-width: 768px) {
-  input.tn-s-date-control.tn-s-mm-dd-yyyy.form-control {
+    input.tn-s-date-control.tn-s-mm-dd-yyyy.form-control {
     background-color: #ffffff !important;
-    border: 1px solid #e2e8f0 !important;
     min-width: 110px !important;
     color: #1e293b !important;
-    -webkit-appearance: none !important;
-    appearance: none !important;
+    -webkit-appearance: auto !important;
+    appearance: auto !important;
   }
 }
