@@ -237,3 +237,50 @@ body.loading-active {
     50% { transform: scale(1.01); }
     100% { transform: scale(1); }
 }
+
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 28px 16px;
+  }
+
+  .otp-group {
+    gap: 6px;
+  }
+
+  .otp-input {
+    width: 100%;
+    max-width: 44px;
+    height: 52px;
+    font-size: 20px;
+    border-radius: 10px;
+  }
+}
+
+@media (max-width: 360px) {
+  .auth-card {
+    padding: 24px 10px;
+  }
+
+  .otp-group {
+    gap: 4px;
+  }
+
+  .otp-input {
+    max-width: 38px;
+    height: 48px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .email-display-box {
+    padding: 12px 10px;
+  }
+
+  .email-text {
+    font-size: 14px;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    line-height: 1.4;
+  }
+}

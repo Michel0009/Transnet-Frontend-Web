@@ -50,8 +50,8 @@ ChartJS.register(
 
 const Statistics = () => {
   const [loading, setLoading] = useState(true);
-const [barChartLoading, setBarChartLoading] = useState(false);
-const [lineChartLoading, setLineChartLoading] = useState(false);
+  const [barChartLoading, setBarChartLoading] = useState(false);
+  const [lineChartLoading, setLineChartLoading] = useState(false);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [exporting, setExporting] = useState(false);
   const [generalStats, setGeneralStats] = useState(null);
@@ -61,8 +61,8 @@ const [lineChartLoading, setLineChartLoading] = useState(false);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [selectedGovernorates, setSelectedGovernorates] = useState([]);
-const previousFilterDateRef = React.useRef("months");
-const isRevertingRef = React.useRef(false);
+  const previousFilterDateRef = React.useRef("months");
+  const isRevertingRef = React.useRef(false);
   const fetchStatisticsData = async (source = "both") => {
     if (isInitialLoad) {
       setLoading(true);
@@ -94,8 +94,8 @@ const isRevertingRef = React.useRef(false);
         const validationErrors = error.response.data?.errors;
         if (validationErrors?.filter_date)
           toast.error(validationErrors.filter_date[0]);
-         isRevertingRef.current = true;
-          setFilterDate(previousFilterDateRef.current);
+        isRevertingRef.current = true;
+        setFilterDate(previousFilterDateRef.current);
         if (validationErrors?.start_date)
           toast.error(validationErrors.start_date[0]);
         if (validationErrors?.end_date)
@@ -115,22 +115,22 @@ const isRevertingRef = React.useRef(false);
       }
     }
   };
-useEffect(() => {
-  if (!isInitialLoad) {
-    if (isRevertingRef.current) {
-      isRevertingRef.current = false;
-      return; 
+  useEffect(() => {
+    if (!isInitialLoad) {
+      if (isRevertingRef.current) {
+        isRevertingRef.current = false;
+        return;
+      }
+      fetchStatisticsData("line");
     }
-    fetchStatisticsData("line");
-  }
-}, [filterDate]);
-useEffect(() => {
-  if (!isInitialLoad) fetchStatisticsData("bar");
-}, [selectedGovernorates]);
+  }, [filterDate]);
+  useEffect(() => {
+    if (!isInitialLoad) fetchStatisticsData("bar");
+  }, [selectedGovernorates]);
 
-useEffect(() => {
-  fetchStatisticsData("both");
-}, []);
+  useEffect(() => {
+    fetchStatisticsData("both");
+  }, []);
   const handleExportPdf = async () => {
     try {
       setExporting(true);
@@ -262,11 +262,12 @@ useEffect(() => {
     scales: {
       x: {
         grid: { display: false },
-        ticks: { font: { family: "Tajawal", weight: "600" } ,
-      autoSkip: false, // إيقاف إخفاء الأسماء التلقائي
-        maxRotation: 45, // تدوير الأسماء بزاوية لراحة العين
-        minRotation: 45,
-      },
+        ticks: {
+          font: { family: "Tajawal", weight: "600" },
+          autoSkip: false,
+          maxRotation: 45,
+          minRotation: 45,
+        },
       },
       y: {
         beginAtZero: true,
@@ -650,8 +651,8 @@ useEffect(() => {
                 <div className="tn-s-chart-skeleton" />
               ) : shipmentStats.length > 0 ? (
                 <div className="tn-s-chart-inner-bar">
-      <Bar data={barChartData} options={barChartOptions} />
-    </div>
+                  <Bar data={barChartData} options={barChartOptions} />
+                </div>
               ) : (
                 <div className="h-100 d-flex align-items-center justify-content-center text-muted">
                   لا توجد شحنات مسجلة للمحافظات المختارة.
@@ -723,6 +724,6 @@ useEffect(() => {
       </Row>
     </Container>
   );
-};;
+};
 
 export default Statistics;

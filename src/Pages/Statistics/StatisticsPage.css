@@ -9,7 +9,7 @@
 }
 
 .tn-st-admin-page-container {
-  padding: 2.5rem 1rem; 
+  padding: 2.5rem 1rem;
   min-height: 100vh;
   background-color: var(--bg-light);
   font-family: "Tajawal", "Cairo", system-ui, sans-serif;
@@ -59,7 +59,9 @@
   justify-content: center;
   color: #ffffff !important;
   box-shadow: 0 6px 16px rgba(240, 140, 0, 0.25);
-  transition: transform 0.15s ease, opacity 0.15s ease !important;
+  transition:
+    transform 0.15s ease,
+    opacity 0.15s ease !important;
 }
 
 .tn-s-export-pdf-btn:hover {
@@ -118,18 +120,6 @@
   color: var(--text-muted);
 }
 
-.tn-s-date-control {
-  border: none !important;
-  background: transparent !important;
-  color: var(--text-dark) !important;
-  font-size: 0.85rem !important;
-  font-weight: 700 !important;
-  padding: 0.35rem 0.2rem !important;
-  box-shadow: none !important;
-  cursor: pointer;
-  outline: none;
-}
-
 .tn-s-date-separator {
   width: 1px;
   height: 18px;
@@ -138,32 +128,32 @@
 }
 
 .tn-s-apply-filter-btn {
-    background-color: #0D7FF2 !important;
-    border: none !important;
-    color: #ffffff !important;
-    font-family: "Tajawal", "Cairo", system-ui, sans-serif;
-    font-weight: 700 !important;
-    font-size: 0.95rem !important; 
-    padding: 0.5rem 1.4rem !important;
-    border-radius: 10px !important; 
-    transition: all 0.2s ease-in-out !important;
-    cursor: pointer;
+  background-color: #0d7ff2 !important;
+  border: none !important;
+  color: #ffffff !important;
+  font-family: "Tajawal", "Cairo", system-ui, sans-serif;
+  font-weight: 700 !important;
+  font-size: 0.95rem !important;
+  padding: 0.5rem 1.4rem !important;
+  border-radius: 10px !important;
+  transition: all 0.2s ease-in-out !important;
+  cursor: pointer;
 }
 
 .tn-s-apply-filter-btn:hover {
-    background-color: #0066cc !important; 
-    transform: scale(1.02); 
+  background-color: #0066cc !important;
+  transform: scale(1.02);
 }
 
 .tn-s-apply-filter-btn:active {
-    transform: scale(0.98);
+  transform: scale(0.98);
 }
 
 .tn-s-apply-filter-btn:disabled {
-    background-color: #94a3b8 !important;
-    transform: none !important;
-    cursor: not-allowed;
-    opacity: 0.7;
+  background-color: #94a3b8 !important;
+  transform: none !important;
+  cursor: not-allowed;
+  opacity: 0.7;
 }
 
 .tn-s-chart-inner-bar {
@@ -173,12 +163,11 @@
 
 @media (max-width: 1350px) {
   .tn-s-chart-wrapper-bar {
-    overflow-x: auto ;
+    overflow-x: auto;
   }
 
   .tn-s-chart-inner-bar {
-    /* يضمن حجز مساحة 800px أفقياً للأعمدة الـ 14 حتى لو كانت البطاقة بنصف عرض الشاشة */
-    min-width: 800px !important; 
+    min-width: 800px !important;
   }
 }
 
@@ -214,7 +203,7 @@
 }
 
 .tn-s-date-control.tn-s-mm-dd-yyyy::-webkit-datetime-edit-fields-wrapper {
-  direction: ltr; 
+  direction: ltr;
 }
 
 .tn-s-filter-select-wrapper {
@@ -226,7 +215,9 @@
   background-color: var(--white);
   border-radius: 18px !important;
   box-shadow: 0 8px 24px rgba(30, 41, 59, 0.03) !important;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
   border: 1px solid rgba(226, 232, 240, 0.5) !important;
 }
 
@@ -259,22 +250,38 @@
 }
 
 .tn-s-orange-gradient-bg {
-  background: linear-gradient(135deg, rgba(255,107,0,0.1) 0%, rgba(230,92,0,0.15) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 107, 0, 0.1) 0%,
+    rgba(230, 92, 0, 0.15) 100%
+  );
   color: var(--primary-orange);
 }
 
 .tn-s-green-gradient-bg {
-  background: linear-gradient(135deg, rgba(12, 166, 120, 0.1) 0%, rgba(9, 132, 96, 0.15) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(12, 166, 120, 0.1) 0%,
+    rgba(9, 132, 96, 0.15) 100%
+  );
   color: #0ca678;
 }
 
 .tn-s-blue-gradient-bg {
-  background: linear-gradient(135deg, rgba(28, 126, 214, 0.1) 0%, rgba(26, 106, 179, 0.15) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(28, 126, 214, 0.1) 0%,
+    rgba(26, 106, 179, 0.15) 100%
+  );
   color: #1c7ed6;
 }
 
 .tn-s-slate-gradient-bg {
-  background: linear-gradient(135deg, rgba(100, 116, 139, 0.1) 0%, rgba(71, 85, 105, 0.15) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(100, 116, 139, 0.1) 0%,
+    rgba(71, 85, 105, 0.15) 100%
+  );
   color: var(--text-muted);
 }
 
@@ -309,23 +316,23 @@
 }
 
 .tn-s-color-clients {
-    color: #0D7FF2 !important;
+  color: #0d7ff2 !important;
 }
 
 .tn-s-color-drivers {
-    color: #F28B0D !important;
+  color: #f28b0d !important;
 }
 
 .tn-s-color-frozen {
-    color: #ffb04d !important; 
+  color: #ffb04d !important;
 }
 
 .tn-s-color-blocked-clients {
-    color: #64748b !important;
+  color: #64748b !important;
 }
 
 .tn-s-color-blocked-drivers {
-    color: #475569 !important;
+  color: #475569 !important;
 }
 
 .tn-s-count-label {
@@ -351,9 +358,18 @@
 }
 
 @keyframes tn-s-pulse {
-  0% { transform: scale(1); opacity: 0.6; }
-  50% { transform: scale(1.1); opacity: 0.9; }
-  100% { transform: scale(1); opacity: 0.6; }
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
 }
 
 .tn-s-loading-center {
@@ -365,38 +381,38 @@
 }
 
 .tn-s-filter-select[multiple] {
-    overflow-y: auto;
-    border-radius: 8px;
-    border: 1px solid #e2e8f0;
-    font-family: "Tajawal", sans-serif;
-    font-size: 13px;
-    background-image: none; 
+  overflow-y: auto;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  font-family: "Tajawal", sans-serif;
+  font-size: 13px;
+  background-image: none;
 }
 
 .tn-s-filter-select[multiple] option {
-    padding: 6px 10px;
-    border-radius: 4px;
-    margin-bottom: 2px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  margin-bottom: 2px;
 }
 
 .tn-s-filter-select[multiple] option:checked {
-    background-color: #ff8c00 !important; 
-    color: white;
+  background-color: #ff8c00 !important;
+  color: white;
 }
 
 .dropdown .btn-outline-secondary,
 #governoratesDropdown {
-    color: #475569 !important;
-    background-color: #ffffff !important;
-    border-color: #cbd5e1 !important;
-    font-weight: 600;
+  color: #475569 !important;
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  font-weight: 600;
 }
 
 .dropdown .btn-outline-secondary:hover,
 #governoratesDropdown:hover {
-    color: #ffffff !important;
-    background-color: #ff8c00 !important; 
-    border-color: #ff8c00 !important;
+  color: #ffffff !important;
+  background-color: #ff8c00 !important;
+  border-color: #ff8c00 !important;
 }
 
 .dropdown .btn-outline-secondary:focus,
@@ -404,14 +420,14 @@
 .show > .btn-outline-secondary.dropdown-toggle,
 #governoratesDropdown:focus,
 .show > #governoratesDropdown {
-    color: #ffffff !important;
-    background-color: #ff8c00 !important; 
-    border-color: #ff8c00 !important;
-    box-shadow: 0 6px 16px rgba(240, 140, 0, 0.25) !important; 
+  color: #ffffff !important;
+  background-color: #ff8c00 !important;
+  border-color: #ff8c00 !important;
+  box-shadow: 0 6px 16px rgba(240, 140, 0, 0.25) !important;
 }
 
 .tn-load-orange {
-    color: #F28B0D !important;
+  color: #f28b0d !important;
 }
 .tn-s-chart-skeleton {
   height: 100%;
@@ -423,8 +439,12 @@
 }
 
 @keyframes tn-s-skeleton-loading {
-  0% { background-position: 100% 50%; }
-  100% { background-position: 0 50%; }
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
 }
 .tn-s-filter-note {
   font-size: 0.8rem;
@@ -437,7 +457,7 @@
   width: 100%;
   overflow-x: auto;
 }
-  .tn-s-filter-select-inline {
+.tn-s-filter-select-inline {
   max-width: 110px;
   width: auto !important;
   padding: 0.5rem 1.6rem 0.4rem 1.5rem !important;
@@ -447,4 +467,42 @@
   position: relative;
   height: 310px;
   width: 100%;
+}
+
+@media (max-width: 768px) {
+  .tn-s-chart-inner-bar {
+    min-width: 650px;
+    height: 100%;
+  }
+  .tn-s-filter-select-wrapper {
+    max-width: 100%;
+  }
+  .tn-s-date-range-picker {
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+    padding: 10px;
+  }
+  .tn-s-date-separator {
+    display: none;
+  }
+  .tn-s-date-input-group {
+    justify-content: space-between;
+  }
+  .tn-s-date-control,
+  .tn-s-date-control.tn-s-mm-dd-yyyy {
+    background: #ffffff !important;
+    min-width: 110px !important;
+  }
+  .tn-s-date-control.tn-s-mm-dd-yyyy::-webkit-datetime-edit-fields-wrapper {
+    direction: ltr !important;
+    unicode-bidi: bidi-override;
+  }
+  input.tn-s-date-control.tn-s-mm-dd-yyyy.form-control {
+    background-color: #ffffff !important;
+    min-width: 110px !important;
+    color: #1e293b !important;
+    -webkit-appearance: auto !important;
+    appearance: auto !important;
+  }
 }

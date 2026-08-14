@@ -76,8 +76,6 @@
 
 .tn-dd-glass-card {
   background: rgba(255, 107, 0, 0.04);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 107, 0, 0.15);
   box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5);
 }
@@ -469,4 +467,42 @@
   opacity: 0.25;
   font-size: 0.72rem;
   font-weight: bold;
+}
+
+@media (max-width: 767.98px) {
+  .tn-dd-header-flex {
+    align-items: stretch;
+  }
+
+  .tn-dd-header-flex .tn-dd-page-title {
+    font-size: 1.3rem;
+  }
+
+  .tn-dd-header-flex > div:last-child {
+    width: 100%;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px !important;
+  }
+
+  .tn-dd-header-flex > div:last-child > .btn,
+  .tn-dd-header-flex > div:last-child > span.btn {
+    width: 100%;
+    margin: 0;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    font-size: 0.82rem;
+    justify-content: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .tn-dd-header-flex > div:last-child > span.btn > .btn {
+    width: 100%;
+    font-size: inherit;
+  }
+  .tn-dd-header-flex > div:last-child > *:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
 }

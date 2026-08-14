@@ -171,6 +171,7 @@ const handleConfirmLogout = () => {
                 as={NavLink}
                 to="/dashboard/pricing"
                 className="tn-nav-item"
+                onClick={handleMobileLinkClick}
               >
                 <FontAwesomeIcon icon={faTags} className="tn-icon" />
                 <span className="tn-nav-text">التسعيرات</span>
