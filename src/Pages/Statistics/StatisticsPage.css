@@ -166,11 +166,23 @@
     opacity: 0.7;
 }
 
-@media (max-width: 768px) {
-  .tn-s-chart-inner-bar {
-    min-width: 650px; /* ضمان مساحة كافية للـ 14 محافظة */
-    height: 100%;
+.tn-s-chart-inner-bar {
+  height: 100%;
+  width: 100%;
+}
+
+@media (max-width: 1350px) {
+  .tn-s-chart-wrapper-bar {
+    overflow-x: auto ;
   }
+
+  .tn-s-chart-inner-bar {
+    /* يضمن حجز مساحة 800px أفقياً للأعمدة الـ 14 حتى لو كانت البطاقة بنصف عرض الشاشة */
+    min-width: 800px !important; 
+  }
+}
+
+@media (max-width: 768px) {
   .tn-s-filter-select-wrapper {
     max-width: 100%;
   }

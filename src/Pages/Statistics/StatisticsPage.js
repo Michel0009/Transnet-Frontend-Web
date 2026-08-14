@@ -245,6 +245,8 @@ useEffect(() => {
         backgroundColor: "#ff8c00",
         borderRadius: 0,
         barThickness: 30,
+        categoryPercentage: 0.7,
+        barPercentage: 0.8,
         maxBarThickness: 50,
       },
     ],
@@ -647,7 +649,9 @@ useEffect(() => {
               {barChartLoading ? (
                 <div className="tn-s-chart-skeleton" />
               ) : shipmentStats.length > 0 ? (
-                <Bar data={barChartData} options={barChartOptions} />
+                <div className="tn-s-chart-inner-bar">
+      <Bar data={barChartData} options={barChartOptions} />
+    </div>
               ) : (
                 <div className="h-100 d-flex align-items-center justify-content-center text-muted">
                   لا توجد شحنات مسجلة للمحافظات المختارة.
