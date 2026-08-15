@@ -18,14 +18,31 @@ export const AuthProvider = ({ children }) => {
   const [role, setRole] = useState(localStorage.getItem("userRole") || null);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
+    const clearLocalSession = () => {
+      const userId = localStorage.getItem("userId");
+      if (window.Echo) {
+        if (userId) {
+          window.Echo.leave("admin-tracking");
+          window.Echo.leave(`user-status.${userId}`);
+        }
+        window.Echo.disconnect();
+        window.Echo = null;
+      }
+      localStorage.removeItem("was_logged_in");
+      localStorage.removeItem("userRole");
+      localStorage.removeItem("userId");
+      setAccessToken(null);
+      setRole(null);
+      setLoading(false);
+    };
   const setupBlockListener = () => {
     const userId = localStorage.getItem("userId");
     if (!window.Echo || !userId) return;
-    window.Echo.private(`App.Models.User.${userId}`).listen(
+    window.Echo.private(`user-status.${userId}`).listen(
       ".user.blocked",
       () => {
         toast.error("تم حظر حسابك");
-        logout();
+         clearLocalSession();
       },
     );
   };
@@ -33,27 +50,13 @@ export const AuthProvider = ({ children }) => {
     if (isLoggingOut) return;
     setIsLoggingOut(true);
     setLoading(true);
-     const userId = localStorage.getItem("userId");
-     if (window.Echo) {
-       if (userId) {
-         window.Echo.leave("admin-tracking");
-         window.Echo.leave(`App.Models.User.${userId}`);
-       }
-       window.Echo.disconnect();
-       window.Echo = null;
-     }
+
     try {
       await api.get(endpoints.auth.logout);
     } catch (error) {
       console.error("Logout failed on server, clearing local state.");
     } finally {
-      toast.success("تم تسجيل الخروج بنجاح");
-      localStorage.removeItem("was_logged_in");
-      localStorage.removeItem("userRole");
-      localStorage.removeItem("userId");
-      setAccessToken(null);
-      setRole(null);
-      setLoading(false);
+       clearLocalSession();
       setIsLoggingOut(false);
     }
   };

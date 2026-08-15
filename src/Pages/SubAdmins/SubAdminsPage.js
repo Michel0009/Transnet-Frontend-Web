@@ -32,9 +32,6 @@ const SubAdminsPage = () => {
 
     try {
       const response = await api.get(endpoints.employees.get);
-
-      console.log("SubAdmins Response:", response.data);
-
       if (response.status === 200) {
         setSubAdmins(response.data);
       }
