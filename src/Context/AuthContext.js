@@ -18,10 +18,30 @@ export const AuthProvider = ({ children }) => {
   const [role, setRole] = useState(localStorage.getItem("userRole") || null);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
+  const setupBlockListener = () => {
+    const userId = localStorage.getItem("userId");
+    if (!window.Echo || !userId) return;
+    window.Echo.private(`App.Models.User.${userId}`).listen(
+      ".user.blocked",
+      () => {
+        toast.error("تم حظر حسابك");
+        logout();
+      },
+    );
+  };
   const logout = async () => {
-     if (isLoggingOut) return;
-     setIsLoggingOut(true);
+    if (isLoggingOut) return;
+    setIsLoggingOut(true);
     setLoading(true);
+     const userId = localStorage.getItem("userId");
+     if (window.Echo) {
+       if (userId) {
+         window.Echo.leave("admin-tracking");
+         window.Echo.leave(`App.Models.User.${userId}`);
+       }
+       window.Echo.disconnect();
+       window.Echo = null;
+     }
     try {
       await api.get(endpoints.auth.logout);
     } catch (error) {
@@ -30,6 +50,7 @@ export const AuthProvider = ({ children }) => {
       toast.success("تم تسجيل الخروج بنجاح");
       localStorage.removeItem("was_logged_in");
       localStorage.removeItem("userRole");
+      localStorage.removeItem("userId");
       setAccessToken(null);
       setRole(null);
       setLoading(false);
@@ -45,11 +66,13 @@ export const AuthProvider = ({ children }) => {
           const token = await refreshTokenApi();
           setAccessToken(token);
           initEcho(token);
+          setupBlockListener();
         } catch (error) {
           setAccessToken(null);
           setRole(null);
           localStorage.removeItem("was_logged_in");
           localStorage.removeItem("userRole");
+          localStorage.removeItem("userId");
         }
       }
       setLoading(false);
@@ -63,13 +86,14 @@ export const AuthProvider = ({ children }) => {
   const handleSetAccessToken = (token) => {
     if (token) {
       localStorage.setItem("was_logged_in", "true");
-       initEcho(token);
+      initEcho(token);
+      setupBlockListener();
     } else {
       localStorage.removeItem("was_logged_in");
-       if (window.Echo) {
-         window.Echo.disconnect();
-         window.Echo = null;
-       }
+      if (window.Echo) {
+        window.Echo.disconnect();
+        window.Echo = null;
+      }
     }
     setAccessToken(token);
   };

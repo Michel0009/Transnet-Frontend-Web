@@ -59,12 +59,12 @@ const ShipmentDetails = () => {
     fetchShipment();
   }, [id, navigate]);
 
-const handleCopyNumber = (e, num, field) => {
-  e.stopPropagation();
-  navigator.clipboard.writeText(num);
-  setCopiedField(field);
-  setTimeout(() => setCopiedField(null), 2000);
-};
+  const handleCopyNumber = (e, num, field) => {
+    e.stopPropagation();
+    navigator.clipboard.writeText(num);
+    setCopiedField(field);
+    setTimeout(() => setCopiedField(null), 2000);
+  };
   const getStatusConfig = (status) => {
     switch (status) {
       case "جارية":
@@ -88,6 +88,7 @@ const handleCopyNumber = (e, num, field) => {
     "قيد التوصيل": "state-transit",
     مستلمة: "state-delivered",
     "غير مستلمة": "state-failed",
+    "متأخرة عن الاستلام": "state-late",
   };
   if (loading) {
     return (

@@ -49,9 +49,6 @@ const Login = () => {
       );
 
       if (response.status === 202) {
-        try {
-          await api.post(endpoints.auth.sendEmail, { email: email });
-
           toast.warning(
             "يجب عليك تأكيد بريدك الإلكتروني أولاً. تم إرسال رمز التحقق لبريدك.",
           );
@@ -60,11 +57,10 @@ const Login = () => {
             state: { email: email, purpose: "login_verify" },
             replace: true,
           });
-        } catch (Error) {
-          toast.error(handleAxiosError(Error));
-        }
       } else {
         const userRole = response.data.role;
+        const userId= response.data.user_id;
+        localStorage.setItem("userId", userId);
         setRole(userRole);
         if (userRole !== "admin" && userRole !== "employee") {
           toast.error("غير مسموح لك بالوصول الى هذا المورد");

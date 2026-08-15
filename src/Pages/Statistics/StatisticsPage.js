@@ -50,8 +50,8 @@ ChartJS.register(
 
 const Statistics = () => {
   const [loading, setLoading] = useState(true);
-const [barChartLoading, setBarChartLoading] = useState(false);
-const [lineChartLoading, setLineChartLoading] = useState(false);
+  const [barChartLoading, setBarChartLoading] = useState(false);
+  const [lineChartLoading, setLineChartLoading] = useState(false);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [exporting, setExporting] = useState(false);
   const [generalStats, setGeneralStats] = useState(null);
@@ -61,8 +61,9 @@ const [lineChartLoading, setLineChartLoading] = useState(false);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [selectedGovernorates, setSelectedGovernorates] = useState([]);
-const previousFilterDateRef = React.useRef("months");
-const isRevertingRef = React.useRef(false);
+  const [filterUntouched, setFilterUntouched] = useState(true);
+  const previousFilterDateRef = React.useRef("months");
+  const isRevertingRef = React.useRef(false);
   const fetchStatisticsData = async (source = "both") => {
     if (isInitialLoad) {
       setLoading(true);
@@ -81,25 +82,27 @@ const isRevertingRef = React.useRef(false);
         payload.governorate_ids = selectedGovernorates;
       }
 
-      const [generalRes, shipmentRes] = await Promise.all([
-        api.get(endpoints.statistics.getGeneralStatistics),
-        api.post(endpoints.statistics.getStatistics, payload),
-      ]);
+      const shipmentRes = await api.post(
+        endpoints.statistics.getStatistics,
+        payload,
+      );
 
-      setGeneralStats(generalRes.data);
       setShipmentStats(shipmentRes.data.shipments_count_statistics || []);
       setEarningsStats(shipmentRes.data.shipments_earnings_statistics || null);
     } catch (error) {
       if (error?.response?.status === 422) {
         const validationErrors = error.response.data?.errors;
-        if (validationErrors?.filter_date)
+        if (validationErrors?.filter_date) {
           toast.error(validationErrors.filter_date[0]);
-         isRevertingRef.current = true;
+          isRevertingRef.current = true;
           setFilterDate(previousFilterDateRef.current);
+        }
         if (validationErrors?.start_date)
           toast.error(validationErrors.start_date[0]);
         if (validationErrors?.end_date)
           toast.error(validationErrors.end_date[0]);
+        setStartDate("");
+        setEndDate("");
       } else {
         toast.error(
           handleAxiosError(error) || "حدث خطأ أثناء جلب البيانات الإحصائية.",
@@ -115,22 +118,35 @@ const isRevertingRef = React.useRef(false);
       }
     }
   };
-useEffect(() => {
-  if (!isInitialLoad) {
-    if (isRevertingRef.current) {
-      isRevertingRef.current = false;
-      return; 
+  useEffect(() => {
+    if (!isInitialLoad) {
+      if (isRevertingRef.current) {
+        isRevertingRef.current = false;
+        return;
+      }
+      fetchStatisticsData("line");
     }
-    fetchStatisticsData("line");
-  }
-}, [filterDate]);
-useEffect(() => {
-  if (!isInitialLoad) fetchStatisticsData("bar");
-}, [selectedGovernorates]);
+  }, [filterDate]);
+  useEffect(() => {
+    if (!isInitialLoad) fetchStatisticsData("bar");
+  }, [selectedGovernorates]);
 
-useEffect(() => {
-  fetchStatisticsData("both");
-}, []);
+  useEffect(() => {
+    fetchStatisticsData("both");
+  }, []);
+  useEffect(() => {
+    const fetchGeneralStats = async () => {
+      try {
+        const res = await api.get(endpoints.statistics.getGeneralStatistics);
+        setGeneralStats(res.data);
+      } catch (error) {
+        toast.error(
+          handleAxiosError(error) || "حدث خطأ أثناء جلب البيانات الإحصائية.",
+        );
+      }
+    };
+    fetchGeneralStats();
+  }, []);
   const handleExportPdf = async () => {
     try {
       setExporting(true);
@@ -260,11 +276,12 @@ useEffect(() => {
     scales: {
       x: {
         grid: { display: false },
-        ticks: { font: { family: "Tajawal", weight: "600" } ,
-      autoSkip: false, // إيقاف إخفاء الأسماء التلقائي
-        maxRotation: 45, // تدوير الأسماء بزاوية لراحة العين
-        minRotation: 45,
-      },
+        ticks: {
+          font: { family: "Tajawal", weight: "600" },
+          autoSkip: false, // إيقاف إخفاء الأسماء التلقائي
+          maxRotation: 45, // تدوير الأسماء بزاوية لراحة العين
+          minRotation: 45,
+        },
       },
       y: {
         beginAtZero: true,
@@ -425,8 +442,18 @@ useEffect(() => {
 
                 <Button
                   className="tn-s-apply-filter-btn"
-                  onClick={() => fetchStatisticsData("both")}
-                  disabled={barChartLoading || lineChartLoading}
+                  onClick={() => {
+                    fetchStatisticsData("both");
+                    if (startDate && endDate) {
+                      setFilterUntouched(false);
+                    }
+                  }}
+                  disabled={
+                    barChartLoading ||
+                    lineChartLoading ||
+                    !startDate ||
+                    !endDate
+                  }
                 >
                   تطبيق
                 </Button>
@@ -642,7 +669,11 @@ useEffect(() => {
                 </ul>
               </div>
             </div>
-
+            {filterUntouched && (
+              <div className="tn-s-initial-filter-note text-muted small mb-2">
+                الفلترة المطبقة حسب الشهر الحالي
+              </div>
+            )}
             <div className="tn-s-chart-wrapper-bar">
               {barChartLoading ? (
                 <div className="tn-s-chart-skeleton" />
@@ -719,6 +750,6 @@ useEffect(() => {
       </Row>
     </Container>
   );
-};;
+};
 
 export default Statistics;

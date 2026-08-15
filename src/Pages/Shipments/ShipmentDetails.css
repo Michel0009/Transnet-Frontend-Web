@@ -210,6 +210,15 @@
   box-shadow: 0 0 8px #ef4444;
   animation-play-state: paused; 
 }
+.tn-gt-status-pill.state-late {
+  background: #f4f7f9;
+  color: #64748b;
+  border: 1px solid #94a3b8;
+}
+.tn-gt-status-pill.state-late .tn-gt-pulse-dot {
+  background-color: #94a3b8;
+  box-shadow: 0 0 8px #94a3b8;
+}
 .tn-gt-pulse-ring {
   position: relative;
   display: inline-flex;
@@ -268,6 +277,11 @@
 .state-failed .tn-gt-pulse-dot { background-color: #ef4444; }
 .state-failed .tn-gt-pulse-dot,
 .state-failed .tn-gt-pulse-ring::after {
+  animation: none !important;
+}
+.state-late .tn-gt-pulse-dot { background-color: #94a3b8; }
+.state-late .tn-gt-pulse-dot,
+.state-late .tn-gt-pulse-ring::after {
   animation: none !important;
 }
 @keyframes dotBreathe {
