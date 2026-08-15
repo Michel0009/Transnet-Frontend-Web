@@ -120,7 +120,6 @@
   color: var(--text-muted);
 }
 
-
 .tn-s-date-separator {
   width: 1px;
   height: 18px;
@@ -157,6 +156,38 @@
   opacity: 0.7;
 }
 
+.tn-s-chart-inner-bar {
+  height: 100%;
+  width: 100%;
+}
+
+@media (max-width: 1350px) {
+  .tn-s-chart-wrapper-bar {
+    overflow-x: auto;
+  }
+
+  .tn-s-chart-inner-bar {
+    min-width: 800px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .tn-s-filter-select-wrapper {
+    max-width: 100%;
+  }
+  .tn-s-date-range-picker {
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+    padding: 10px;
+  }
+  .tn-s-date-separator {
+    display: none;
+  }
+  .tn-s-date-input-group {
+    justify-content: space-between;
+  }
+}
 
 .tn-s-date-control.tn-s-mm-dd-yyyy {
   border: none !important;
@@ -440,7 +471,7 @@
 
 @media (max-width: 768px) {
   .tn-s-chart-inner-bar {
-    min-width: 650px; 
+    min-width: 650px;
     height: 100%;
   }
   .tn-s-filter-select-wrapper {
@@ -467,7 +498,7 @@
     direction: ltr !important;
     unicode-bidi: bidi-override;
   }
-    input.tn-s-date-control.tn-s-mm-dd-yyyy.form-control {
+  input.tn-s-date-control.tn-s-mm-dd-yyyy.form-control {
     background-color: #ffffff !important;
     min-width: 110px !important;
     color: #1e293b !important;

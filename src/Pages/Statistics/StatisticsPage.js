@@ -97,6 +97,7 @@ const Statistics = () => {
           isRevertingRef.current = true;
           setFilterDate(previousFilterDateRef.current);
         }
+
         if (validationErrors?.start_date)
           toast.error(validationErrors.start_date[0]);
         if (validationErrors?.end_date)
@@ -147,6 +148,7 @@ const Statistics = () => {
     };
     fetchGeneralStats();
   }, []);
+
   const handleExportPdf = async () => {
     try {
       setExporting(true);
@@ -261,6 +263,8 @@ const Statistics = () => {
         backgroundColor: "#ff8c00",
         borderRadius: 0,
         barThickness: 30,
+        categoryPercentage: 0.7,
+        barPercentage: 0.8,
         maxBarThickness: 50,
       },
     ],
@@ -278,8 +282,9 @@ const Statistics = () => {
         grid: { display: false },
         ticks: {
           font: { family: "Tajawal", weight: "600" },
-          autoSkip: false, // إيقاف إخفاء الأسماء التلقائي
-          maxRotation: 45, // تدوير الأسماء بزاوية لراحة العين
+
+          autoSkip: false,
+          maxRotation: 45,
           minRotation: 45,
         },
       },
@@ -678,7 +683,9 @@ const Statistics = () => {
               {barChartLoading ? (
                 <div className="tn-s-chart-skeleton" />
               ) : shipmentStats.length > 0 ? (
-                <Bar data={barChartData} options={barChartOptions} />
+                <div className="tn-s-chart-inner-bar">
+                  <Bar data={barChartData} options={barChartOptions} />
+                </div>
               ) : (
                 <div className="h-100 d-flex align-items-center justify-content-center text-muted">
                   لا توجد شحنات مسجلة للمحافظات المختارة.
