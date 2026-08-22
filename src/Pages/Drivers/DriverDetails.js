@@ -336,7 +336,7 @@ const DriverDetails = () => {
             className="tn-dd-btn-primary rounded-pill shadow-sm"
             onClick={() => navigate(`/drivers/edit/${id}`)}
           >
-            تحديث الحالة
+           تعديل المعلومات
           </Button>
         </div>
       </div>
